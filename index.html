@@ -1,50 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Varun Khatri | Portfolio</title>
+    <title>Varun Khatri - Unity Developer Portfolio</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
-    <header>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="portfolio.html">Portfolio</a>
-            <a href="blog/index.html">Blog</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
-
-    <main>
-        <section class="hero">
-            <h1>Varun Khatri</h1>
-            <p>Unity Developer | VFX & Shader Specialist | Mobile & VR Games</p>
-            <p>10+ years experience building engaging games with high-quality VFX and performance optimization.</p>
-        </section>
-
-        <section class="skills">
-            <h2>Skills & Tools</h2>
-            <ul>
-                <li>C#, Unity, Shader Graph, VFX Graph</li>
-                <li>JavaScript, Lua, C++, Python</li>
-                <li>Photoshop, Blender, Krita</li>
-                <li>Performance Optimization & VR/AR Development</li>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">Varun<span>Khatri</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="blog/index.html">Blog</a></li>
             </ul>
-        </section>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
 
-        <section class="highlights">
-            <h2>Highlights</h2>
-            <ul>
-                <li>Contributed to live-service mobile games with 100M+ downloads</li>
-                <li>Developed core systems for VR projects</li>
-                <li>Expertise in shaders, VFX, and tech art</li>
-            </ul>
-        </section>
-    </main>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Varun Khatri</h1>
+                <h2 class="hero-subtitle">Unity Developer</h2>
+                <p class="hero-description">
+                    With 10+ years of experience specializing in mobile and VR development.
+                    Proven track record of contributing to live-service mobile games with over
+                    100 million downloads and developing core systems for cutting-edge VR projects.
+                </p>
+                <div class="hero-buttons">
+                    <a href="portfolio.html" class="btn btn-primary">View My Work</a>
+                    <a href="downloads/Varun_Khatri_Resume.pdf" class="btn btn-secondary" download>
+                        <i class="fas fa-download"></i> Download Resume
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-placeholder">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <footer>
-        <p>&copy; 2025 Varun Khatri | Halifax, NS, Canada | <a href="contact.html">Contact</a></p>
+    <!-- Skills Section -->
+    <section class="skills">
+        <div class="container">
+            <h2 class="section-title">Core Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Game Development</h3>
+                    <p>Mobile, VR, and AR experiences with Unity</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Performance Optimization</h3>
+                    <p>Optimizing for mobile and VR platforms</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Tech Art</h3>
+                    <p>Shaders, VFX, and visual enhancement</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>System Architecture</h3>
+                    <p>DOTS, core gameplay systems, and tools</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects Preview -->
+    <section class="featured-projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-preview">
+                <div class="project-card">
+                    <div class="project-image" style="background-color: #2c3e50;">
+                        <i class="fas fa-vr-cardboard"></i>
+                    </div>
+                    <h3>Highstreet VR MMORPG</h3>
+                    <p>Web3-based VR MMORPG with advanced VFX and DOTS implementation</p>
+                </div>
+                <div class="project-card">
+                    <div class="project-image" style="background-color: #27ae60;">
+                        <i class="fas fa-baseball-ball"></i>
+                    </div>
+                    <h3>World Cricket Championship</h3>
+                    <p>Mobile game franchise with 100M+ downloads</p>
+                </div>
+                <div class="project-card">
+                    <div class="project-image" style="background-color: #8e44ad;">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Neurofeedback Games</h3>
+                    <p>Educational mini-games with EEG integration</p>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="portfolio.html" class="btn btn-outline">View All Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Varun<span>Khatri</span></div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="portfolio.html">Portfolio</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="blog/index.html">Blog</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:varun.khatri18@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Varun Khatri. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
+
+    <script src="js/carousel.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
 </body>
+
 </html>
