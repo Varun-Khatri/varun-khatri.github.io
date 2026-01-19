@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Experience | Varun Khatri</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -14,16 +14,16 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="logo">
+            <a href="./index.html" class="logo">
                 VK
                 <span>.</span>
             </a>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="portfolio.html">Work</a></li>
-                <li><a href="about.html" class="active">Experience</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="blog/index.html">Blog</a></li>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./portfolio.html">Work</a></li>
+                <li><a href="./about.html" class="active">Experience</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+                <li><a href="./blog/index.html">Blog</a></li>
             </ul>
             <button class="menu-toggle">
                 <i class="fas fa-bars"></i>
@@ -31,7 +31,7 @@
         </div>
     </nav>
 
-    <section class="hero" style="min-height: 60vh; padding-top: 120px;">
+    <section class="hero experience-hero">
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title">Professional Experience</h1>
@@ -40,7 +40,7 @@
                     technical art, and system architecture for mobile and VR platforms.
                 </p>
                 <div class="hero-buttons">
-                    <a href="downloads/Varun_Khatri_Resume.pdf" class="btn btn-primary" download>
+                    <a href="./downloads/Varun_Khatri_Resume.pdf" class="btn btn-primary" download>
                         <i class="fas fa-download"></i>
                         Download Resume
                     </a>
@@ -54,9 +54,9 @@
             <div class="timeline">
                 <!-- Current Role -->
                 <div class="timeline-item">
-                    <div class="timeline-date">2022 - Present</div>
+                    <div class="timeline-date">Feb 2022 –<br>Sep 2025</div>
                     <div class="timeline-content">
-                        <h3>Senior Unity Developer</h3>
+                        <h3>Unity Developer</h3>
                         <span class="company">Retinad Virtual Reality Inc</span>
                         <p>Toronto, Canada (Remote)</p>
 
@@ -68,20 +68,21 @@
                             <li>Optimized VR experiences for smooth performance in complex environments</li>
                         </ul>
 
-                        <div class="project-tech" style="margin-top: 1rem;">
+                        <div class="project-tech timeline-tech">
                             <span>Unity</span>
                             <span>DOTS</span>
                             <span>VR</span>
-                            <span>Shader Graph</span>
-                            <span>VFX Graph</span>
+                            <span>Shaders</span>
+                            <span>VFX</span>
                             <span>FMOD</span>
+                            <span>Editor Tools</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Nextwave -->
                 <div class="timeline-item">
-                    <div class="timeline-date">2016 - 2021</div>
+                    <div class="timeline-date">Aug 2016 –<br>Nov 2021</div>
                     <div class="timeline-content">
                         <h3>Game Developer</h3>
                         <span class="company">Nextwave Multimedia</span>
@@ -90,15 +91,17 @@
                         <ul>
                             <li>Developed gameplay features for mobile games including World Cricket Championship
                                 franchise (100M+ downloads)</li>
-                            <li>Architected key systems including procedural world generation and save/load systems</li>
+                            <li>Architected key systems including config based dynamic UI and tournament systems,
+                                procedural world generation and save/load systems</li>
                             <li>Created and optimized shaders for mobile platforms, improving visual fidelity</li>
                             <li>Built custom editor tools to accelerate team productivity</li>
                         </ul>
 
-                        <div class="project-tech" style="margin-top: 1rem;">
+                        <div class="project-tech timeline-tech">
                             <span>Unity</span>
                             <span>Mobile</span>
                             <span>Shaders</span>
+                            <span>VFX</span>
                             <span>Procedural Generation</span>
                             <span>Editor Tools</span>
                         </div>
@@ -107,7 +110,7 @@
 
                 <!-- Qneuro -->
                 <div class="timeline-item">
-                    <div class="timeline-date">2016</div>
+                    <div class="timeline-date">Jan 2016 –<br>Jul 2016</div>
                     <div class="timeline-content">
                         <h3>Game Programmer</h3>
                         <span class="company">Qneuro</span>
@@ -122,18 +125,19 @@
                             <li>Created adaptive gameplay based on real-time player attention span data</li>
                         </ul>
 
-                        <div class="project-tech" style="margin-top: 1rem;">
+                        <div class="project-tech timeline-tech">
                             <span>Unity</span>
-                            <span>API Integration</span>
-                            <span>Data Pipeline</span>
                             <span>Educational Games</span>
+                            <span>API Integration</span>
+                            <span>Shaders</span>
+                            <span>VFX</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Valari -->
                 <div class="timeline-item">
-                    <div class="timeline-date">2014 - 2015</div>
+                    <div class="timeline-date">Aug 2014 –<br>Oct 2015</div>
                     <div class="timeline-content">
                         <h3>Game Programmer</h3>
                         <span class="company">Valari Studios</span>
@@ -146,11 +150,10 @@
                             <li>Worked on various client projects across different genres and platforms</li>
                         </ul>
 
-                        <div class="project-tech" style="margin-top: 1rem;">
+                        <div class="project-tech timeline-tech">
                             <span>Unity</span>
-                            <span>iOS</span>
-                            <span>Android</span>
-                            <span>Client Projects</span>
+                            <span>Mobile</span>
+                            <span>AR</span>
                         </div>
                     </div>
                 </div>
@@ -158,14 +161,14 @@
         </div>
     </section>
 
-    <section class="skills">
+    <section class="skills expertise-section">
         <div class="container">
             <h2>Technical Skills</h2>
             <div class="skills-grid">
                 <div class="skill-card">
                     <h3>Game Development</h3>
-                    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
-                        <li>Unity Engine & Ecosystem</li>
+                    <ul class="skill-list">
+                        <li>Unity Engine</li>
                         <li>Mobile Game Development</li>
                         <li>VR/AR Development</li>
                         <li>Multiplayer Systems</li>
@@ -174,7 +177,7 @@
                 </div>
                 <div class="skill-card">
                     <h3>Technical Art</h3>
-                    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                    <ul class="skill-list">
                         <li>Shader Graph & VFX Graph</li>
                         <li>HLSL Shader Programming</li>
                         <li>Visual Effects</li>
@@ -184,7 +187,7 @@
                 </div>
                 <div class="skill-card">
                     <h3>Systems & Architecture</h3>
-                    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                    <ul class="skill-list">
                         <li>DOTS (Data-Oriented Tech Stack)</li>
                         <li>System Architecture Design</li>
                         <li>Procedural Generation</li>
@@ -193,20 +196,20 @@
                     </ul>
                 </div>
                 <div class="skill-card">
-                    <h3>Tools & Platforms</h3>
-                    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
-                        <li>Git & Version Control</li>
-                        <li>CI/CD Pipelines</li>
-                        <li>iOS & Android Deployment</li>
-                        <li>WebGL & Desktop Builds</li>
-                        <li>FMOD & Wwise Audio</li>
+                    <h3>Tools & Softwares</h3>
+                    <ul class="skill-list">
+                        <li>Unity</li>
+                        <li>Git</li>
+                        <li>Blender</li>
+                        <li>Photoshop</li>
+                        <li>FMOD</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="contact" style="background: #f8fafc;">
+    <section class="contact contact-prompt-section">
         <div class="container">
             <div class="contact-grid">
                 <div class="contact-info">
@@ -247,20 +250,20 @@
 
                 <div class="contact-form">
                     <h3>Send a Message</h3>
-                    <form id="contactForm">
+                    <form id="experienceContactForm">
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" required>
+                            <label for="exp-name">Name</label>
+                            <input type="text" id="exp-name" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" required>
+                            <label for="exp-email">Email</label>
+                            <input type="email" id="exp-email" required>
                         </div>
                         <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" required></textarea>
+                            <label for="exp-message">Message</label>
+                            <textarea id="exp-message" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <button type="submit" class="btn btn-primary btn-full-width">Send Message</button>
                     </form>
                 </div>
             </div>
@@ -275,15 +278,15 @@
                     <span>.</span>
                 </div>
                 <div class="footer-links">
-                    <a href="index.html">Home</a>
-                    <a href="portfolio.html">Work</a>
-                    <a href="about.html">Experience</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="blog/index.html">Blog</a>
+                    <a href="./index.html">Home</a>
+                    <a href="./portfolio.html">Work</a>
+                    <a href="./about.html">Experience</a>
+                    <a href="./contact.html">Contact</a>
+                    <a href="./blog/index.html">Blog</a>
                 </div>
                 <div class="footer-social">
-                    <a href="#"><i class="fab fa-github"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/Varun-Khatri"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/varun-khatri-79b9a674/"><i class="fab fa-linkedin"></i></a>
                     <a href="mailto:varun.khatri18@gmail.com"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>
@@ -311,7 +314,7 @@
         });
 
         // Contact form submission
-        document.getElementById('contactForm').addEventListener('submit', function (e) {
+        document.getElementById('experienceContactForm').addEventListener('submit', function (e) {
             e.preventDefault();
             alert('Thank you for your message! I will get back to you soon.');
             this.reset();

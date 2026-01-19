@@ -9,53 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <style>
-        /* Inline styles for blog-specific elements */
-        .blog-empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .empty-state-icon {
-            font-size: 4rem;
-            color: #3b82f6;
-            margin-bottom: 2rem;
-            opacity: 0.7;
-        }
-
-        .contact-prompt {
-            background: #f8fafc;
-            padding: 40px;
-            border-radius: 16px;
-            margin-top: 60px;
-            text-align: center;
-        }
-
-        .contact-prompt h3 {
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-        }
-
-        .contact-prompt p {
-            color: #64748b;
-            margin-bottom: 1.5rem;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        @media (max-width: 768px) {
-            .blog-empty-state {
-                padding: 60px 20px;
-            }
-
-            .contact-prompt {
-                padding: 30px 20px;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -78,7 +31,7 @@
         </div>
     </nav>
 
-    <section class="hero" style="min-height: 50vh; padding-top: 120px;">
+    <section class="hero blog-hero">
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title">Blog</h1>
@@ -105,7 +58,7 @@
                 <p>
                     The blog will feature practical insights on:
                 </p>
-                <ul style="text-align: left; max-width: 400px; margin: 2rem auto; color: #64748b;">
+                <ul class="topic-list">
                     <li>Unity optimization techniques</li>
                     <li>VR/AR development best practices</li>
                     <li>Shader and VFX creation</li>
@@ -116,9 +69,9 @@
         </div>
     </section>
 
-    <section class="contact">
+    <section class="contact blog-contact-section">
         <div class="container">
-            <div class="contact-prompt">
+            <div class="blog-contact-prompt">
                 <h3>Want to discuss technical topics?</h3>
                 <p>
                     Have specific questions about Unity development, technical art,
@@ -147,8 +100,8 @@
                     <a href="index.html">Blog</a>
                 </div>
                 <div class="footer-social">
-                    <a href="#"><i class="fab fa-github"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/Varun-Khatri"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/varun-khatri-79b9a674/"><i class="fab fa-linkedin"></i></a>
                     <a href="mailto:varun.khatri18@gmail.com"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>

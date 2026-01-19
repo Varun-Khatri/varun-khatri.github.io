@@ -105,28 +105,8 @@
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-image">
-                        <i class="fas fa-vr-cardboard"></i>
-                    </div>
-                    <div class="project-info">
-                        <h3>Highstreet VR MMORPG</h3>
-                        <p>Web3-based VR MMORPG with advanced VFX and DOTS implementation for optimal performance.</p>
-                        <div class="project-tech">
-                            <span>Unity</span>
-                            <span>DOTS</span>
-                            <span>VR</span>
-                            <span>Shader Graph</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>
-                                View Details
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-cricket"></i>
+                        <img src="./img/wcc.jpg" alt="World Cricket Championship" class="project-img">
+                        <i class="fas fa-cricket project-fallback"></i>
                     </div>
                     <div class="project-info">
                         <h3>World Cricket Championship</h3>
@@ -135,16 +115,41 @@
                             <span>Unity</span>
                             <span>Mobile</span>
                             <span>Shaders</span>
-                            <span>Multiplayer</span>
+                            <span>VFX</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="project-link">
+                            <a href="https://play.google.com/store/apps/details?id=com.nextwave.wcc3" target="_blank"
+                                class="project-link">
                                 <i class="fab fa-google-play"></i>
                                 Play Store
                             </a>
-                            <a href="#" class="project-link">
+                            <a href="https://apps.apple.com/au/app/world-cricket-championship-3/id1514775424"
+                                target="_blank" class="project-link">
                                 <i class="fab fa-app-store"></i>
                                 App Store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="./img/highstreet.jpg" alt="Highstreet VR MMORPG" class="project-img">
+                        <i class="fas fa-vr-cardboard project-fallback"></i>
+                    </div>
+                    <div class="project-info">
+                        <h3>Highstreet VR</h3>
+                        <p>Web3-based VR MMORPG.</p>
+                        <div class="project-tech">
+                            <span>Unity</span>
+                            <span>DOTS</span>
+                            <span>VR</span>
+                            <span>Shaders</span>
+                            <span>VFX</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://www.highstreet.market/" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                Visit Website
                             </a>
                         </div>
                     </div>
@@ -169,8 +174,8 @@
                     <a href="blog/index.html">Blog</a>
                 </div>
                 <div class="footer-social">
-                    <a href="#"><i class="fab fa-github"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/Varun-Khatri"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/varun-khatri-79b9a674/"><i class="fab fa-linkedin"></i></a>
                     <a href="mailto:varun.khatri18@gmail.com"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>
@@ -197,6 +202,20 @@
                 toggle.querySelector('i').classList.add('fa-bars');
                 toggle.querySelector('i').classList.remove('fa-times');
             }
+        });
+
+        // Image loading fallback
+        document.addEventListener('DOMContentLoaded', function () {
+            const images = document.querySelectorAll('.project-img');
+            images.forEach(img => {
+                // Check if image loaded successfully
+                if (img.complete && img.naturalHeight === 0) {
+                    // Image failed to load
+                    img.style.display = 'none';
+                    const icon = img.src.includes('wcc') ? 'fa-cricket' : 'fa-vr-cardboard';
+                    img.parentElement.innerHTML = `<i class="fas ${icon}"></i>`;
+                }
+            });
         });
     </script>
 </body>
