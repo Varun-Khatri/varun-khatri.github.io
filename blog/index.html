@@ -4,22 +4,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - Varun Khatri</title>
+    <title>Blog | Varun Khatri</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <style>
+        /* Inline styles for blog-specific elements */
+        .blog-empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            color: #3b82f6;
+            margin-bottom: 2rem;
+            opacity: 0.7;
+        }
+
+        .contact-prompt {
+            background: #f8fafc;
+            padding: 40px;
+            border-radius: 16px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .contact-prompt h3 {
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .contact-prompt p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .blog-empty-state {
+                padding: 60px 20px;
+            }
+
+            .contact-prompt {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="../index.html" class="logo">Varun<span>Khatri</span></a>
+            <a href="../index.html" class="logo">
+                VK
+                <span>.</span>
+            </a>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="../portfolio.html">Portfolio</a></li>
-                <li><a href="../about.html">About</a></li>
+                <li><a href="../portfolio.html">Work</a></li>
+                <li><a href="../about.html">Experience</a></li>
                 <li><a href="../contact.html">Contact</a></li>
                 <li><a href="index.html" class="active">Blog</a></li>
             </ul>
@@ -29,188 +78,56 @@
         </div>
     </nav>
 
-    <section class="blog-header">
+    <section class="hero" style="min-height: 50vh; padding-top: 120px;">
         <div class="container">
-            <h1 class="page-title">Development Blog</h1>
-            <p class="page-subtitle">Insights on game development, Unity tips, VR/AR, and tech art</p>
+            <div class="hero-content">
+                <h1 class="hero-title">Blog</h1>
+                <p class="hero-description">
+                    Technical insights on Unity development, game architecture, and industry trends.
+                    Coming soon with in-depth articles and tutorials.
+                </p>
+            </div>
         </div>
     </section>
 
     <section class="blog-content">
         <div class="container">
-            <div class="blog-grid">
-                <!-- Blog Post 1 -->
-                <article class="blog-post">
-                    <div class="post-image">
-                        <div class="image-placeholder" style="background-color: #3498db;">
-                            <i class="fas fa-vr-cardboard"></i>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <div class="post-meta">
-                            <span class="post-category">VR Development</span>
-                            <span class="post-date"><i class="far fa-calendar"></i> October 15, 2023</span>
-                        </div>
-                        <h2 class="post-title">Optimizing VR Performance with Unity DOTS</h2>
-                        <p class="post-excerpt">
-                            Learn how to leverage Unity's Data-Oriented Technology Stack (DOTS) to achieve
-                            consistent 90+ FPS in complex VR environments. This post covers entity-component
-                            systems, job system implementation, and Burst compiler optimizations.
-                        </p>
-                        <a href="post1.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <!-- Blog Post 2 -->
-                <article class="blog-post">
-                    <div class="post-image">
-                        <div class="image-placeholder" style="background-color: #9b59b6;">
-                            <i class="fas fa-paint-brush"></i>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <div class="post-meta">
-                            <span class="post-category">Tech Art</span>
-                            <span class="post-date"><i class="far fa-calendar"></i> September 22, 2023</span>
-                        </div>
-                        <h2 class="post-title">Creating Stunning VFX with Shader Graph for Mobile</h2>
-                        <p class="post-excerpt">
-                            A deep dive into creating performant yet visually impressive effects for mobile
-                            platforms using Unity's Shader Graph. Includes optimization techniques and
-                            performance benchmarking results.
-                        </p>
-                        <a href="post2.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <!-- Blog Post 3 -->
-                <article class="blog-post">
-                    <div class="post-image">
-                        <div class="image-placeholder" style="background-color: #2ecc71;">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <div class="post-meta">
-                            <span class="post-category">Mobile Development</span>
-                            <span class="post-date"><i class="far fa-calendar"></i> August 10, 2023</span>
-                        </div>
-                        <h2 class="post-title">Building Scalable Architecture for Live-Service Games</h2>
-                        <p class="post-excerpt">
-                            Lessons learned from developing games with 100M+ downloads. This post covers
-                            architecture patterns, update strategies, and maintaining backward compatibility
-                            while introducing new features.
-                        </p>
-                        <a href="post3.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <!-- Blog Post 4 -->
-                <article class="blog-post">
-                    <div class="post-image">
-                        <div class="image-placeholder" style="background-color: #e74c3c;">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <div class="post-meta">
-                            <span class="post-category">Development Tools</span>
-                            <span class="post-date"><i class="far fa-calendar"></i> July 5, 2023</span>
-                        </div>
-                        <h2 class="post-title">Creating Custom Editor Tools to Accelerate Game Development</h2>
-                        <p class="post-excerpt">
-                            A tutorial on building custom Unity editor tools that can save hours of
-                            development time. Includes practical examples of level editors, data managers,
-                            and automation scripts.
-                        </p>
-                        <a href="post4.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <!-- Blog Post 5 -->
-                <article class="blog-post">
-                    <div class="post-image">
-                        <div class="image-placeholder" style="background-color: #f39c12;">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <div class="post-meta">
-                            <span class="post-category">Innovation</span>
-                            <span class="post-date"><i class="far fa-calendar"></i> June 18, 2023</span>
-                        </div>
-                        <h2 class="post-title">Neurofeedback in Games: Adapting Gameplay in Real-Time</h2>
-                        <p class="post-excerpt">
-                            Exploring the intersection of neuroscience and game development. This post
-                            details my experience building games that adapt to player attention span using
-                            EEG data and discusses potential applications.
-                        </p>
-                        <a href="post5.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <!-- Blog Post 6 -->
-                <article class="blog-post">
-                    <div class="post-image">
-                        <div class="image-placeholder" style="background-color: #1abc9c;">
-                            <i class="fas fa-rocket"></i>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <div class="post-meta">
-                            <span class="post-category">Career</span>
-                            <span class="post-date"><i class="far fa-calendar"></i> May 30, 2023</span>
-                        </div>
-                        <h2 class="post-title">Transitioning from Mobile to VR Development: Lessons Learned</h2>
-                        <p class="post-excerpt">
-                            Reflections on moving from mobile game development to VR projects. Covers
-                            differences in design thinking, performance considerations, and the unique
-                            challenges of immersive experiences.
-                        </p>
-                        <a href="post6.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
+            <!-- Empty State for Blog -->
+            <div class="blog-empty-state">
+                <div class="empty-state-icon">
+                    <i class="fas fa-blog"></i>
+                </div>
+                <h2>Content Coming Soon</h2>
+                <p>
+                    I'm currently preparing technical articles and tutorials based on my 10+ years
+                    of experience in game development, Unity programming, and technical art.
+                </p>
+                <p>
+                    The blog will feature practical insights on:
+                </p>
+                <ul style="text-align: left; max-width: 400px; margin: 2rem auto; color: #64748b;">
+                    <li>Unity optimization techniques</li>
+                    <li>VR/AR development best practices</li>
+                    <li>Shader and VFX creation</li>
+                    <li>System architecture patterns</li>
+                    <li>Mobile game development insights</li>
+                </ul>
             </div>
+        </div>
+    </section>
 
-            <div class="blog-sidebar">
-                <div class="sidebar-widget">
-                    <h3>Categories</h3>
-                    <ul class="category-list">
-                        <li><a href="#">VR Development <span>5</span></a></li>
-                        <li><a href="#">Mobile Games <span>8</span></a></li>
-                        <li><a href="#">Tech Art <span>6</span></a></li>
-                        <li><a href="#">Performance <span>7</span></a></li>
-                        <li><a href="#">Tools & Systems <span>4</span></a></li>
-                        <li><a href="#">Career Insights <span>3</span></a></li>
-                    </ul>
-                </div>
-
-                <div class="sidebar-widget">
-                    <h3>Popular Posts</h3>
-                    <div class="popular-posts">
-                        <div class="popular-post">
-                            <h4><a href="#">Shader Optimization for Mobile VR</a></h4>
-                            <span class="post-date">Sep 5, 2023</span>
-                        </div>
-                        <div class="popular-post">
-                            <h4><a href="#">Building Procedural Worlds in Unity</a></h4>
-                            <span class="post-date">Aug 22, 2023</span>
-                        </div>
-                        <div class="popular-post">
-                            <h4><a href="#">FMOD Integration Best Practices</a></h4>
-                            <span class="post-date">Jul 14, 2023</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-widget newsletter-widget">
-                    <h3>Subscribe to Newsletter</h3>
-                    <p>Get updates on new posts, tutorials, and game development insights.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Your email address" required>
-                        <button type="submit" class="btn btn-primary">Subscribe</button>
-                    </form>
-                </div>
+    <section class="contact">
+        <div class="container">
+            <div class="contact-prompt">
+                <h3>Want to discuss technical topics?</h3>
+                <p>
+                    Have specific questions about Unity development, technical art,
+                    or game architecture? I'm always open to interesting conversations.
+                </p>
+                <a href="../contact.html" class="btn btn-primary">
+                    Get in Touch
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -218,11 +135,14 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">Varun<span>Khatri</span></div>
+                <div class="footer-logo">
+                    Varun Khatri
+                    <span>.</span>
+                </div>
                 <div class="footer-links">
                     <a href="../index.html">Home</a>
-                    <a href="../portfolio.html">Portfolio</a>
-                    <a href="../about.html">About</a>
+                    <a href="../portfolio.html">Work</a>
+                    <a href="../about.html">Experience</a>
                     <a href="../contact.html">Contact</a>
                     <a href="index.html">Blog</a>
                 </div>
@@ -242,14 +162,19 @@
         // Mobile menu toggle
         document.querySelector('.menu-toggle').addEventListener('click', function () {
             document.querySelector('.nav-links').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
         });
 
-        // Newsletter subscription
-        document.querySelector('.newsletter-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const email = this.querySelector('input').value;
-            alert(`Thank you for subscribing with ${email}! You'll receive updates soon.`);
-            this.reset();
+        // Close menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const nav = document.querySelector('.nav-links');
+            const toggle = document.querySelector('.menu-toggle');
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+                toggle.querySelector('i').classList.add('fa-bars');
+                toggle.querySelector('i').classList.remove('fa-times');
+            }
         });
     </script>
 </body>
