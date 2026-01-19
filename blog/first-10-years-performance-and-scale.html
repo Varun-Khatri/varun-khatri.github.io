@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        What 10+ Years of Game Development Taught Me About Performance & Scale | Varun Khatri
+    </title>
+
+    <meta name="description"
+        content="Lessons learned from 10+ years of Unity game development across mobile and VR, covering performance, scale, DOTS, and technical ownership.">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                VK<span>.</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../portfolio.html">Work</a></li>
+                <li><a href="../about.html">Experience</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+                <li><a href="index.html" class="active">Blog</a></li>
+            </ul>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Blog Hero -->
+    <section class="hero blog-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    What 10+ Years of Building Mobile and VR Games Taught Me About Performance and Scale
+                </h1>
+                <div class="post-meta">
+                    <span class="post-category">Game Development</span>
+                    <span class="post-date">January 19 2026</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="blog-content">
+        <div class="container" style="max-width: 820px;">
+
+            <article class="blog-article">
+                <p>
+                    When I wrote my first line of Unity code over a decade ago, my goal was simple:
+                    <strong>make the game work</strong>.
+                </p>
+
+                <p>
+                    Today, after shipping mobile games with over 100 million downloads and building
+                    performance-critical systems for large-scale VR projects, my definition of
+                    “working” has changed completely.
+                </p>
+
+                <p>
+                    This post is a reflection on lessons learned from developing games across
+                    <strong>mobile, VR, and experimental platforms</strong>—and how those lessons
+                    reshaped the way I approach performance, systems design, and technical ownership.
+                </p>
+
+                <h2>Performance Is Not an Optimization Phase</h2>
+
+                <p>
+                    Early in my career, performance was something you fixed later. On mobile—especially
+                    in live-service titles—that mindset does not survive long.
+                </p>
+
+                <p>
+                    When you are targeting low-end devices, wide GPU variance, and long player sessions,
+                    performance decisions must be made <strong>at feature design time</strong>.
+                </p>
+
+                <ul>
+                    <li>Allocations must be intentional</li>
+                    <li>Shaders and VFX must be budgeted systems</li>
+                    <li>Performance tooling must exist early</li>
+                </ul>
+
+                <p>
+                    In VR, this becomes even more critical. Miss your frame budget and the player
+                    feels it immediately.
+                </p>
+
+                <h2>Scale Changes Everything</h2>
+
+                <p>
+                    A save system or UI flow feels trivial—until millions of players use it.
+                </p>
+
+                <p>
+                    At scale, edge cases are not rare; they are guaranteed. Systems must survive:
+                </p>
+
+                <ul>
+                    <li>Corrupted data</li>
+                    <li>Partial updates</li>
+                    <li>Backward compatibility requirements</li>
+                </ul>
+
+                <p>
+                    Over time, I learned to design systems not for elegance in isolation, but for
+                    resilience in production.
+                </p>
+
+                <h2>Technical Art Is a Force Multiplier</h2>
+
+                <p>
+                    Leaning into technical art—shaders, VFX, rendering—was one of the most impactful
+                    shifts in my career.
+                </p>
+
+                <p>
+                    Owning this space allowed me to bridge art and engineering, prototype faster,
+                    and maintain visual quality without sacrificing performance.
+                </p>
+
+                <p>
+                    Tools like Shader Graph and VFX Graph enabled scalable visual systems that were
+                    controllable, measurable, and production-ready.
+                </p>
+
+                <h2>Data-Oriented Thinking Changes Architecture</h2>
+
+                <p>
+                    Working with Unity DOTS reshaped how I approach performance-critical systems.
+                    Even outside DOTS, the principles apply:
+                </p>
+
+                <ul>
+                    <li>Data layout matters</li>
+                    <li>Cache-friendly systems scale better</li>
+                    <li>Behavior should follow data, not the other way around</li>
+                </ul>
+
+                <h2>Ownership Matters More Than Titles</h2>
+
+                <p>
+                    The developers who made the biggest impact were not defined by titles, but by
+                    ownership.
+                </p>
+
+                <p>
+                    Ownership means thinking beyond tasks—anticipating downstream effects,
+                    building tools for others, and designing systems that outlive individual features.
+                </p>
+
+                <h2>Closing Thoughts</h2>
+
+                <p>
+                    Game development at scale is less about clever tricks and more about discipline,
+                    foresight, and empathy for future developers—including yourself.
+                </p>
+
+                <p>
+                    This blog will be a place where I share lessons, breakdowns, and experiments
+                    from that journey.
+                </p>
+
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Back to Blog -->
+    <section class="contact blog-contact-section">
+        <div class="container">
+            <div class="blog-contact-prompt">
+                <h3>Enjoyed this post?</h3>
+                <p>
+                    More articles on Unity optimization, VR systems, and technical art are coming soon.
+                </p>
+                <a href="index.html" class="btn btn-secondary">
+                    ← Back to Blog
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    Varun Khatri<span>.</span>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Home</a>
+                    <a href="../portfolio.html">Work</a>
+                    <a href="../about.html">Experience</a>
+                    <a href="../contact.html">Contact</a>
+                    <a href="index.html">Blog</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/Varun-Khatri"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/varun-khatri-79b9a674/"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:varun.khatri18@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Varun Khatri. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
+        });
+
+        document.addEventListener('click', function (event) {
+            const nav = document.querySelector('.nav-links');
+            const toggle = document.querySelector('.menu-toggle');
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+                toggle.querySelector('i').classList.add('fa-bars');
+                toggle.querySelector('i').classList.remove('fa-times');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
