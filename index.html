@@ -193,14 +193,14 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
+        // MOBILE MENU TOGGLE
         document.querySelector('.menu-toggle').addEventListener('click', function () {
             document.querySelector('.nav-links').classList.toggle('active');
             this.querySelector('i').classList.toggle('fa-bars');
             this.querySelector('i').classList.toggle('fa-times');
         });
 
-        // Close menu when clicking outside
+        // CLOSE MENU WHEN CLICKING OUTSIDE
         document.addEventListener('click', function (event) {
             const nav = document.querySelector('.nav-links');
             const toggle = document.querySelector('.menu-toggle');
@@ -211,7 +211,7 @@
             }
         });
 
-        // Image loading fallback
+        // IMAGE LOADING FALLBACK
         document.addEventListener('DOMContentLoaded', function () {
             const images = document.querySelectorAll('.project-img');
             images.forEach(img => {
@@ -223,6 +223,84 @@
                     img.parentElement.innerHTML = `<i class="fas ${icon}"></i>`;
                 }
             });
+
+            // PROJECT CARD TOUCH SUPPORT FOR MOBILE
+            // Check if this is a touch device
+            const isTouchDevice = 'ontouchstart' in window ||
+                navigator.maxTouchPoints > 0 ||
+                navigator.msMaxTouchPoints > 0;
+
+            // Get all project cards
+            const projectCards = document.querySelectorAll('.project-card');
+
+            if (isTouchDevice) {
+                // MOBILE/TABLET BEHAVIOR
+                projectCards.forEach(card => {
+                    let isExpanded = false;
+
+                    card.addEventListener('click', function (e) {
+                        // Don't do anything if the user clicked on a link inside the card
+                        if (e.target.closest('.project-link')) {
+                            // Let the link work normally
+                            return;
+                        }
+
+                        // Toggle the expanded state
+                        isExpanded = !isExpanded;
+
+                        if (isExpanded) {
+                            // Add expanded class to this card
+                            this.classList.add('expanded');
+
+                            // Remove expanded class from all other cards
+                            projectCards.forEach(otherCard => {
+                                if (otherCard !== this) {
+                                    otherCard.classList.remove('expanded');
+                                }
+                            });
+
+                            // Scroll the card into view if needed
+                            this.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                        } else {
+                            // Remove expanded class
+                            this.classList.remove('expanded');
+                        }
+                    });
+                });
+
+                // Close expanded card when clicking outside
+                document.addEventListener('click', function (e) {
+                    // Check if click is outside all project cards
+                    let clickedInsideCard = false;
+
+                    projectCards.forEach(card => {
+                        if (card.contains(e.target)) {
+                            clickedInsideCard = true;
+                        }
+                    });
+
+                    // If clicked outside any card, close all expanded cards
+                    if (!clickedInsideCard) {
+                        projectCards.forEach(card => {
+                            card.classList.remove('expanded');
+                        });
+                    }
+                });
+
+            } else {
+                // DESKTOP BEHAVIOR (hover only)
+                projectCards.forEach(card => {
+                    // Optional: Add visual feedback on desktop hover
+                    card.addEventListener('mouseenter', function () {
+                        this.classList.add('hovered');
+                    });
+
+                    card.addEventListener('mouseleave', function () {
+                        this.classList.remove('hovered');
+                    });
+                });
+            }
         });
     </script>
 </body>

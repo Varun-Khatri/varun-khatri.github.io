@@ -30,7 +30,7 @@
     <section class="hero" style="min-height: 60vh; padding-top: 120px;">
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title">Professional Experience</h1>
+                <h1 class="hero-title">Portfolio</h1>
                 <p class="hero-description">
                     Detailed showcase of production and R&D work, covering Unity development, shaders, VFX,
                     procedural systems, performance optimization, and graphics pipelines across mobile and VR.
@@ -245,11 +245,13 @@
     </footer>
 
     <script>
+        // MOBILE NAVIGATION MENU
         document.querySelector('.menu-toggle').addEventListener('click', function () {
             document.querySelector('.nav-links').classList.toggle('active');
             this.querySelector('i').classList.toggle('fa-bars');
             this.querySelector('i').classList.toggle('fa-times');
         });
+
         document.addEventListener('click', function (event) {
             const nav = document.querySelector('.nav-links');
             const toggle = document.querySelector('.menu-toggle');
@@ -259,6 +261,111 @@
                 toggle.querySelector('i').classList.remove('fa-times');
             }
         });
+
+        // PROJECT CARD TOUCH SUPPORT FOR MOBILE
+        // Check if this is a touch device
+        const isTouchDevice = 'ontouchstart' in window ||
+            navigator.maxTouchPoints > 0 ||
+            navigator.msMaxTouchPoints > 0;
+
+        // Get all project cards
+        const projectCards = document.querySelectorAll('.project-card');
+
+        if (isTouchDevice) {
+            // MOBILE/TABLET BEHAVIOR
+            projectCards.forEach(card => {
+                let isExpanded = false;
+
+                card.addEventListener('click', function (e) {
+                    // Don't do anything if the user clicked on a link inside the card
+                    if (e.target.closest('.project-link')) {
+                        // Let the link work normally
+                        return;
+                    }
+
+                    // Toggle the expanded state
+                    isExpanded = !isExpanded;
+
+                    if (isExpanded) {
+                        // Add expanded class to this card
+                        this.classList.add('expanded');
+
+                        // Remove expanded class from all other cards
+                        projectCards.forEach(otherCard => {
+                            if (otherCard !== this) {
+                                otherCard.classList.remove('expanded');
+                            }
+                        });
+
+                        // Scroll the card into view if needed
+                        this.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                    } else {
+                        // Remove expanded class
+                        this.classList.remove('expanded');
+                    }
+                });
+            });
+
+            // Close expanded card when clicking outside
+            document.addEventListener('click', function (e) {
+                // Check if click is outside all project cards
+                let clickedInsideCard = false;
+
+                projectCards.forEach(card => {
+                    if (card.contains(e.target)) {
+                        clickedInsideCard = true;
+                    }
+                });
+
+                // If clicked outside any card, close all expanded cards
+                if (!clickedInsideCard) {
+                    projectCards.forEach(card => {
+                        card.classList.remove('expanded');
+                    });
+                }
+            });
+
+        } else {
+            // DESKTOP BEHAVIOR (hover only)
+            projectCards.forEach(card => {
+                // Optional: Add visual feedback on desktop hover
+                card.addEventListener('mouseenter', function () {
+                    this.classList.add('hovered');
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    this.classList.remove('hovered');
+                });
+            });
+        }
+
+        // Optional: Add CSS for mobile expand indicator
+        const style = document.createElement('style');
+        style.textContent = `
+        .mobile-expand-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: rgba(96, 165, 250, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            z-index: 2;
+            animation: pulse-gentle 2s infinite;
+        }
+        
+        @keyframes pulse-gentle {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+    `;
+        document.head.appendChild(style);
     </script>
 </body>
 

@@ -469,7 +469,7 @@ a:hover {
     gap: 2.5rem;
 }
 
-/* PROJECTS SECTION - UPDATED WITH MORE VISIBLE CONTENT */
+/* PROJECTS SECTION - UPDATED WITH TOUCH SUPPORT */
 .projects {
     padding: 5rem 0;
     background: #0f172a;
@@ -491,28 +491,26 @@ a:hover {
     display: flex;
     flex-direction: column;
     max-height: 600px;
-    /* Increased from 550px */
     min-height: 600px;
-    /* Increased from 550px */
     position: relative;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* Hover effect - card expands */
-.project-card:hover {
+/* Hover effect for desktop */
+.project-card:hover,
+.project-card.expanded {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
     border-color: #60a5fa;
     max-height: 750px;
-    /* Increased from 650px */
     z-index: 10;
 }
 
-/* Project Image Container - slightly smaller to show more text */
+/* Project Image Container */
 .project-image {
     height: 180px;
-    /* Reduced from 200px */
     min-height: 180px;
-    /* Reduced from 200px */
     width: 100%;
     background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);
     display: flex;
@@ -531,35 +529,33 @@ a:hover {
     transition: transform 0.5s ease;
 }
 
-.project-card:hover .project-img {
+.project-card:hover .project-img,
+.project-card.expanded .project-img {
     transform: scale(1.05);
 }
 
-/* Project Info Container - More space for content */
+/* Project Info Container */
 .project-info {
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
     height: 420px;
-    /* Increased from 350px */
     min-height: 420px;
-    /* Increased from 350px */
     position: relative;
     overflow: hidden;
     flex-grow: 1;
 }
 
-/* Text container with less aggressive mask */
+/* Text container */
 .project-details {
     flex-grow: 1;
     overflow: hidden;
     position: relative;
     margin-bottom: 1.5rem;
     padding-right: 0.5rem;
-    /* Space for scrollbar */
 }
 
-/* Softer mask overlay for normal state */
+/* Mask overlay for normal state */
 .project-details::after {
     content: '';
     position: absolute;
@@ -567,37 +563,36 @@ a:hover {
     left: 0;
     right: 0;
     height: 40px;
-    /* Reduced from 60px */
     background: linear-gradient(to bottom, transparent, #1e293b 80%);
     transition: opacity 0.3s ease;
     pointer-events: none;
 }
 
-/* Remove mask on hover */
-.project-card:hover .project-details::after {
+/* Remove mask on hover/expand */
+.project-card:hover .project-details::after,
+.project-card.expanded .project-details::after {
     opacity: 0;
 }
 
 .project-details p {
     color: #94a3b8;
     margin-bottom: 0.75rem;
-    /* Reduced from 1rem */
     font-size: 0.95rem;
     line-height: 1.6;
     transition: all 0.3s ease;
 }
 
-/* Show more text on hover */
-.project-card:hover .project-details p {
+/* Show more text on hover/expand */
+.project-card:hover .project-details p,
+.project-card.expanded .project-details p {
     color: #cbd5e1;
 }
 
-/* Make tech tags more compact */
+/* Tech Tags */
 .project-tech {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
-    /* Reduced from 0.5rem */
     margin: 1rem 0;
     flex-shrink: 0;
 }
@@ -606,22 +601,18 @@ a:hover {
     background: rgba(96, 165, 250, 0.1);
     color: #60a5fa;
     padding: 0.35rem 0.7rem;
-    /* Reduced padding */
     border-radius: 20px;
     font-size: 0.78rem;
-    /* Slightly smaller font */
     font-weight: 500;
     border: 1px solid rgba(96, 165, 250, 0.2);
 }
 
-/* Project Links - Adjusted for more space */
+/* Project Links */
 .project-links {
     display: flex;
     gap: 0.75rem;
     margin-top: auto;
-    /* Push to bottom */
     padding-top: 1.2rem;
-    /* Reduced from 1.5rem */
     border-top: 1px solid #334155;
     flex-shrink: 0;
     flex-wrap: wrap;
@@ -644,6 +635,7 @@ a:hover {
     flex: 1;
     min-width: 0;
     justify-content: center;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .project-link:hover {
@@ -653,31 +645,39 @@ a:hover {
     box-shadow: 0 5px 15px rgba(96, 165, 250, 0.3);
 }
 
-/* Improved scrollbar for expanded state */
-.project-card:hover .project-details {
+/* Scrollbar for expanded state */
+.project-card:hover .project-details,
+.project-card.expanded .project-details {
     overflow-y: auto;
     padding-right: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling on iOS */
 }
 
-.project-card:hover .project-details::-webkit-scrollbar {
+/* Custom scrollbar */
+.project-card:hover .project-details::-webkit-scrollbar,
+.project-card.expanded .project-details::-webkit-scrollbar {
     width: 4px;
 }
 
-.project-card:hover .project-details::-webkit-scrollbar-track {
+.project-card:hover .project-details::-webkit-scrollbar-track,
+.project-card.expanded .project-details::-webkit-scrollbar-track {
     background: rgba(30, 41, 59, 0.3);
     border-radius: 2px;
 }
 
-.project-card:hover .project-details::-webkit-scrollbar-thumb {
+.project-card:hover .project-details::-webkit-scrollbar-thumb,
+.project-card.expanded .project-details::-webkit-scrollbar-thumb {
     background: rgba(96, 165, 250, 0.4);
     border-radius: 2px;
 }
 
-.project-card:hover .project-details::-webkit-scrollbar-thumb:hover {
+.project-card:hover .project-details::-webkit-scrollbar-thumb:hover,
+.project-card.expanded .project-details::-webkit-scrollbar-thumb:hover {
     background: rgba(96, 165, 250, 0.7);
 }
 
-/* Responsive adjustments */
+/* Mobile-specific styles */
 @media (max-width: 768px) {
     .projects-grid {
         grid-template-columns: 1fr;
@@ -686,24 +686,24 @@ a:hover {
 
     .project-card {
         max-height: 550px;
-        /* Adjusted from 500px */
         min-height: 550px;
+        /* Touch-friendly hover/click effect */
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+            transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .project-card:hover {
+    .project-card.expanded {
         max-height: 700px;
-        /* Adjusted from 600px */
+        transform: translateY(-4px) scale(1.01);
     }
 
     .project-info {
         height: 370px;
-        /* Adjusted from 300px */
         min-height: 370px;
     }
 
     .project-image {
         height: 160px;
-        /* Adjusted from 180px */
         min-height: 160px;
     }
 
@@ -714,29 +714,36 @@ a:hover {
     .project-link {
         width: 100%;
     }
+
+    /* Remove hover mask for mobile when expanded */
+    .project-card.expanded .project-details::after {
+        opacity: 0;
+    }
+
+    /* Enable touch scrolling for expanded cards */
+    .project-card.expanded .project-details {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 }
 
 @media (max-width: 480px) {
     .project-card {
         max-height: 520px;
-        /* Adjusted from 450px */
         min-height: 520px;
     }
 
-    .project-card:hover {
+    .project-card.expanded {
         max-height: 650px;
-        /* Adjusted from 550px */
     }
 
     .project-info {
         height: 340px;
-        /* Adjusted from 250px */
         min-height: 340px;
     }
 
     .project-image {
         height: 140px;
-        /* Adjusted from 150px */
         min-height: 140px;
     }
 }
@@ -747,7 +754,6 @@ a:hover {
     margin-bottom: 1rem;
     flex-shrink: 0;
     font-size: 1.3rem;
-    /* Slightly smaller heading */
     line-height: 1.3;
 }
 
@@ -759,6 +765,54 @@ a:hover {
 /* Reduce spacing between sections within card */
 .project-details p:last-child {
     margin-bottom: 0;
+}
+
+/* Mobile expand indicator */
+.mobile-expand-indicator {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: rgba(96, 165, 250, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.8rem;
+    z-index: 2;
+    animation: pulse-gentle 2s infinite;
+}
+
+@keyframes pulse-gentle {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+/* Prevent text selection on mobile when tapping cards */
+.project-card {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Allow selection inside links */
+.project-link {
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
 }
 
 /* Contact Section */
