@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Work | Varun Khatri</title>
+    <title>Experience & Work | Varun Khatri</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -14,10 +14,7 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="logo">
-                VK
-                <span>.</span>
-            </a>
+            <a href="index.html" class="logo">VK<span>.</span></a>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="portfolio.html" class="active">Work</a></li>
@@ -25,157 +22,209 @@
                 <li><a href="contact.html">Contact</a></li>
                 <li><a href="blog/index.html">Blog</a></li>
             </ul>
-            <button class="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
+    <!-- HERO -->
     <section class="hero" style="min-height: 60vh; padding-top: 120px;">
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title">My Work</h1>
+                <h1 class="hero-title">Professional Experience</h1>
                 <p class="hero-description">
-                    A curated selection of projects showcasing my expertise in Unity development,
-                    technical art, and system architecture across mobile, VR, and desktop platforms.
+                    Detailed showcase of production and R&D work, covering Unity development, shaders, VFX,
+                    procedural systems, performance optimization, and graphics pipelines across mobile and VR.
                 </p>
             </div>
         </div>
     </section>
 
+    <!-- PROJECTS -->
     <section class="projects">
         <div class="container">
             <div class="projects-grid">
-                <!-- VR Projects -->
+
+                <!-- R&D -->
                 <div class="project-card">
                     <div class="project-image">
-                        <img src="./img/highstreet.jpg" alt="Highstreet VR MMORPG" class="project-img">
-                        <i class="fas fa-vr-cardboard project-fallback"></i>
+                        <img src="./img/rnd.jpg" alt="R&D / Advanced Systems" class="project-img">
                     </div>
                     <div class="project-info">
-                        <h3>Highstreet World</h3>
-                        <p>Web3-based VR MMORPG .</p>
+                        <h3>R&D / Advanced Systems</h3>
+                        <div class="project-details">
+                            <p>Worked on rendering pipeline research including custom shaders, lighting models, and
+                                material optimization.</p>
+                            <p>Implemented chunk-based world streaming to reduce memory usage and improve load times in
+                                large scenes.</p>
+                            <p>Built addressables system to handle modular content updates for multiple titles.</p>
+                            <p>Optimized CPU and GPU bottlenecks by profiling draw calls, shader complexity, and scene
+                                culling techniques.</p>
+                        </div>
+                        <div class="project-tech">
+                            <span>Addressables</span>
+                            <span>Chunk-Based World Loading</span>
+                            <span>Custom Shaders</span>
+                            <span>Performance Profiling</span>
+                        </div>
+                        <div class="project-links"></div>
+                    </div>
+                </div>
+
+                <!-- HIGHSTREET WORLD -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="./img/highstreet.jpg" alt="Highstreet VR World" class="project-img">
+                    </div>
+                    <div class="project-info">
+                        <h3>Highstreet World (VR MMORPG)</h3>
+                        <div class="project-details">
+                            <p>Developed persistent VR world with custom lighting, toon shaders, VFX, and environmental
+                                effects.</p>
+                            <p>Implemented particle systems for weather, water, snow, fog, sun rays, and interactive
+                                environment objects.</p>
+                            <p>Optimized large-scale VR scenes using LODs, occlusion culling, batching, and GPU
+                                instancing.</p>
+                            <p>Integrated modular content loading via addressables for world sections and avatars.</p>
+                        </div>
                         <div class="project-tech">
                             <span>Unity</span>
-                            <span>DOTS</span>
                             <span>VR</span>
-                            <span>Shader Graph</span>
-                            <span>VFX Graph</span>
+                            <span>Shaders</span>
+                            <span>VFX</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://www.highstreet.market/" class="project-link" target="_blank"><i
+                                    class="fas fa-globe"></i>Website</a>
                         </div>
                     </div>
                 </div>
 
+                <!-- HIGHSTREET CAMPUS -->
                 <div class="project-card">
                     <div class="project-image">
-                        <img src="./img/highstreet.jpg" alt="Highstreet VR MMORPG" class="project-img">
-                        <i class="fas fa-vr-cardboard project-fallback"></i>
+                        <img src="./img/highstreet.jpg" alt="Highstreet Campus" class="project-img">
                     </div>
                     <div class="project-info">
                         <h3>Highstreet Campus</h3>
-                        <p>Web-based platform with interactive mini-games.</p>
+                        <div class="project-details">
+                            <p>Avatar and apparel customization system with real-time updates and skin shaders.</p>
+                            <p>Handled environmental VFX including rain, snow, water, waterfalls, acid fountains, and
+                                interactive birds/butterflies.</p>
+                            <p>Managed RV expansion system, lighting, LODs, occlusion culling, and scene setup for
+                                optimized performance.</p>
+                            <p>Monitored and optimized graphics performance for stable VR frame rates.</p>
+                        </div>
                         <div class="project-tech">
                             <span>Unity</span>
-                            <span>WebGL</span>
-                            <span>UI Systems</span>
-                            <span>Multiplayer</span>
+                            <span>VR</span>
+                            <span>Character Systems</span>
+                            <span>VFX</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://www.highstreet.market/" class="project-link" target="_blank"><i
+                                    class="fas fa-globe"></i>
+                                Website</a>
+                            <a href="https://sidequestvr.com/app/8343/highstreet-homes" class="project-link"
+                                target="_blank"><i class="fas fa-globe"></i>
+                                SideQuestVR</a>
+
                         </div>
                     </div>
                 </div>
 
-                <!-- Mobile Projects -->
+                <!-- WCC3 -->
                 <div class="project-card">
                     <div class="project-image">
-                        <img src="./img/wcc.jpg" alt="Highstreet VR MMORPG" class="project-img">
-                        <i class="fas fa-cricket project-fallback"></i>
+                        <img src="./img/wcc.jpg" alt="World Cricket Championship 3" class="project-img">
                     </div>
                     <div class="project-info">
-                        <h3>World Cricket Championship</h3>
-                        <p>Mobile cricket franchise with 100M+ downloads. Developed gameplay features,
-                            procedural systems, and optimized shaders for diverse mobile devices.</p>
+                        <h3>World Cricket Championship 3</h3>
+                        <div class="project-details">
+                            <p>Developed dynamic tournaments system with UI and match configurations loaded from server
+                                via addressables.</p>
+                            <p>Implemented day/night & weather systems, shaders for jerseys, ground, stadium, and
+                                optimized materials from 72 to 4 per character.</p>
+                            <p>Built camera system, managed graphics performance profiling, and optimized rendering for
+                                15+ simultaneous characters on screen.</p>
+                            <p>Responsible for VFX including crowd, stadium, and match effects.</p>
+                        </div>
                         <div class="project-tech">
                             <span>Unity</span>
                             <span>Mobile</span>
                             <span>Shaders</span>
-                            <span>Procedural</span>
-                            <span>Multiplayer</span>
+                            <span>Live Ops</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="project-link">
-                                <i class="fab fa-google-play"></i>
-                                Play Store
-                            </a>
-                            <a href="#" class="project-link">
-                                <i class="fab fa-app-store"></i>
-                                App Store
-                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.nextwave.wcc3"
+                                class="project-link" target="_blank"><i class="fab fa-google-play"></i>Play
+                                Store</a>
+                            <a href="https://apps.apple.com/in/app/world-cricket-championship-3/id1514775424"
+                                class="project-link" target="_blank"><i class="fab fa-app-store-ios"></i>App
+                                Store</a>
                         </div>
                     </div>
                 </div>
 
+                <!-- PLANET GOLF -->
                 <div class="project-card">
-                    <div class="project-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-                        <i class="fas fa-table-tennis"></i>
+                    <div class="project-image">
+                        <img src="./img/planetgolf.jpg" alt="Planet Golf" class="project-img">
                     </div>
                     <div class="project-info">
-                        <h3>World Table Tennis Championship</h3>
-                        <p>Realistic table tennis simulation with advanced physics, player customization,
-                            and tournament systems for mobile platforms.</p>
+                        <h3>Planet Golf</h3>
+                        <div class="project-details">
+                            <p>Full-cycle mobile game featuring procedural course generation and sharing module.</p>
+                            <p>Implemented club customization, course building UI, and real-time performance monitoring
+                                for smooth gameplay.</p>
+                        </div>
                         <div class="project-tech">
                             <span>Unity</span>
-                            <span>Physics</span>
+                            <span>Procedural Generation</span>
                             <span>Mobile</span>
-                            <span>AI</span>
+                            <span>UI Systems</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://play.google.com/store/apps/details?id=com.nextwave.planetgolf"
+                                class="project-link" target="_blank"><i class="fab fa-google-play"></i>Play
+                                Store</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Innovative Projects -->
+                <!-- GOATS OR TIGERS -->
                 <div class="project-card">
-                    <div class="project-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <div class="project-info">
-                        <h3>Neurofeedback Educational Games</h3>
-                        <p>Educational mini-games interfacing with EEG headsets to adapt gameplay
-                            based on real-time attention span data. Developed data pipeline architecture.</p>
-                        <div class="project-tech">
-                            <span>Unity</span>
-                            <span>API Integration</span>
-                            <span>Data Pipeline</span>
-                            <span>Educational</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                        <i class="fas fa-chess-board"></i>
+                    <div class="project-image">
+                        <img src="./img/got.jpg" alt="Goats or Tigers" class="project-img">
                     </div>
                     <div class="project-info">
                         <h3>Goats or Tigers</h3>
-                        <p>Traditional board game adaptation for iOS and Android with AI opponents
-                            and multiplayer functionality. Full-cycle development from design to launch.</p>
+                        <div class="project-details">
+                            <p>Developed the game from start to finish including gameplay, AI, and UI systems.</p>
+                            <p>Published on iOS and Android.</p>
+                            <p>Worked on related projects: educational AR apps, Arch Viz apps, vehicle customization
+                                apps, and interactive event games.</p>
+                        </div>
                         <div class="project-tech">
                             <span>Unity</span>
                             <span>iOS</span>
                             <span>Android</span>
-                            <span>AI</span>
-                            <span>Multiplayer</span>
+                            <span>AI & Gameplay Systems</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://apps.apple.com/in/app/goats-or-tigers/id1110328704" class="project-link"
+                                target="_blank"><i class="fab fa-app-store-ios"></i>App Store</a>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">
-                    Varun Khatri
-                    <span>.</span>
-                </div>
+                <div class="footer-logo">Varun Khatri<span>.</span></div>
                 <div class="footer-links">
                     <a href="index.html">Home</a>
                     <a href="portfolio.html">Work</a>
@@ -201,7 +250,6 @@
             this.querySelector('i').classList.toggle('fa-bars');
             this.querySelector('i').classList.toggle('fa-times');
         });
-
         document.addEventListener('click', function (event) {
             const nav = document.querySelector('.nav-links');
             const toggle = document.querySelector('.menu-toggle');
