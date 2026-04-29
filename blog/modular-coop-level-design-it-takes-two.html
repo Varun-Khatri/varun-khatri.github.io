@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Modular Co-op Level Design in It Takes Two: Blockout Thinking, System Design, and Player Flow",
+  "author": {
+    "@type": "Person",
+    "name": "Varun Khatri"
+  },
+  "datePublished": "2026-04-29",
+  "description": "A breakdown of modular co-op level design principles inspired by It Takes Two, focusing on blockout workflows, system-driven design, and cooperative player flow.",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://varun-khatri.github.io/blog/modular-coop-level-design-it-takes-two"
+  }
+}
+</script>
+
+    <title>Modular Co-Op Level Design in It Takes Two | Game Design Breakdown | Varun Khatri</title>
+
+
+    <link rel="canonical" href="https://varun-khatri.github.io/blog/modular-coop-level-design-it-takes-two.html">
+
+    <meta property="og:title"
+        content="Modular Co-op Level Design in It Takes Two | Blockout Systems & Player Flow | Varun Khatri">
+    <meta property="og:description"
+        content="A breakdown of modular co-op level design patterns in It Takes Two, focusing on blockouts, reusable systems, and player flow design.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://varun-khatri.github.io/blog/modular-coop-level-design-it-takes-two.html">
+    <meta property="og:image" content="https://varun-khatri.github.io/img/blog/coop-level-design-og.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Modular Co-op Level Design in It Takes Two | Varun Khatri">
+    <meta name="twitter:description"
+        content="How It Takes Two uses reusable level design systems to create constantly evolving co-op gameplay.">
+    <meta name="twitter:image" content="https://varun-khatri.github.io/img/blog/coop-level-design-og.jpg">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">VK<span>.</span></a>
+
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../portfolio.html">Work</a></li>
+                <li><a href="../about.html">Experience</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+                <li><a href="index.html">Blog</a></li>
+            </ul>
+
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero blog-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Modular Co-Op Level Design in It Takes Two</h1>
+                <p class="hero-description">
+                    Breaking down how Hazelight reuses core spatial modules to build constantly evolving co-op gameplay
+                    systems.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOG CONTENT -->
+    <section class="blog-content">
+        <div class="container" style="max-width: 850px;">
+
+            <article class="blog-article">
+
+                <div class="post-meta">
+                    <span class="post-category">Game Design</span>
+                    <span class="post-date">Apr 29 2026</span>
+                </div>
+
+                <h2>What’s Actually Going On Under the Hood</h2>
+
+                <p>
+                    When you play <strong>It Takes Two</strong>, it feels like every level is doing something completely
+                    new.
+                    New mechanics, new environments, new ideas every few minutes.
+                </p>
+
+                <p>
+                    But if you slow down and actually look at the structure, something interesting shows up:
+                </p>
+
+                <p>
+                    The game is not constantly inventing new level designs.<br>
+                    It’s reusing the same modular building blocks, just swapping mechanics and presentation.
+                </p>
+
+                <p>
+                    This post breaks that down clearly—so you can see it, validate it yourself, and use it in your own
+                    level design.
+                </p>
+
+                <h2>The Core Idea</h2>
+
+                <p>Think of the game like LEGO.</p>
+
+                <ul>
+                    <li>The shape of the blocks stays the same</li>
+                    <li>The color and function change</li>
+                </ul>
+
+                <p>So instead of designing hundreds of unique levels, the game uses:</p>
+
+                <ul>
+                    <li>A small set of spatial modules</li>
+                    <li>Combined with different mechanics per world</li>
+                </ul>
+
+                <h2>The Core Modules (What Actually Repeats)</h2>
+
+                <p>These are the patterns you’ll see again and again across the entire game.</p>
+
+
+
+                <h3>1. Dual Lane Sync (Two Players, Parallel Paths)</h3>
+
+                <p><strong>What it is:</strong><br>
+                    Both players move forward on separate but connected paths, then regroup.
+                </p>
+
+                <p><strong>Why it exists:</strong><br>
+                    Teaches coordination without overwhelming complexity.
+                </p>
+
+                <p><strong>Where to find it:</strong></p>
+                <ul>
+                    <li>The Shed (early traversal after vacuum section)</li>
+                    <li>Snow Globe (grind rails intro)</li>
+                    <li>Rose’s Room (pillow fort sections)</li>
+                </ul>
+
+                <img src="../img/blog/dual-lane-sync.jpg"
+                    alt="Dual lane co-op level structure showing parallel player paths" loading="lazy">
+
+                <br>
+
+                <h3>2. Staggered Gap Chain (Not in Sync)</h3>
+
+                <p><strong>What it is:</strong><br>
+                    Platforms with gaps—but offset so players can’t just follow each other.
+                </p>
+
+                <p><strong>Why it works:</strong><br>
+                    Forces communication instead of mimicry.
+                </p>
+
+                <p><strong>Where to find it:</strong></p>
+                <ul>
+                    <li>The Tree (before wasp combat)</li>
+                    <li>Garden (vine traversal)</li>
+                    <li>Snow Globe (floating ice platforms)</li>
+                </ul>
+
+                <img src="../img/blog/gaps-offset.jpg"
+                    alt="Platforms with gaps—but offset so players can’t just follow each other" loading="lazy">
+
+                <br>
+
+
+
+                <h3>3. Ability Gate (The Backbone)</h3>
+
+                <p><strong>What it is:</strong><br>
+                    A blocked path that only opens using the current mechanic.
+                </p>
+
+                <p><strong>Structure:</strong> Obstacle → Ability → Path opens</p>
+
+                <p><strong>Where to find it:</strong></p>
+                <ul>
+                    <li>Nails in The Shed</li>
+                    <li>Sap + fire in The Tree</li>
+                    <li>Time rewind in Clockwork</li>
+                    <li>Plants in Garden</li>
+                </ul>
+
+                <img src="../img/blog/ability-gate.jpg"
+                    alt="Ability Gate: A blocked path that only opens using the current mechanic" loading="lazy">
+
+                <br>
+
+                <p><strong>Key insight:</strong> Different mechanic, same structure every time</p>
+
+
+
+                <h3>4. Chained Interaction Run</h3>
+
+                <p><strong>What it is:</strong><br>
+                    You’re moving and using abilities at the same time.
+                </p>
+
+                <p><strong>Why it matters:</strong><br>
+                    This is where gameplay feels “fluid” and not stop-start.
+                </p>
+
+                <p><strong>Where to find it:</strong></p>
+                <ul>
+                    <li>Tree sap while platforming</li>
+                    <li>Clockwork rewind while moving</li>
+                    <li>Garden grapple + movement chains</li>
+                </ul>
+
+
+                <h3>5. Cooperative Boost / Launch</h3>
+
+                <p><strong>What it is:</strong><br>
+                    One player directly enables the other to move forward.
+                </p>
+
+                <ul>
+                    <li>Spring toys</li>
+                    <li>Plant launchers</li>
+                    <li>Magnetic pulls</li>
+                </ul>
+
+                <p><strong>Where to find it:</strong></p>
+                <ul>
+                    <li>Rose’s Room (toys)</li>
+                    <li>Garden (plants)</li>
+                    <li>Snow Globe (boost sections)</li>
+                </ul>
+
+
+
+                <h3>6. Rotational Path (Moving World)</h3>
+
+                <p><strong>What it is:</strong><br>
+                    The level itself moves—players adapt to it.
+                </p>
+
+                <p><strong>Where to find it:</strong></p>
+                <ul>
+                    <li>Clockwork gears</li>
+                    <li>Space sections</li>
+                    <li>Snow Globe rotating elements</li>
+                </ul>
+
+
+
+                <h3>7. Chase Corridor (Pure Pressure)</h3>
+
+                <p><strong>What it is:</strong><br>
+                    Run forward, don’t stop, something is chasing you.
+                </p>
+
+                <p><strong>Where to find it:</strong></p>
+                <ul>
+                    <li>Vacuum escape</li>
+                    <li>Wasp chase</li>
+                    <li>Bull chase</li>
+                    <li>Avalanche sequence</li>
+                </ul>
+
+
+
+                <h3>8. Vertical Co-Op Climb</h3>
+
+                <p><strong>What it is:</strong><br>
+                    Climbing upward using coordinated actions.
+                </p>
+
+                <p><strong>Where to find it:</strong></p>
+                <ul>
+                    <li>Garden plants</li>
+                    <li>Clockwork ascent</li>
+                </ul>
+
+
+
+                <h3>9. Split-Screen Divergence</h3>
+
+                <p><strong>What it is:</strong><br>
+                    Players operate in completely different spaces.
+                </p>
+
+                <p><strong>Where to find it:</strong></p>
+                <ul>
+                    <li>Rose’s Room</li>
+                    <li>Clockwork</li>
+                    <li>Space Station</li>
+                </ul>
+
+
+
+                <h3>10. Setpiece Rail System</h3>
+
+                <p><strong>What it is:</strong><br>
+                    Controlled cinematic traversal with interactive moments.
+                </p>
+
+                <p><strong>Where to find it:</strong></p>
+                <ul>
+                    <li>Frog ride</li>
+                    <li>Spider ride</li>
+                    <li>Flying sequences</li>
+                </ul>
+
+
+
+                <h2>The Big Realization: It’s All Reuse</h2>
+
+                <p>Now here’s the important part.</p>
+
+                <p><strong>These are not one-off ideas.</strong></p>
+
+                <p>They are reused continuously across different worlds.</p>
+
+                <ul>
+                    <li>Swinging → nails vs plants</li>
+                    <li>Platforms → ice vs gears</li>
+                    <li>Triggers → sap vs time rewind</li>
+                    <li>Chases → vacuum vs bull vs avalanche</li>
+                </ul>
+
+                <h2>How Levels Are Actually Built</h2>
+
+                <p>Intro → Teach → Test → Twist → Combine → Setpiece → Cooldown</p>
+
+                <p>What that looks like:</p>
+
+                <ul>
+                    <li>Start simple</li>
+                    <li>Introduce mechanic</li>
+                    <li>Let players try it</li>
+                    <li>Change the rules</li>
+                    <li>Combine everything</li>
+                    <li>Big cinematic moment</li>
+                    <li>Calm exit</li>
+                </ul>
+
+                <h2>Why This Matters</h2>
+
+                <p>
+                    How do you make a game feel constantly fresh without burning production time?
+                </p>
+
+                <ul>
+                    <li>Reuse structure</li>
+                    <li>Swap mechanics</li>
+                    <li>Reskin environment</li>
+                </ul>
+
+                <h2>Final Takeaway</h2>
+
+                <p>
+                    It Takes Two doesn’t succeed because it has infinite ideas.
+                </p>
+
+                <p>
+                    It succeeds because it has a tight reusable level grammar layered with new mechanics.
+                </p>
+
+            </article>
+
+
+    </section>
+
+    <!-- Back to Blog -->
+    <section class="contact blog-contact-section">
+        <div class="container">
+            <div class="blog-contact-prompt">
+                <h3>Enjoyed this post?</h3>
+                <p>
+                    More articles on Unity optimization, VR systems, and technical art are coming soon.
+                </p>
+                <a href="index.html" class="btn btn-secondary">
+                    ← Back to Blog
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    Varun Khatri<span>.</span>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Home</a>
+                    <a href="../portfolio.html">Work</a>
+                    <a href="../about.html">Experience</a>
+                    <a href="../contact.html">Contact</a>
+                    <a href="index.html">Blog</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/Varun-Khatri"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/varun-khatri-79b9a674/"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:varun.khatri18@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Varun Khatri. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

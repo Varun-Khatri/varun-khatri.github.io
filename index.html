@@ -4,8 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Varun Khatri",
+  "jobTitle": "Senior Unity Developer / Technical Artist",
+  "url": "https://varun-khatri.github.io/",
+  "sameAs": [
+    "https://github.com/Varun-Khatri",
+    "https://www.linkedin.com/in/varun-khatri-79b9a674/"
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Freelance / Independent"
+  },
+  "knowsAbout": [
+    "Unity Engine",
+    "VR Development",
+    "Game Performance Optimization",
+    "Shader Development",
+    "VFX Graph",
+    "DOTS ECS",
+    "Mobile Game Development",
+    "Rendering Pipelines"
+  ]
+}
+</script>
     <title>Varun Khatri | Unity Developer</title>
-    <link rel="stylesheet" href="./css/style.css">
+
+    <link rel="canonical" href="https://varun-khatri.github.io/index.html">
+
+    <meta property="og:title" content="Varun Khatri | Unity Developer & Technical Artist">
+    <meta property="og:description"
+        content="Senior Unity developer specializing in VR, rendering systems, and game performance optimization.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://varun-khatri.github.io/">
+    <meta property="og:image" content="https://varun-khatri.github.io/img/og-image.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Varun Khatri | Unity Developer & Technical Artist">
+    <meta name="twitter:description"
+        content="Unity, VR, shaders, performance engineering, and game systems architecture.">
+    <meta name="twitter:image" content="https://varun-khatri.github.io/img/og-image.jpg">
+
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -103,6 +146,7 @@
         <div class="container">
             <h2>Featured Projects</h2>
             <div class="projects-grid">
+
                 <div class="project-card">
                     <div class="project-image">
                         <img src="./img/wcc.jpg" alt="World Cricket Championship 3" class="project-img">
@@ -140,7 +184,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- HIGHSTREET CALAMITY -->
+
                 <div class="project-card">
                     <div class="project-image">
                         <img src="./img/calamity.webp" alt="Highstreet: Calamity" class="project-img">
@@ -177,6 +221,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -209,113 +254,15 @@
     </footer>
 
     <script>
-        // MOBILE MENU TOGGLE
         document.querySelector('.menu-toggle').addEventListener('click', function () {
             document.querySelector('.nav-links').classList.toggle('active');
-            this.querySelector('i').classList.toggle('fa-bars');
-            this.querySelector('i').classList.toggle('fa-times');
         });
 
-        // CLOSE MENU WHEN CLICKING OUTSIDE
         document.addEventListener('click', function (event) {
             const nav = document.querySelector('.nav-links');
             const toggle = document.querySelector('.menu-toggle');
             if (!nav.contains(event.target) && !toggle.contains(event.target)) {
                 nav.classList.remove('active');
-                toggle.querySelector('i').classList.add('fa-bars');
-                toggle.querySelector('i').classList.remove('fa-times');
-            }
-        });
-
-        // IMAGE LOADING FALLBACK
-        document.addEventListener('DOMContentLoaded', function () {
-            const images = document.querySelectorAll('.project-img');
-            images.forEach(img => {
-                // Check if image loaded successfully
-                if (img.complete && img.naturalHeight === 0) {
-                    // Image failed to load
-                    img.style.display = 'none';
-                    const icon = img.src.includes('wcc') ? 'fa-cricket' : 'fa-vr-cardboard';
-                    img.parentElement.innerHTML = `<i class="fas ${icon}"></i>`;
-                }
-            });
-
-            // PROJECT CARD TOUCH SUPPORT FOR MOBILE
-            // Check if this is a touch device
-            const isTouchDevice = 'ontouchstart' in window ||
-                navigator.maxTouchPoints > 0 ||
-                navigator.msMaxTouchPoints > 0;
-
-            // Get all project cards
-            const projectCards = document.querySelectorAll('.project-card');
-
-            if (isTouchDevice) {
-                // MOBILE/TABLET BEHAVIOR
-                projectCards.forEach(card => {
-                    let isExpanded = false;
-
-                    card.addEventListener('click', function (e) {
-                        // Don't do anything if the user clicked on a link inside the card
-                        if (e.target.closest('.project-link')) {
-                            // Let the link work normally
-                            return;
-                        }
-
-                        // Toggle the expanded state
-                        isExpanded = !isExpanded;
-
-                        if (isExpanded) {
-                            // Add expanded class to this card
-                            this.classList.add('expanded');
-
-                            // Remove expanded class from all other cards
-                            projectCards.forEach(otherCard => {
-                                if (otherCard !== this) {
-                                    otherCard.classList.remove('expanded');
-                                }
-                            });
-
-                            // Scroll the card into view if needed
-                            this.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-                        } else {
-                            // Remove expanded class
-                            this.classList.remove('expanded');
-                        }
-                    });
-                });
-
-                // Close expanded card when clicking outside
-                document.addEventListener('click', function (e) {
-                    // Check if click is outside all project cards
-                    let clickedInsideCard = false;
-
-                    projectCards.forEach(card => {
-                        if (card.contains(e.target)) {
-                            clickedInsideCard = true;
-                        }
-                    });
-
-                    // If clicked outside any card, close all expanded cards
-                    if (!clickedInsideCard) {
-                        projectCards.forEach(card => {
-                            card.classList.remove('expanded');
-                        });
-                    }
-                });
-
-            } else {
-                // DESKTOP BEHAVIOR (hover only)
-                projectCards.forEach(card => {
-                    // Optional: Add visual feedback on desktop hover
-                    card.addEventListener('mouseenter', function () {
-                        this.classList.add('hovered');
-                    });
-
-                    card.addEventListener('mouseleave', function () {
-                        this.classList.remove('hovered');
-                    });
-                });
             }
         });
     </script>

@@ -4,7 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | Varun Khatri</title>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Varun Khatri",
+  "jobTitle": "Senior Unity Developer / Technical Artist",
+  "url": "https://varun-khatri.github.io/",
+  "sameAs": [
+    "https://github.com/Varun-Khatri",
+    "https://www.linkedin.com/in/varun-khatri-79b9a674/"
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Freelance / Independent"
+  },
+  "knowsAbout": [
+    "Unity Engine",
+    "VR Development",
+    "Game Performance Optimization",
+    "Shader Development",
+    "VFX Graph",
+    "DOTS ECS",
+    "Mobile Game Development",
+    "Rendering Pipelines"
+  ]
+}
+</script>
+
+    <title>Get in touch | Varun Khatri</title>
+
+    <link rel="canonical" href="https://varun-khatri.github.io/contact.html">
+
+    <meta property="og:title" content="Contact | Varun Khatri - Unity Developer & Technical Artist">
+    <meta property="og:description"
+        content="Get in touch for Unity development, VR projects, technical art, or engineering opportunities.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://varun-khatri.github.io/contact.html">
+    <meta property="og:image" content="https://varun-khatri.github.io/img/og-image.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact | Varun Khatri">
+    <meta name="twitter:description"
+        content="Available for Unity, VR, and technical art opportunities. Let’s collaborate.">
+    <meta name="twitter:image" content="https://varun-khatri.github.io/img/og-image.jpg">
+
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -252,13 +296,11 @@
         document.getElementById('contactForm').addEventListener('submit', async function (e) {
             e.preventDefault();
 
-            // Show loading state
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             submitBtn.disabled = true;
 
-            // Prepare form data
             const formData = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
@@ -267,91 +309,58 @@
                 sourcePage: 'contact'
             };
 
-            // YOUR Apps Script Web App URL
             const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzj4rC-dpmnWjSrRlxvNhAMhxL2FzX6A6agQlFJAo9dQhJv53C22P3HrGAL1cILPbF7/exec';
-
-            // Generate unique callback name for each submission
             const callbackName = 'formCallback_' + Date.now();
 
             try {
-                // Method 1: JSONP technique (bypasses CORS)
                 const jsonpUrl = `${APPS_SCRIPT_URL}?callback=${callbackName}&data=${encodeURIComponent(JSON.stringify(formData))}`;
 
-                // Create a promise for the JSONP request
                 const jsonpPromise = new Promise((resolve, reject) => {
-                    // Set up the callback function
                     window[callbackName] = function (response) {
-                        // Clean up
-                        if (script.parentNode) {
-                            document.head.removeChild(script);
-                        }
+                        if (script.parentNode) document.head.removeChild(script);
                         delete window[callbackName];
-
                         if (timeoutId) clearTimeout(timeoutId);
 
-                        if (response && response.error) {
-                            reject(new Error(response.message || 'Submission failed'));
-                        } else {
-                            resolve(response);
-                        }
+                        if (response && response.error) reject(new Error(response.message));
+                        else resolve(response);
                     };
 
-                    // Create and append script tag
                     const script = document.createElement('script');
-                    script.src = jsonpUrl;
 
-                    // Set timeout (10 seconds)
                     const timeoutId = setTimeout(() => {
-                        if (script.parentNode) {
-                            document.head.removeChild(script);
-                        }
+                        if (script.parentNode) document.head.removeChild(script);
                         delete window[callbackName];
-                        reject(new Error('Request timeout - please try again'));
+                        reject(new Error('Request timeout'));
                     }, 10000);
 
-                    // Handle script errors
                     script.onerror = function () {
-                        if (script.parentNode) {
-                            document.head.removeChild(script);
-                        }
+                        if (script.parentNode) document.head.removeChild(script);
                         delete window[callbackName];
-                        if (timeoutId) clearTimeout(timeoutId);
-                        reject(new Error('Network error - cannot connect to server'));
+                        clearTimeout(timeoutId);
+                        reject(new Error('Network error'));
                     };
 
+                    script.src = jsonpUrl;
                     document.head.appendChild(script);
                 });
 
-                // Wait for the JSONP response
-                const result = await jsonpPromise;
+                await jsonpPromise;
 
-                // Success
-                showMessage('Thank you for your message! I will get back to you within 24 hours.', 'success');
+                showMessage('Thank you for your message!', 'success');
                 this.reset();
 
             } catch (error) {
-                console.error('Submission error:', error);
-                showMessage('Sorry, there was an error: ' + error.message, 'error');
+                showMessage('Error: ' + error.message, 'error');
             } finally {
-                // Restore button state
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             }
         });
 
-        // Function to show status messages
         function showMessage(text, type) {
-            const messageElement = document.getElementById('formMessage');
-            messageElement.textContent = text;
-            messageElement.className = 'form-message ' + type;
-
-            // Auto-hide success messages after 5 seconds
-            if (type === 'success') {
-                setTimeout(() => {
-                    messageElement.textContent = '';
-                    messageElement.className = 'form-message';
-                }, 5000);
-            }
+            const el = document.getElementById('formMessage');
+            el.textContent = text;
+            el.className = 'form-message ' + type;
         }
     </script>
 </body>

@@ -4,20 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog | Varun Khatri</title>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Varun Khatri",
+        "jobTitle": "Senior Unity Developer / Technical Artist",
+        "url": "https://varun-khatri.github.io/",
+        "sameAs": [
+            "https://github.com/Varun-Khatri",
+            "https://www.linkedin.com/in/varun-khatri-79b9a674/"
+        ],
+        "worksFor": {
+            "@type": "Organization",
+            "name": "Freelance / Independent"
+        },
+        "knowsAbout": [
+            "Unity Engine",
+            "VR Development",
+            "Game Performance Optimization",
+            "Shader Development",
+            "VFX Graph",
+            "DOTS ECS",
+            "Mobile Game Development",
+            "Rendering Pipelines"
+        ]
+    }
+</script>
+
+    <title>Blog | Unity, VR & Game Design Insights | Varun Khatri</title>
+
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+
+    <link rel="canonical" href="https://varun-khatri.github.io/blog/index.html">
+
+    <meta property="og:title" content="Varun Khatri | Unity Developer & Technical Artist">
+    <meta property="og:description"
+        content="Senior Unity developer specializing in VR, rendering systems, and game performance optimization.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://varun-khatri.github.io/">
+    <meta property="og:image" content="https://varun-khatri.github.io/img/og-image.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Varun Khatri | Unity Developer & Technical Artist">
+    <meta name="twitter:description"
+        content="Unity, VR, shaders, performance engineering, and game systems architecture.">
+    <meta name="twitter:image" content="https://varun-khatri.github.io/img/og-image.jpg">
+
 </head>
 
 <body>
+
+    <!-- NAV -->
     <nav class="navbar">
         <div class="container">
-            <a href="../index.html" class="logo">
-                VK
-                <span>.</span>
-            </a>
+            <a href="../index.html" class="logo">VK<span>.</span></a>
+
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="../portfolio.html">Work</a></li>
@@ -25,48 +70,64 @@
                 <li><a href="../contact.html">Contact</a></li>
                 <li><a href="index.html" class="active">Blog</a></li>
             </ul>
+
             <button class="menu-toggle">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
     </nav>
 
+    <!-- HERO -->
     <section class="hero blog-hero">
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title">Blog</h1>
                 <p class="hero-description">
-                    Technical insights on Unity development, game architecture, and industry trends.
+                    Technical breakdowns of Unity systems, VR development, and scalable game architecture.
                 </p>
             </div>
         </div>
     </section>
 
+    <!-- BLOG LIST -->
     <section class="blog-content">
         <div class="container">
-            <div>
-                <a href="first-10-years-performance-and-scale.html" class="blog-post">
-                    <div class="post-meta">
-                        <span class="post-category">Game Development</span>
-                        <span class="post-date">Jan 19 2026</span>
-                    </div>
-                    <h3>What 10+ Years of Building Mobile and VR Games Taught Me About Performance and Scale</h3>
-                    <p>
-                        Lessons from shipping mobile games with 100M+ downloads and building performance-critical VR
-                        systems.
-                    </p>
-                </a>
-            </div>
+
+            <!-- FEATURED POST -->
+            <a href="modular-coop-level-design-it-takes-two.html" class="blog-post">
+                <div class="post-meta">
+                    <span class="post-category">Game Design</span>
+                    <span class="post-date">Apr 29 2026</span>
+                </div>
+                <h3>Modular Co-Op Level Design in It Takes Two</h3>
+                <p>
+                    A breakdown of how Hazelight reuses spatial modules and mechanic systems to create constantly
+                    evolving co-op gameplay.
+                </p>
+            </a>
+
+            <!-- SECOND POST -->
+            <a href="first-10-years-performance-and-scale.html" class="blog-post">
+                <div class="post-meta">
+                    <span class="post-category">Game Development</span>
+                    <span class="post-date">Jan 19 2026</span>
+                </div>
+                <h3>Performance and Scale in Mobile & VR Games</h3>
+                <p>
+                    Lessons learned from shipping large-scale Unity systems across mobile and VR platforms.
+                </p>
+            </a>
+
         </div>
     </section>
 
+    <!-- CTA -->
     <section class="contact blog-contact-section">
         <div class="container">
             <div class="blog-contact-prompt">
-                <h3>Want to discuss technical topics?</h3>
+                <h3>Want to discuss game systems or Unity architecture?</h3>
                 <p>
-                    Have specific questions about Unity development, technical art,
-                    or game architecture? I'm always open to interesting conversations.
+                    I regularly explore gameplay systems, VR interaction design, and scalable architecture patterns.
                 </p>
                 <a href="../contact.html" class="btn btn-primary">
                     Get in Touch
@@ -76,13 +137,14 @@
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    Varun Khatri
-                    <span>.</span>
+                    Varun Khatri <span>.</span>
                 </div>
+
                 <div class="footer-links">
                     <a href="../index.html">Home</a>
                     <a href="../portfolio.html">Work</a>
@@ -90,30 +152,32 @@
                     <a href="../contact.html">Contact</a>
                     <a href="index.html">Blog</a>
                 </div>
+
                 <div class="footer-social">
                     <a href="https://github.com/Varun-Khatri"><i class="fab fa-github"></i></a>
                     <a href="https://www.linkedin.com/in/varun-khatri-79b9a674/"><i class="fab fa-linkedin"></i></a>
                     <a href="mailto:varun.khatri18@gmail.com"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>
+
             <div class="footer-bottom">
                 <p>&copy; 2026 Varun Khatri. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <!-- MOBILE MENU SCRIPT -->
     <script>
-        // Mobile menu toggle
         document.querySelector('.menu-toggle').addEventListener('click', function () {
             document.querySelector('.nav-links').classList.toggle('active');
             this.querySelector('i').classList.toggle('fa-bars');
             this.querySelector('i').classList.toggle('fa-times');
         });
 
-        // Close menu when clicking outside
         document.addEventListener('click', function (event) {
             const nav = document.querySelector('.nav-links');
             const toggle = document.querySelector('.menu-toggle');
+
             if (!nav.contains(event.target) && !toggle.contains(event.target)) {
                 nav.classList.remove('active');
                 toggle.querySelector('i').classList.add('fa-bars');
@@ -121,6 +185,7 @@
             }
         });
     </script>
+
 </body>
 
 </html>

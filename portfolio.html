@@ -4,7 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Varun Khatri",
+  "jobTitle": "Senior Unity Developer / Technical Artist",
+  "url": "https://varun-khatri.github.io/",
+  "sameAs": [
+    "https://github.com/Varun-Khatri",
+    "https://www.linkedin.com/in/varun-khatri-79b9a674/"
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Freelance / Independent"
+  },
+  "knowsAbout": [
+    "Unity Engine",
+    "VR Development",
+    "Game Performance Optimization",
+    "Shader Development",
+    "VFX Graph",
+    "DOTS ECS",
+    "Mobile Game Development",
+    "Rendering Pipelines"
+  ]
+}
+</script>
+
     <title>Experience & Work | Varun Khatri</title>
+
+    <link rel="canonical" href="https://varun-khatri.github.io/portfolio.html">
+
+    <meta property="og:title" content="Experience | Varun Khatri - Senior Unity Developer & Technical Artist">
+    <meta property="og:description"
+        content="10+ years of experience in Unity development, VR systems, mobile games, shaders, and performance engineering.">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://varun-khatri.github.io/about.html">
+    <meta property="og:image" content="https://varun-khatri.github.io/img/og-image.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Experience | Varun Khatri - Unity Developer & Technical Artist">
+    <meta name="twitter:description"
+        content="Senior Unity developer specializing in VR systems, rendering pipelines, and game architecture.">
+    <meta name="twitter:image" content="https://varun-khatri.github.io/img/og-image.jpg">
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -116,7 +160,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <!-- HIGHSTREET WORLD -->
                 <div class="project-card">
@@ -348,53 +391,38 @@
         });
 
         // PROJECT CARD TOUCH SUPPORT FOR MOBILE
-        // Check if this is a touch device
         const isTouchDevice = 'ontouchstart' in window ||
             navigator.maxTouchPoints > 0 ||
             navigator.msMaxTouchPoints > 0;
 
-        // Get all project cards
         const projectCards = document.querySelectorAll('.project-card');
 
         if (isTouchDevice) {
-            // MOBILE/TABLET BEHAVIOR
             projectCards.forEach(card => {
                 let isExpanded = false;
 
                 card.addEventListener('click', function (e) {
-                    // Don't do anything if the user clicked on a link inside the card
-                    if (e.target.closest('.project-link')) {
-                        // Let the link work normally
-                        return;
-                    }
+                    if (e.target.closest('.project-link')) return;
 
-                    // Toggle the expanded state
                     isExpanded = !isExpanded;
 
                     if (isExpanded) {
-                        // Add expanded class to this card
                         this.classList.add('expanded');
 
-                        // Remove expanded class from all other cards
                         projectCards.forEach(otherCard => {
                             if (otherCard !== this) {
                                 otherCard.classList.remove('expanded');
                             }
                         });
 
-                        // Scroll the card into view if needed
                         this.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
                     } else {
-                        // Remove expanded class
                         this.classList.remove('expanded');
                     }
                 });
             });
 
-            // Close expanded card when clicking outside
             document.addEventListener('click', function (e) {
-                // Check if click is outside all project cards
                 let clickedInsideCard = false;
 
                 projectCards.forEach(card => {
@@ -403,18 +431,13 @@
                     }
                 });
 
-                // If clicked outside any card, close all expanded cards
                 if (!clickedInsideCard) {
-                    projectCards.forEach(card => {
-                        card.classList.remove('expanded');
-                    });
+                    projectCards.forEach(card => card.classList.remove('expanded'));
                 }
             });
 
         } else {
-            // DESKTOP BEHAVIOR (hover only)
             projectCards.forEach(card => {
-                // Optional: Add visual feedback on desktop hover
                 card.addEventListener('mouseenter', function () {
                     this.classList.add('hovered');
                 });
@@ -424,33 +447,6 @@
                 });
             });
         }
-
-        // Optional: Add CSS for mobile expand indicator
-        const style = document.createElement('style');
-        style.textContent = `
-        .mobile-expand-indicator {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 30px;
-            height: 30px;
-            background: rgba(96, 165, 250, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.8rem;
-            z-index: 2;
-            animation: pulse-gentle 2s infinite;
-        }
-        
-        @keyframes pulse-gentle {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
-    `;
-        document.head.appendChild(style);
     </script>
 </body>
 
