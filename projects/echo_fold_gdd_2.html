@@ -1,0 +1,508 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans);}
+.gdd{padding:1rem 0;color:var(--color-text-primary);}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1.5rem;}
+.tab{padding:6px 13px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:12px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s;}
+.tab.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary);font-weight:500;}
+.tab:hover:not(.on){background:var(--color-background-secondary);}
+.panel{display:none;}.panel.on{display:block;}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1rem;}
+.card h3{font-size:14px;font-weight:500;margin-bottom:.4rem;}
+.card p,.card li{font-size:13px;color:var(--color-text-secondary);line-height:1.65;}
+.card ul{padding-left:1.1rem;margin-top:.3rem;}
+.card li{margin-bottom:.2rem;}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
+.sl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-tertiary);margin:1.25rem 0 .5rem;}
+.tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:4px;margin-right:3px;margin-bottom:3px;font-weight:500;}
+.t-teal{background:#E1F5EE;color:#085041;}.t-purple{background:#EEEDFE;color:#3C3489;}.t-amber{background:#FAEEDA;color:#633806;}.t-coral{background:#FAECE7;color:#712B13;}.t-blue{background:#E6F1FB;color:#0C447C;}.t-gray{background:#F1EFE8;color:#444441;}.t-green{background:#EAF3DE;color:#27500A;}
+@media(prefers-color-scheme:dark){.t-teal{background:#085041;color:#9FE1CB;}.t-purple{background:#26215C;color:#CECBF6;}.t-amber{background:#412402;color:#FAC775;}.t-coral{background:#4A1B0C;color:#F5C4B3;}.t-blue{background:#042C53;color:#B5D4F4;}.t-gray{background:#2C2C2A;color:#D3D1C7;}.t-green{background:#173404;color:#C0DD97;}}
+.row{display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary);align-items:flex-start;}
+.row:last-child{border-bottom:none;}
+.ri{font-family:var(--font-mono);font-size:11px;color:var(--color-text-tertiary);min-width:36px;padding-top:1px;}
+.rn{font-size:13px;font-weight:500;margin-bottom:2px;}
+.rd{font-size:12px;color:var(--color-text-secondary);line-height:1.55;}
+.vec{font-family:var(--font-mono);font-size:11px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;white-space:nowrap;}
+.lev-block{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:1rem;overflow:hidden;}
+.lev-hd{padding:10px 14px;background:var(--color-background-secondary);cursor:pointer;user-select:none;display:flex;align-items:center;gap:10px;}
+.lev-id{font-family:var(--font-mono);font-size:12px;color:var(--color-text-tertiary);min-width:28px;}
+.lev-name{font-size:13px;font-weight:500;flex:1;}
+.lev-body{display:none;padding:12px 14px;}
+.lev-body.open{display:block;}
+.chev{font-size:14px;color:var(--color-text-tertiary);transition:transform .15s;}
+.chev.open{transform:rotate(180deg);}
+.mod-table{width:100%;border-collapse:collapse;font-size:12px;}
+.mod-table th{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-align:left;padding:4px 8px 4px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
+.mod-table td{padding:5px 8px 5px 0;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;}
+.mod-table tr:last-child td{border-bottom:none;}
+.nt{font-size:11px;color:var(--color-text-tertiary);font-style:italic;}
+.swatch{width:12px;height:12px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:4px;}
+.pal-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;}
+.pal{border-radius:var(--border-radius-md);padding:8px 10px;font-size:11px;font-weight:500;}
+.qa-block{border-left:2px solid var(--color-border-secondary);padding-left:1rem;margin-bottom:1rem;}
+.qa-q{font-size:13px;font-weight:500;margin-bottom:.3rem;}
+.qa-a{font-size:12px;color:var(--color-text-secondary);line-height:1.6;}
+</style>
+
+<div class="gdd">
+<div style="margin-bottom:1.25rem;">
+  <h2 style="font-size:20px;font-weight:500;margin-bottom:3px;">Echo Fold — GDD v2</h2>
+  <p style="font-size:12px;color:var(--color-text-tertiary);">Level assembly · Art direction · World-switch UX · Open design decisions locked</p>
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="sw('levels',this)">Level assembly</div>
+  <div class="tab" onclick="sw('art',this)">Art direction</div>
+  <div class="tab" onclick="sw('worldswitch',this)">World-switch UX</div>
+  <div class="tab" onclick="sw('pull',this)">Pull mechanic</div>
+  <div class="tab" onclick="sw('audio',this)">Audio + feel</div>
+  <div class="tab" onclick="sw('player',this)">Player systems</div>
+  <div class="tab" onclick="sw('openqs',this)">Open questions</div>
+</div>
+
+<div id="p-levels" class="panel on">
+  <p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:1rem;">Each level root is an empty GameObject. Modules are child scenes, positioned in local space. +Z is always forward (player travel direction). Modules chain end-to-end — the next module's local Z=0 starts where the previous module's footprint ends. All module roots use rotation 0,0,0 unless noted.</p>
+
+  <div class="sl">Chapter 1 — Awakening</div>
+
+  <div class="lev-block">
+    <div class="lev-hd" onclick="togL(this)">
+      <span class="lev-id">1-1</span>
+      <span class="lev-name">Lab Corridor</span>
+      <span class="tag t-blue">Sterile start</span>
+      <span class="tag t-gray">4 modules</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="lev-body">
+      <p class="rd" style="margin-bottom:10px;">Player wakes up. First movement, first world glimpse. No puzzle, just orientation. Ends with the player seeing the Overgrown world through a window for the first time.</p>
+      <div style="overflow-x:auto;"><table class="mod-table">
+        <thead><tr><th>#</th><th>Module</th><th style="min-width:110px;">Root position (x,y,z)</th><th style="min-width:90px;">Root scale</th><th style="min-width:80px;">Root rot (y)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="ri">M1</td><td>A1-S (narrow ledge, Sterile)</td><td class="vec">0, 0, 0</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Tutorial locomotion. World=Sterile mat set.</td></tr>
+          <tr><td class="ri">M2</td><td>D1-S (Pull sandbox, Sterile)</td><td class="vec">0, 0, 24</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">First Pull. Object is a Sterile data-tablet.</td></tr>
+          <tr><td class="ri">M3</td><td>A2-S (wide path, Sterile)</td><td class="vec">0, 0, 44</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">After Pull sandbox. Relaxed pacing.</td></tr>
+          <tr><td class="ri">M4</td><td>B1-S (small gaps, Sterile)</td><td class="vec">0, 0, 64</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Final section. Exit window shows Overgrown world — narrative reveal.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="lev-block">
+    <div class="lev-hd" onclick="togL(this)">
+      <span class="lev-id">1-2</span>
+      <span class="lev-name">The Greenhouse</span>
+      <span class="tag t-green">First Overgrown</span>
+      <span class="tag t-gray">4 modules</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="lev-body">
+      <p class="rd" style="margin-bottom:10px;">Player enters the Overgrown world for the first time. Warm, lush, disorienting after the Sterile lab. Introduces Fold and the first cross-world Pull.</p>
+      <div style="overflow-x:auto;"><table class="mod-table">
+        <thead><tr><th>#</th><th>Module</th><th style="min-width:110px;">Root position (x,y,z)</th><th style="min-width:90px;">Root scale</th><th style="min-width:80px;">Root rot (y)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="ri">M1</td><td>A1-O (narrow ledge, Overgrown)</td><td class="vec">0, 0, 0</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Same geometry as A1-S, different material set.</td></tr>
+          <tr><td class="ri">M2</td><td>D4-O (Fold sandbox)</td><td class="vec">0, 0, 24</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Broken section bridged by Fold gesture.</td></tr>
+          <tr><td class="ri">M3</td><td>E1-O (path with gap)</td><td class="vec">0, 0, 44</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">First cross-world Pull. Slab pulled from visible Sterile portal.</td></tr>
+          <tr><td class="ri">M4</td><td>G1 (single Pull puzzle room)</td><td class="vec">0, 0, 68</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Enclosed puzzle room, mixed world dressing.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="lev-block">
+    <div class="lev-hd" onclick="togL(this)">
+      <span class="lev-id">1-3</span>
+      <span class="lev-name">The Mirror Hall</span>
+      <span class="tag t-purple">Set-piece</span>
+      <span class="tag t-gray">3 modules</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="lev-body">
+      <p class="rd" style="margin-bottom:10px;">Chapter climax. Both worlds visible simultaneously for the first time. X1 set-piece fires the fold shader. Dramatic and short — player should feel awe, not frustration.</p>
+      <div style="overflow-x:auto;"><table class="mod-table">
+        <thead><tr><th>#</th><th>Module</th><th style="min-width:110px;">Root position (x,y,z)</th><th style="min-width:90px;">Root scale</th><th style="min-width:80px;">Root rot (y)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="ri">M1</td><td>A3-S (sloped ramp, Sterile)</td><td class="vec">0, 0, 0</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Ramp lifts player to elevated entry of mirror hall.</td></tr>
+          <tr><td class="ri">M2</td><td>G2 (multi-object chain puzzle)</td><td class="vec">0, 2.1, 18</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Y=2.1 matches ramp exit height. Final puzzle before climax.</td></tr>
+          <tr><td class="ri">M3</td><td>X1 (Mirror Hall set-piece)</td><td class="vec">0, 2.1, 44</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Fold shader fires mid-module. Chapter exit at Z end of X1.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="sl">Chapter 2 — Signal</div>
+
+  <div class="lev-block">
+    <div class="lev-hd" onclick="togL(this)">
+      <span class="lev-id">2-1</span>
+      <span class="lev-name">Antenna Tower</span>
+      <span class="tag t-blue">Vertical</span>
+      <span class="tag t-gray">4 modules</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="lev-body">
+      <p class="rd" style="margin-bottom:10px;">First vertical level. Travel direction switches from +Z to +Y. Introduces Rotate gesture for laser/platform alignment. Module roots use Y-offset chaining instead of Z.</p>
+      <div style="overflow-x:auto;"><table class="mod-table">
+        <thead><tr><th>#</th><th>Module</th><th style="min-width:110px;">Root position (x,y,z)</th><th style="min-width:90px;">Root scale</th><th style="min-width:80px;">Root rot (y)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="ri">M1</td><td>H1-S (static vertical climb)</td><td class="vec">0, 0, 0</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Base of tower. 14 units tall.</td></tr>
+          <tr><td class="ri">M2</td><td>D2 (Rotate sandbox)</td><td class="vec">4, 12, 0</td><td class="vec">1, 1, 1</td><td class="vec">90</td><td class="nt">Offset X=4 — side chamber at top of H1. Rot Y=90 faces player.</td></tr>
+          <tr><td class="ri">M3</td><td>H2-S (world-alternating climb)</td><td class="vec">0, 14, 0</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Continues climb above H1. World-swapping ledges.</td></tr>
+          <tr><td class="ri">M4</td><td>H3-S (falling hazards)</td><td class="vec">0, 28, 0</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Final push to tower top. Debris avoidance.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="lev-block">
+    <div class="lev-hd" onclick="togL(this)">
+      <span class="lev-id">2-2</span>
+      <span class="lev-name">Flooded Archive</span>
+      <span class="tag t-green">Multi-object</span>
+      <span class="tag t-gray">4 modules</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="lev-body">
+      <p class="rd" style="margin-bottom:10px;">Low-lying flooded room. Water plane at Y=0 (visual only, no damage). Elevated platforms. Multi-pull chain and first laser-redirect puzzle.</p>
+      <div style="overflow-x:auto;"><table class="mod-table">
+        <thead><tr><th>#</th><th>Module</th><th style="min-width:110px;">Root position (x,y,z)</th><th style="min-width:90px;">Root scale</th><th style="min-width:80px;">Root rot (y)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="ri">M1</td><td>B2-O (timed moving platforms)</td><td class="vec">0, 0, 0</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Moving platforms over flooded floor. Overgrown mat set.</td></tr>
+          <tr><td class="ri">M2</td><td>G2 (multi-object chain puzzle)</td><td class="vec">0, 0, 26</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Three-object pull. Opening gate drains the water (narrative event).</td></tr>
+          <tr><td class="ri">M3</td><td>F1 (rotate-mirror laser bypass)</td><td class="vec">0, 0, 54</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Laser blocks drained corridor. Pull mirror + Rotate to redirect.</td></tr>
+          <tr><td class="ri">M4</td><td>B4-O (chain of 4 gaps)</td><td class="vec">0, 0, 80</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Final stretch. Overgrown. Leads to level exit.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="lev-block">
+    <div class="lev-hd" onclick="togL(this)">
+      <span class="lev-id">2-3</span>
+      <span class="lev-name">Server Farm</span>
+      <span class="tag t-purple">Set-piece</span>
+      <span class="tag t-gray">4 modules</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="lev-body">
+      <p class="rd" style="margin-bottom:10px;">Chapter 2 climax. Sterile server hall folds — player walks on ceiling of Overgrown lab below. X2 set-piece module.</p>
+      <div style="overflow-x:auto;"><table class="mod-table">
+        <thead><tr><th>#</th><th>Module</th><th style="min-width:110px;">Root position (x,y,z)</th><th style="min-width:90px;">Root scale</th><th style="min-width:80px;">Root rot (y)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="ri">M1</td><td>C2-S (staggered hazards)</td><td class="vec">0, 0, 0</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Hazard arms in Sterile corridor.</td></tr>
+          <tr><td class="ri">M2</td><td>F2 (Fold bypass hazard)</td><td class="vec">0, 0, 28</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Laser wall. Fold to bypass entire section.</td></tr>
+          <tr><td class="ri">M3</td><td>G3 (timed multi-pull)</td><td class="vec">0, 0, 50</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Timed portals. Pre-climax tension.</td></tr>
+          <tr><td class="ri">M4</td><td>X2 (Server Farm floor fold)</td><td class="vec">0, 0, 78</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Climax. World flips 180° on Z. Solve upside-down puzzle.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="sl">Chapter 3 — Fracture</div>
+
+  <div class="lev-block">
+    <div class="lev-hd" onclick="togL(this)">
+      <span class="lev-id">3-1</span>
+      <span class="lev-name">Reactor Core</span>
+      <span class="tag t-coral">Hazard heavy</span>
+      <span class="tag t-gray">4 modules</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="lev-body">
+      <p class="rd" style="margin-bottom:10px;">Most hazard-dense level so far. Introduces Anchor gesture to freeze moving threats.</p>
+      <div style="overflow-x:auto;"><table class="mod-table">
+        <thead><tr><th>#</th><th>Module</th><th style="min-width:110px;">Root position (x,y,z)</th><th style="min-width:90px;">Root scale</th><th style="min-width:80px;">Root rot (y)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="ri">M1</td><td>C3-S (world-only hazard)</td><td class="vec">0, 0, 0</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Laser wall Sterile-only. Fold/switch to bypass.</td></tr>
+          <tr><td class="ri">M2</td><td>D5 (Anchor sandbox)</td><td class="vec">0, 0, 22</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Teach Anchor in safe space before applying it.</td></tr>
+          <tr><td class="ri">M3</td><td>F3 (Anchor beam hazard)</td><td class="vec">0, 0, 46</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Apply Anchor to freeze fast swinging beam.</td></tr>
+          <tr><td class="ri">M4</td><td>E2-O (alternating world floors)</td><td class="vec">0, 0, 70</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Exit stretch. World-swap twice to traverse.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="lev-block">
+    <div class="lev-hd" onclick="togL(this)">
+      <span class="lev-id">3-2</span>
+      <span class="lev-name">The Atrium</span>
+      <span class="tag t-teal">Scale intro</span>
+      <span class="tag t-gray">4 modules</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="lev-body">
+      <p class="rd" style="margin-bottom:10px;">Large open atrium space. Introduces Scale gesture. Portal expands from window to walkable doorway.</p>
+      <div style="overflow-x:auto;"><table class="mod-table">
+        <thead><tr><th>#</th><th>Module</th><th style="min-width:110px;">Root position (x,y,z)</th><th style="min-width:90px;">Root scale</th><th style="min-width:80px;">Root rot (y)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="ri">M1</td><td>D3 (Scale sandbox)</td><td class="vec">0, 0, 0</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Teach expand + collapse in safe room.</td></tr>
+          <tr><td class="ri">M2</td><td>G4 (scripted ring puzzle)</td><td class="vec">0, 0, 20</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Script-trigger rings. Chalk order clue on wall.</td></tr>
+          <tr><td class="ri">M3</td><td>E3 (moving path with gap)</td><td class="vec">0, 0, 46</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Moving floor + Pull bridge. Timing challenge.</td></tr>
+          <tr><td class="ri">M4</td><td>H4 (scripted elevator)</td><td class="vec">0, 0, 74</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Elevator to upper level. Optional narrative collectible.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="lev-block">
+    <div class="lev-hd" onclick="togL(this)">
+      <span class="lev-id">3-3</span>
+      <span class="lev-name">The Rift</span>
+      <span class="tag t-purple">Set-piece</span>
+      <span class="tag t-gray">3 modules</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="lev-body">
+      <p class="rd" style="margin-bottom:10px;">Chapter 3 climax. Crack scaled into a full portal. Hybrid world state first appears. X3.</p>
+      <div style="overflow-x:auto;"><table class="mod-table">
+        <thead><tr><th>#</th><th>Module</th><th style="min-width:110px;">Root position (x,y,z)</th><th style="min-width:90px;">Root scale</th><th style="min-width:80px;">Root rot (y)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="ri">M1</td><td>G3 (timed multi-pull)</td><td class="vec">0, 0, 0</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Pre-climax pressure.</td></tr>
+          <tr><td class="ri">M2</td><td>F1 + C4 compound</td><td class="vec">0, 0, 28</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Combined laser + redirect. Both mechanics at once.</td></tr>
+          <tr><td class="ri">M3</td><td>X3 (The Rift)</td><td class="vec">0, 0, 52</td><td class="vec">1, 1, 1</td><td class="vec">0</td><td class="nt">Scale crack → walk through → hybrid world → seal rift.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="sl">Chapters 4 + 5 — outlined (flesh out after Ch3 playtest)</div>
+  <div class="card"><h3>Ch4 — Collapse (3 levels)</h3><p>Level 4-1: All six mechanics compound — no more sandboxes. Level 4-2: Time-reverse puzzle rooms (new mechanic, teach + apply same level). Level 4-3: X4 set-piece (time-reversed fold, reassemble the room). Module mix: G+F+H combinations. Module roots follow same Z-chaining convention.</p></div>
+  <div class="card"><h3>Ch5 — Resolution (2 levels + ending)</h3><p>Level 5-1: Reuses Ch1–3 module geometry dressed in hybrid world state (ghost-blended materials). Level 5-2: X5 final set-piece. No new mechanics — purely narrative payoff. Module positions mirror 1-1 to 1-3 spatially (player recognises the space, now broken open).</p></div>
+</div>
+
+<div id="p-art" class="panel">
+  <div class="sl">Visual style</div>
+  <div class="g2">
+    <div class="card"><h3>Overall style</h3><p>Stylised realism. Not photorealistic, not cartoon. Reference: <em>Control</em> (brutalist architecture + supernatural) meets <em>Ori and the Will of the Wisps</em> (warm organic light). Low polygon count with high-quality PBR materials. Readable silhouettes — the player must instantly understand what is geometry and what is decoration.</p></div>
+    <div class="card"><h3>Rendering</h3><p>Unity URP (Universal Render Pipeline). Enables custom shaders for the fold distortion, portal render textures, and world-blend materials. Target 72 fps on Quest 3 standalone. Mobile URP profile: baked lighting where possible, one real-time directional light per world state.</p></div>
+  </div>
+
+  <div class="sl">The two worlds — visual language</div>
+  <div class="g2">
+    <div class="card" style="border-left:3px solid #D4A017;">
+      <h3>Overgrown world</h3>
+      <div class="pal-row">
+        <span class="pal" style="background:#2E6E3E;color:#9FE1CB;">Moss green #2E6E3E</span>
+        <span class="pal" style="background:#D4A017;color:#412402;">Amber #D4A017</span>
+        <span class="pal" style="background:#7B5C3A;color:#FAEEDA;">Bark brown #7B5C3A</span>
+        <span class="pal" style="background:#3D2B1A;color:#FAC775;">Deep soil #3D2B1A</span>
+        <span class="pal" style="background:#A0C4A0;color:#173404;">Pale vine #A0C4A0</span>
+      </div>
+      <ul style="margin-top:.75rem;">
+        <li>Warm amber directional light, angle 35° from upper-left</li>
+        <li>Fog: exponential, density 0.04, colour #3D2B1A</li>
+        <li>Materials: rough concrete (0.9), mossy stone (0.85), wet wood (0.6)</li>
+        <li>Emissives: bioluminescent spores on vines — faint teal #1ABC9C glow, intensity 0.3</li>
+        <li>Post-FX: slight colour temperature warm (+10), mild vignette</li>
+        <li>Ambient occlusion: strong (intensity 1.2) — organic forms cast deep shadows</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid #4A90B8;">
+      <h3>Sterile world</h3>
+      <div class="pal-row">
+        <span class="pal" style="background:#D8E8F0;color:#042C53;">Cool white #D8E8F0</span>
+        <span class="pal" style="background:#4A90B8;color:#E6F1FB;">Steel blue #4A90B8</span>
+        <span class="pal" style="background:#1A3A5C;color:#B5D4F4;">Deep navy #1A3A5C</span>
+        <span class="pal" style="background:#8AAFCC;color:#042C53;">Pale steel #8AAFCC</span>
+        <span class="pal" style="background:#E8F2F8;color:#0C447C;">Ice grey #E8F2F8</span>
+      </div>
+      <ul style="margin-top:.75rem;">
+        <li>Cool blue-white directional light, angle 55° from upper-right</li>
+        <li>Fog: linear, start 20, end 60, colour #B5C8D4</li>
+        <li>Materials: brushed metal (0.2 roughness), clean glass (0.05), polished concrete (0.4)</li>
+        <li>Emissives: console screens — cold blue #4A90B8, intensity 0.8. Status LEDs — red #C0392B or green #1ABC9C</li>
+        <li>Post-FX: slight colour temperature cool (-8), sharper contrast</li>
+        <li>Ambient occlusion: moderate (intensity 0.7) — clean surfaces, softer shadows</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sl">Hybrid world (Ch3+)</div>
+  <div class="card"><h3>Ghost blend shader</h3><p>A custom URP shader that lerps between the Overgrown and Sterile material sets via a single float parameter (0 = full Overgrown, 1 = full Sterile, 0.5 = 50/50 ghost blend). The blend is driven by the WorldStateManager. In hybrid zones, geometry from both worlds is visible simultaneously at 60% opacity each — slight additive bloom on the overlap seam. Lighting blends the two directional lights by the same float. This shader must be written first — all other world-state visuals derive from it.</p></div>
+
+  <div class="sl">Platform material map (links to color codes from module docs)</div>
+  <div class="g3">
+    <div class="card"><h3>Floor — Sterile</h3><p>Albedo: #D8E8F0<br/>Roughness: 0.4<br/>Metallic: 0.1<br/>Normal: polished concrete normal map</p></div>
+    <div class="card"><h3>Floor — Overgrown</h3><p>Albedo: #2E6E3E<br/>Roughness: 0.9<br/>Metallic: 0<br/>Normal: mossy stone normal map + vertex colour dirt layer</p></div>
+    <div class="card"><h3>Moving platform</h3><p>Albedo: #8E44AD<br/>Emission: #8E44AD at 0.4<br/>Edge strip: thin emissive band, 0.05 wide<br/>Roughness: 0.3</p></div>
+    <div class="card"><h3>Hazard</h3><p>Albedo: #C0392B<br/>Emission: #C0392B at 0.6<br/>Animated emission pulse: sin wave, 1 Hz<br/>Warning chevrons painted on surface</p></div>
+    <div class="card"><h3>Pullable object</h3><p>Albedo: #D4A017<br/>Emission: #D4A017 at 0.5<br/>Outline shader: 2px teal outline #1ABC9C when in range<br/>Idle anim: gentle float ±0.05 on Y, 2 s period</p></div>
+    <div class="card"><h3>Portal frame</h3><p>Albedo: #1ABC9C<br/>Emission: #1ABC9C at 1.2<br/>Edge particle: teal sparks at frame seam<br/>Interior: Render Texture of other world</p></div>
+    <div class="card"><h3>Wall / boundary</h3><p>Sterile: #1A5276, roughness 0.5<br/>Overgrown: #3D2B1A, roughness 0.95 + moss overlay<br/>No emission. Baked AO only.</p></div>
+    <div class="card"><h3>Rotate handle</h3><p>Albedo: #F39C12<br/>Emission: #F39C12 at 0.8<br/>Pulse when in grab range<br/>Scale up 1.2× when highlighted</p></div>
+    <div class="card"><h3>Ramp / slope</h3><p>Albedo: #717D7E<br/>Roughness: 0.6<br/>No emission<br/>Arrow texture painted toward travel direction</p></div>
+  </div>
+</div>
+
+<div id="p-worldswitch" class="panel">
+  <div class="sl">Design decision: how does the player switch worlds?</div>
+  <div class="card" style="border-left:3px solid var(--color-border-info);">
+    <h3>Answer: Wrist-flip switch — not a Dishonored timepiece</h3>
+    <p>The Dishonored 2 timepiece is a held object the player raises and swipes — it requires a persistent prop in-hand. Echo Fold uses the gloves themselves as the interface. No held item. The world-switch is a deliberate wrist gesture, readable but not accidental. Full detail below.</p>
+  </div>
+
+  <div class="sl">The world-switch gesture</div>
+  <div class="g2">
+    <div class="card"><h3>Input: double wrist-flip</h3><p>Player flips either wrist palm-down → palm-up (pronation to supination) twice within 0.6 seconds. The second flip confirms intent — prevents accidental switches during other gestures. Detection: wrist rotation delta &gt; 140° on the roll axis within the time window. Works on either hand.</p></div>
+    <div class="card"><h3>Why not a button or joystick?</h3><p>Echo Fold uses hand-tracking (no controllers). There are no buttons. All input is gesture-based. The wrist-flip was chosen because: (1) it reads as a "reveal" or "turn over" motion — thematically appropriate, (2) it uses a different axis than all other gestures so there is no conflict, (3) it can be done while holding an Anchored object, (4) it feels satisfying in VR.</p></div>
+  </div>
+
+  <div class="sl">World switch — transition sequence (140 ms total)</div>
+  <div class="card">
+    <div class="row"><div class="ri">0 ms</div><div><div class="rn">Gesture detected</div><div class="rd">GestureDetector fires WorldSwitchIntent event. WorldStateManager receives it.</div></div></div>
+    <div class="row"><div class="ri">0–30 ms</div><div><div class="rn">Haptic pulse</div><div class="rd">Both wrist haptics (if controller fallback) or audio-only (hand tracking). A sharp double-click sound plays — Sterile: electronic click, Overgrown: organic thud.</div></div></div>
+    <div class="row"><div class="ri">0–60 ms</div><div><div class="rn">Glove FX fires</div><div class="rd">The glove mesh emits a ripple of light outward from the palm — teal rings expanding. This is the visual "cast" of the switch.</div></div></div>
+    <div class="row"><div class="ri">60–120 ms</div><div><div class="rn">World dissolve</div><div class="rd">WorldObject components set new active state. Materials crossfade via ghost blend shader (blend float 0→1 or 1→0 over 60 ms). Lighting lerps directional light colour + fog colour simultaneously.</div></div></div>
+    <div class="row"><div class="ri">120–140 ms</div><div><div class="rn">Audio bed crossfade</div><div class="rd">Overgrown ambient (birds, wind, distant water) and Sterile ambient (hum, faint fan, subtle beep) crossfade over 20 ms trailing window. Player is now fully in the new world.</div></div></div>
+  </div>
+
+  <div class="sl">What persists across world switches</div>
+  <div class="g2">
+    <div class="card"><h3>Persists (always present)</h3>
+      <ul>
+        <li>Player position and velocity — no teleport or reposition on switch</li>
+        <li>Anchored objects (held in place by gesture) — they stay frozen</li>
+        <li>Shared platform colliders (WorldObject=Both)</li>
+        <li>Portal frames already opened by Scale gesture</li>
+        <li>Receiver pads and their fill state</li>
+        <li>Audio log playback if mid-log</li>
+      </ul>
+    </div>
+    <div class="card"><h3>Does not persist (world-specific)</h3>
+      <ul>
+        <li>WorldObject=Overgrown / WorldObject=Sterile platforms</li>
+        <li>Hazard objects tagged to a single world</li>
+        <li>Lighting, fog, ambient audio</li>
+        <li>Materials on shared geometry (shader crossfades)</li>
+        <li>Pulled objects that haven't been Anchored yet — they return to their world if mid-pull when switch fires</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sl">Switch cooldown + edge cases</div>
+  <div class="card">
+    <p>Switch cooldown: 1.2 seconds after a switch to prevent rapid flipping. If the player is mid-pull when a switch fires, the pull is cancelled and the object returns. If the player would be standing in empty air after a switch (the floor they're on is world-specific and doesn't exist in the new world), the switch is blocked and a subtle visual feedback (glove glow dims, denied sound) tells them why. This is the only case where a switch is blocked.</p>
+  </div>
+</div>
+
+<div id="p-pull" class="panel">
+  <div class="sl">Pull mechanic — full spec</div>
+  <div class="card" style="border-left:3px solid var(--color-border-info);">
+    <h3>It is not like the Dishonored 2 timepiece</h3>
+    <p>The Dishonored timepiece is a passive viewport — you hold it up and see through time. Echo Fold's Pull is an active extraction — you reach through a portal boundary and physically drag an object across the world boundary into your space. The spatial metaphor is closer to reaching through a window and pulling something off a shelf on the other side.</p>
+  </div>
+
+  <div class="sl">Pull gesture sequence</div>
+  <div class="card">
+    <div class="row"><div class="ri">1</div><div><div class="rn">Locate a pullable object</div><div class="rd">Pullable objects (tagged Pullable, glowing amber #D4A017) are visible through portal windows or floating in the other world. A teal outline #1ABC9C appears on the object when the player's hand is within 2 m of a portal surface and pointing generally toward the object.</div></div></div>
+    <div class="row"><div class="ri">2</div><div><div class="rn">Reach gesture</div><div class="rd">Player extends their arm toward the portal window. When the hand crosses the portal plane (or enters a PullZone trigger collider if no explicit portal frame), the hand visually distorts — fingertips show a teal ripple indicating they have crossed the boundary. No need to physically reach inside a portal — the gesture is detected from 0.5 m away.</div></div></div>
+    <div class="row"><div class="ri">3</div><div><div class="rn">Grip close</div><div class="rd">Player closes their hand (all fingers curl, tracked via hand joint data — metacarpal to proximal phalanx angle &gt; 60°). If a pullable object is within the reach cone (30° half-angle from finger direction, 3 m max), it is grabbed. The object spawns a "pull trail" — a teal ribbon from the object to the player's hand, showing it crossing the world boundary.</div></div></div>
+    <div class="row"><div class="ri">4</div><div><div class="rn">Pull motion</div><div class="rd">Player draws their hand back toward their body. The object follows the hand position 1:1 in the player's world space — it has emerged from the portal. Physics is disabled on the pulled object (kinematic) while held. The pull trail shrinks as the object crosses over.</div></div></div>
+    <div class="row"><div class="ri">5</div><div><div class="rn">Release / Anchor</div><div class="rd">Open hand → object drops with normal physics in the player's current world. Or: hold open palm (Anchor gesture) → object freezes in mid-air, physics disabled, teal aura maintained. World assimilation: after 3 seconds held or Anchored in the new world, the object's material crossfades from its source world material to the current world material — it "belongs" here now.</div></div></div>
+  </div>
+
+  <div class="sl">Pull constraints and rules</div>
+  <div class="g2">
+    <div class="card"><h3>Distance + weight</h3><p>Max pull range: 3 m from portal surface. Objects tagged Heavy (large puzzle slabs) require two-handed grip — both hands must close simultaneously. Heavy objects move at 60% of hand speed and have slight lag. Light objects (cubes, tablets) are 1:1.</p></div>
+    <div class="card"><h3>Mid-pull world switch</h3><p>If player switches world mid-pull, the pull is cancelled. The object returns to its origin position over 0.5 s with a "snap back" spring animation. Cooldown prevents immediately re-pulling. This is intentional — world-switch and Pull are separate gestures that don't overlap.</p></div>
+    <div class="card"><h3>Pull without a portal frame</h3><p>In some puzzle rooms (G-type), objects are visible through a semi-transparent world-boundary plane rather than an explicit portal frame. Pull still works — the boundary plane acts as the portal surface. The plane emits a soft teal shimmer when the player's hand approaches.</p></div>
+    <div class="card"><h3>Object return</h3><p>Pulled objects that are dropped (not Anchored) and fall off a platform after 3 s return to their origin position via a "recall" — they dissolve where they are and re-materialise at their start point. Prevents permanent softlocks. Anchored objects that are un-anchored (hand moved away) follow normal physics and do not auto-return.</p></div>
+  </div>
+
+  <div class="sl">Visual language of a pull</div>
+  <div class="card">
+    <p>The pull trail is a key visual. It is a ribbon mesh generated procedurally between the object and the portal frame edge, made of the object's world colour (amber for Overgrown, blue for Sterile) fading to teal at the player's hand. The ribbon shimmers and has a slight chromatic aberration on its edges — the object is between worlds. When the object fully crosses over, the ribbon snaps with a particle burst (teal + world colour mix) and the object's material begins crossfading. This effect should be the most polished VFX in the game — it is the mechanic players will do hundreds of times.</p>
+  </div>
+</div>
+
+<div id="p-audio" class="panel">
+  <div class="sl">Audio philosophy</div>
+  <div class="card"><p>No music during active gameplay. Ambient soundscapes only. Music (diegetic — comes from broken speakers, old radios) plays only in safe zones between modules. This keeps the player attentive to spatial audio cues that are part of puzzle feedback. A receiver pad accepting an object has a distinctive sound — this is as important as the visual feedback.</p></div>
+
+  <div class="sl">Ambient layers per world</div>
+  <div class="g2">
+    <div class="card"><h3>Overgrown ambient stack</h3>
+      <ul>
+        <li>Layer 1 (always): distant wind through broken walls</li>
+        <li>Layer 2: dripping water, location-aware (louder near flooded modules)</li>
+        <li>Layer 3: birdsong (sparse, single calls, not loops)</li>
+        <li>Layer 4: vine/branch creak on player movement</li>
+        <li>Layer 5 (puzzle rooms only): low sub-bass hum — the world is under tension</li>
+      </ul>
+    </div>
+    <div class="card"><h3>Sterile ambient stack</h3>
+      <ul>
+        <li>Layer 1 (always): HVAC hum, 60 Hz electrical buzz</li>
+        <li>Layer 2: distant server fans, pitch varies by proximity to server rack props</li>
+        <li>Layer 3: occasional console beep (random, non-rhythmic)</li>
+        <li>Layer 4: footstep echo off hard floors (longer reverb tail)</li>
+        <li>Layer 5 (puzzle rooms only): same low sub-bass hum as Overgrown — same source, different timbre</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sl">Gesture sound design</div>
+  <div class="card">
+    <div class="row"><div class="ri">Pull</div><div><div class="rd">Reach: soft tonal whoosh. Grab: tactile click + teal chime. Pull trail active: a continuous low shimmer tone, pitch rises as object gets closer to crossing over. Cross-over: sharp harmonic burst. Release: soft thud (object lands in new world).</div></div></div>
+    <div class="row"><div class="ri">Rotate</div><div><div class="rd">Ratchet-style click every 15° of rotation. Near-alignment: tone rises in pitch. Locked: satisfying clunk.</div></div></div>
+    <div class="row"><div class="ri">Scale</div><div><div class="rd">Expanding: glassy rising tone. Collapsing: same tone descending. Portal walkable threshold (when scale enables collision): distinct harmonic ping.</div></div></div>
+    <div class="row"><div class="ri">Fold</div><div><div class="rd">Paper-fold crumple layered with a deep resonant boom. The world shifting physically has weight and cost. Most dramatic sound in the game.</div></div></div>
+    <div class="row"><div class="ri">Anchor</div><div><div class="rd">Magnetic lock: metallic click + held sustain tone while object is frozen. Release: spring release snap.</div></div></div>
+    <div class="row"><div class="ri">World switch</div><div><div class="rd">Sterile→Overgrown: wet organic thud + exhale. Overgrown→Sterile: electronic crack + sharp inhale. Both are short (&lt;200 ms) and punchy — not drawn out.</div></div></div>
+  </div>
+</div>
+
+<div id="p-player" class="panel">
+  <div class="sl">Player body and locomotion</div>
+  <div class="g2">
+    <div class="card"><h3>Locomotion: smooth + teleport hybrid</h3><p>Default: smooth locomotion via head-direction + hand lean (no thumbstick — hand tracking). Walk speed: 2.5 m/s. Run: lean forward &gt;20° from vertical, speed 4 m/s. Teleport: aim beam + open palm hold 0.5 s on valid surface → blink teleport (15 ms fade to black + back). Both available — player chooses via comfort settings.</p></div>
+    <div class="card"><h3>Jumping</h3><p>Crouch (lower head 0.3 m below neutral) then raise quickly → jump impulse. Height: 1.2 m. No controller button needed. Alternatively: physical crouch-jump in real space (room-scale mode). Jump has forgiving coyote time: 0.15 s off-edge still allows jump. Landing: slight camera dip 0.05 m over 80 ms.</p></div>
+    <div class="card"><h3>Comfort settings</h3><p>Vignette on movement (adjustable 0–100%). Snap turn available (15°/22.5°/30° increments). Teleport-only mode for high motion-sickness sensitivity. All platform heights and gap distances are tuned for the default smooth locomotion — teleport-only players may find some jumps trivially easy (teleport ignores jump physics).</p></div>
+    <div class="card"><h3>Player body</h3><p>No visible body (avoids VR body tracking mismatch nausea). Gloves only visible — high-fidelity hand mesh with per-finger joint tracking visualisation. Gloves are the character. Their material shifts subtly with world state: warm amber tint in Overgrown, cool blue sheen in Sterile. In hybrid state: both tints pulse alternately.</p></div>
+  </div>
+
+  <div class="sl">Death + respawn</div>
+  <div class="card">
+    <div class="row"><div class="ri">Falling</div><div><div class="rd">No fall damage. Player falls into a void below a module → 1 s slow-motion fall, then fade to black (0.5 s), respawn at module entry checkpoint. No penalty. Philosophy: death should never be frustrating in VR — disorientation from unexpected resets compounds nausea.</div></div></div>
+    <div class="row"><div class="ri">Hazard contact</div><div><div class="rd">Tagged Hazard objects trigger a screen-edge red flash + screen shake 0.02 m / 0.1 s. First contact: warning only, pushed back 0.5 m. Second contact within 3 s: respawn at checkpoint. Generous because VR makes spatial judgement harder than flat screens.</div></div></div>
+    <div class="row"><div class="ri">Checkpoints</div><div><div class="rd">Auto-checkpoint at: (1) start of each module, (2) after each puzzle solved (receiver filled), (3) 15 s after entering a new module if no puzzle present. Checkpoint saves: world state, all receiver fill states, collected audio logs. Pulled objects reset to their start position on respawn.</div></div></div>
+  </div>
+
+  <div class="sl">Softlock prevention</div>
+  <div class="card"><p>Any object tagged Pullable that has been dropped off the map or into an unreachable location auto-returns to spawn after 4 s (dissolve + rematerialise). Any receiver that is permanently blocked resets its required object to spawn after 10 s of inactivity. A "reset puzzle" option in the pause menu resets the current module's objects to spawn without respawning the player. This must be implemented before any playtesting.</p></div>
+</div>
+
+<div id="p-openqs" class="panel">
+  <div class="sl">Questions answered — locked decisions</div>
+
+  <div class="qa-block"><div class="qa-q">Is the world-switch like the Dishonored 2 timepiece?</div><div class="qa-a">No. The timepiece is a held prop you slide. Echo Fold's switch is a body gesture (double wrist-flip) — no prop, no UI. The spatial metaphor is different: Corvo reveals the past by holding up a window; Asha switches between two co-existing states by flipping her own perception. Thematically important distinction.</div></div>
+  <div class="qa-block"><div class="qa-q">Can the player see both worlds at the same time outside of set-pieces?</div><div class="qa-a">Only through portal frames (deliberate view windows). Outside portal frames, only one world is fully visible. Ghost geometry of the other world is faintly visible as 15% opacity outlines — enough to plan ahead, not enough to read clearly. Ch3+ hybrid zones break this rule intentionally.</div></div>
+  <div class="qa-block"><div class="qa-q">What happens to a pulled object if the player switches world while holding it?</div><div class="qa-a">Pull is cancelled. Object returns to spawn. Gesture conflict resolution: world-switch always cancels any in-progress gesture except Anchor (Anchor persists across switch).</div></div>
+  <div class="qa-block"><div class="qa-q">How does the player know what is interactable?</div><div class="qa-a">Three visual affordance layers: (1) Pullable objects glow amber #D4A017 at all times. (2) A teal outline appears when the hand is within interaction range. (3) A faint particle effect (floating specs) orbits pullable objects. Nothing else has all three of these. Rotate handles glow amber + pulse. Portal frames always emit teal. No HUD or tooltips — all spatial.</div></div>
+  <div class="qa-block"><div class="qa-q">Is there a HUD?</div><div class="qa-a">No. Fully diegetic. World state is communicated by environment (lighting, fog, materials, ambient audio). Puzzle progress is communicated by receiver pad fill state (empty = dim, filled = bright teal glow). Checkpoint save is communicated by a subtle glove pulse. No HP bar, no objective tracker, no minimap.</div></div>
+  <div class="qa-block"><div class="qa-q">How does the player know which world they are in?</div><div class="qa-a">Five simultaneous signals: (1) lighting colour temperature, (2) fog colour, (3) ambient audio, (4) glove tint, (5) material set of all surfaces. Any one of these should be enough. Having all five ensures the player never loses track, even in peripheral vision.</div></div>
+  <div class="qa-block"><div class="qa-q">What is the target playtime?</div><div class="qa-a">Ch1–3: ~3 hours (5 fully built levels × ~35 min each). Ch4–5: ~2 hours. Total: ~5 hours for a focused playthrough. VR attention fatigue is real — each session should feel completable in one sitting (one level = 30–40 min). No level should exceed 45 min. The modular structure means levels can be tuned by adding/removing modules.</div></div>
+  <div class="qa-block"><div class="qa-q">Is there a narrative reason for the Fold Gloves?</div><div class="qa-a">Yes — established in Ch1 audio logs. Asha developed them as part of the quantum resonance experiment. They were designed to interface with the dual-state field the experiment created. After the split, they are the only objects that exist in both worlds simultaneously (they were worn during the event). This is why Asha can interact with either world — and why the gloves are the visual representation of the player's agency.</div></div>
+  <div class="qa-block"><div class="qa-q">What engine systems need to be built first, before any level work?</div><div class="qa-a">In order: (1) WorldStateManager + WorldObject component (everything depends on this), (2) GestureDetector (all input), (3) Ghost blend shader (all visuals), (4) Portal render texture setup, (5) Pull system (PhysicsObject + PullTrail VFX), (6) Anchor system, (7) Receiver + locked door system, (8) Checkpoint + respawn system, (9) Object auto-return system. Only after all nine are prototyped should module prefab building begin. Build all nine with grey primitives and placeholder materials first.</div></div>
+  <div class="qa-block"><div class="qa-q">What free assets are needed immediately?</div><div class="qa-a">Priority: (1) Modular sci-fi interior kit for Sterile geometry (Kenney sci-fi pack or Quaternius), (2) Ruin/concrete rubble for Overgrown (Kenney or Sketchfab CC0), (3) PBR concrete, metal, moss textures (Polyhaven), (4) Hand mesh for gloves (Oculus Sample Framework hand mesh — free, usable), (5) Basic ambient sound loops (Freesound CC0: wind, HVAC hum, drip). None of these block grey-box development — all can be swapped in after core systems are working.</div></div>
+  <div class="qa-block"><div class="qa-q">Controller fallback — what if hand tracking fails or player uses Quest controllers?</div><div class="qa-a">Full controller mapping: Right grip = Pull grab. Right thumbstick press = world switch. Both grips + twist = Rotate. Both grips + spread/pinch = Scale. Left grip + hold = Anchor. Right trigger + flick = Script-trigger. Fold (two-finger pinch) = Left + Right trigger simultaneously. Controller mode disables gesture detection and enables button mapping. This doubles development input testing surface — test both from day one.</div></div>
+</div>
+
+</div>
+
+<script>
+function sw(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+function togL(hd){
+  const b=hd.nextElementSibling;
+  const c=hd.querySelector('.chev');
+  b.classList.toggle('open');
+  c.classList.toggle('open');
+}
+</script>
