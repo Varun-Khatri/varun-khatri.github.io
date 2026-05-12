@@ -1,0 +1,350 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.wrap{padding:1rem 0;font-family:var(--font-sans);color:var(--color-text-primary);}
+.top-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center;}
+.flt{padding:5px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:12px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s;}
+.flt.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary);font-weight:500;}
+.flt:hover:not(.on){background:var(--color-background-secondary);}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1.25rem;}
+.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);}
+.leg-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+.mod-block{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:1rem;overflow:hidden;}
+.mod-hd{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-background-secondary);cursor:pointer;user-select:none;}
+.mod-id{font-size:13px;font-weight:500;font-family:var(--font-mono);min-width:32px;}
+.mod-title{font-size:13px;font-weight:500;flex:1;}
+.mod-meta{font-size:11px;color:var(--color-text-tertiary);}
+.mod-chevron{font-size:14px;color:var(--color-text-tertiary);transition:transform .15s;}
+.mod-chevron.open{transform:rotate(180deg);}
+.mod-body{display:none;padding:12px 14px;}
+.mod-body.open{display:block;}
+.mod-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:10px;padding-bottom:10px;border-bottom:0.5px solid var(--color-border-tertiary);}
+.plat-table{width:100%;border-collapse:collapse;font-size:12px;}
+.plat-table th{text-align:left;font-weight:500;font-size:11px;color:var(--color-text-tertiary);padding:4px 8px 4px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
+.plat-table td{padding:5px 8px 5px 0;vertical-align:top;border-bottom:0.5px solid var(--color-border-tertiary);}
+.plat-table tr:last-child td{border-bottom:none;}
+.plat-table td:first-child{font-family:var(--font-mono);font-size:11px;color:var(--color-text-secondary);white-space:nowrap;}
+.col-swatch{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle;margin-right:5px;border:0.5px solid rgba(0,0,0,0.1);}
+.fn-badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:500;background:var(--color-background-secondary);color:var(--color-text-secondary);margin-left:4px;}
+.vec{font-family:var(--font-mono);font-size:11px;color:var(--color-text-primary);}
+.note{font-size:11px;color:var(--color-text-tertiary);font-style:italic;}
+.new-badge{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:500;background:#E1F5EE;color:#085041;margin-left:6px;}
+@media(prefers-color-scheme:dark){.new-badge{background:#085041;color:#9FE1CB;}}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">Echo Fold Unity module prefabs part 2 — remaining D, E, G, H and X modules</h2>
+
+<div class="top-bar">
+  <button class="flt on" onclick="filterMod('all',this)">All</button>
+  <button class="flt" onclick="filterMod('D',this)">D — mechanic sandboxes</button>
+  <button class="flt" onclick="filterMod('E',this)">E — A+B compound</button>
+  <button class="flt" onclick="filterMod('G',this)">G — puzzle rooms</button>
+  <button class="flt" onclick="filterMod('H',this)">H — vertical</button>
+  <button class="flt" onclick="filterMod('X',this)">X — set-pieces</button>
+</div>
+
+<div class="legend">
+  <div class="leg"><div class="leg-dot" style="background:#4A90B8;"></div>Floor / walkable</div>
+  <div class="leg"><div class="leg-dot" style="background:#2E6E3E;"></div>Overgrown surface</div>
+  <div class="leg"><div class="leg-dot" style="background:#8E44AD;"></div>Moving / scripted</div>
+  <div class="leg"><div class="leg-dot" style="background:#C0392B;"></div>Hazard / obstacle</div>
+  <div class="leg"><div class="leg-dot" style="background:#D4A017;"></div>Pullable / interactable</div>
+  <div class="leg"><div class="leg-dot" style="background:#1A5276;"></div>Wall / boundary</div>
+  <div class="leg"><div class="leg-dot" style="background:#717D7E;"></div>Ramp / slope</div>
+  <div class="leg"><div class="leg-dot" style="background:#1ABC9C;"></div>Portal frame / receiver</div>
+  <div class="leg"><div class="leg-dot" style="background:#F39C12;"></div>Rotate handle / axis marker</div>
+  <div class="leg"><div class="leg-dot" style="background:#E8DAEF;"></div>Scale target / lens zone</div>
+</div>
+
+<div id="mod-list"></div>
+</div>
+
+<script>
+const MODS=[
+
+{id:'D2',title:'Rotate sandbox',cat:'D',footprint:'Z: 0 → 22, X: -6 → 6',isNew:true,
+desc:'Enclosed room with a large portal frame mounted on a vertical axis. The frame is misaligned — its aperture does not match the geometric key shape on the opposite wall. Player must grab the rotate handle and twist to align them. When aligned, the exit unlocks. Teaches the two-hand Rotate gesture in a zero-pressure space.',
+platforms:[
+  {n:'P1',fn:'Room floor',pos:'0, 0, 11',scale:'12, 0.3, 22',rot:'0,0,0',color:'#4A90B8',note:'Full room floor, wide so player can step around frame'},
+  {n:'W1',fn:'Left wall',pos:'-6, 2.5, 11',scale:'0.2, 5, 22',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'W2',fn:'Right wall',pos:'6, 2.5, 11',scale:'0.2, 5, 22',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'W3',fn:'Back wall',pos:'0, 2.5, 22',scale:'12, 5, 0.2',rot:'0,0,0',color:'#1A5276',note:'Has key slot cutout — use stencil or KeySlot child object'},
+  {n:'KS1',fn:'Key slot (back wall)',pos:'0, 2, 21.9',scale:'1.8, 2.8, 0.25',rot:'0,30,0',color:'#1ABC9C',note:'Rotated 30° — target alignment angle for the frame'},
+  {n:'PF1',fn:'Portal frame body',pos:'0, 2, 12',scale:'2, 3, 0.2',rot:'0,0,0',color:'#1ABC9C',note:'Rotatable around Y axis. Start rot Y=0. Target Y=30. Tag: Rotatable.'},
+  {n:'RH1',fn:'Rotate handle top',pos:'0, 3.6, 12',scale:'0.4, 0.4, 0.4',rot:'0,0,0',color:'#F39C12',note:'Grab point — glowing amber. Child of PF1 so it rotates with the frame.'},
+  {n:'RH2',fn:'Rotate handle bottom',pos:'0, 0.5, 12',scale:'0.4, 0.4, 0.4',rot:'0,0,0',color:'#F39C12',note:'Second grab point — two-hand twist gesture uses both handles.'},
+  {n:'AX1',fn:'Rotation axis post',pos:'0, 1.8, 12',scale:'0.1, 3.8, 0.1',rot:'0,0,0',color:'#717D7E',note:'Visual only — thin pole showing pivot axis'},
+  {n:'ED1',fn:'Exit door',pos:'0, 1.5, 0.1',scale:'2.5, 3, 0.2',rot:'0,0,0',color:'#717D7E',note:'Locked. Opens (MoveUp +3Y) when frame aligns within ±5° of target.'},
+]},
+
+{id:'D3',title:'Scale sandbox',cat:'D',footprint:'Z: 0 → 20, X: -6 → 6',isNew:true,
+desc:'A small window in the wall starts the size of a porthole (0.6×0.6). Player uses two-hand spread gesture to expand it into a full walkable portal (2×3), then steps through. On the other side a lens-sized portal (0.4×0.4) must be collapsed from a large frame down to a tiny lens to read a symbol through it. Teaches both expand and collapse directions of Scale.',
+platforms:[
+  {n:'P1',fn:'Entry room floor',pos:'0, 0, 5',scale:'8, 0.3, 10',rot:'0,0,0',color:'#4A90B8',note:'Side A — player starts here'},
+  {n:'WA1',fn:'Dividing wall',pos:'0, 2.5, 10',scale:'8, 5, 0.2',rot:'0,0,0',color:'#1A5276',note:'Separates the two sides of the sandbox'},
+  {n:'PW1',fn:'Portal window (small start)',pos:'0, 1.5, 10',scale:'0.6, 0.6, 0.25',rot:'0,0,0',color:'#1ABC9C',note:'Scalable. Min 0.6×0.6, max 2×3. Tag: Scalable. Collider disabled below scale 1.8×2.5.'},
+  {n:'P2',fn:'Other side floor',pos:'0, 0, 15',scale:'8, 0.3, 10',rot:'0,0,0',color:'#2E6E3E',note:'Side B — Overgrown dressing'},
+  {n:'SY1',fn:'Symbol wall (side B)',pos:'0, 1.5, 19.9',scale:'4, 3, 0.2',rot:'0,0,0',color:'#1A5276',note:'Has a painted symbol. Only visible through lens-sized portal from side A.'},
+  {n:'LF1',fn:'Lens frame (large start)',pos:'2, 1.5, 10.3',scale:'2.5, 3.5, 0.2',rot:'0,0,0',color:'#1ABC9C',note:'Side A, offset from main portal. Start large. Player collapses to 0.4×0.4 lens. Tag: Scalable.'},
+  {n:'RF1',fn:'Readout pad',pos:'2, 0.2, 7',scale:'1, 0.1, 1',rot:'0,0,0',color:'#1ABC9C',note:'Stand here and look through collapsed lens to read symbol — unlocks exit.'},
+  {n:'ED1',fn:'Exit door (side A)',pos:'-3, 1.5, 0.1',scale:'2, 3, 0.2',rot:'0,0,0',color:'#717D7E',note:'Unlocks when symbol correctly identified via lens.'},
+]},
+
+{id:'D5',title:'Anchor sandbox',cat:'D',footprint:'Z: 0 → 24',isNew:true,
+desc:'Three floating objects drift slowly through the air in a wide room (ConstantDrift script, random slow velocity). Player must use Anchor gesture (open palm hold) on each object to freeze it. When all three are anchored, they form stepping stones across a gap to the exit. Object drifting resumes if player moves hand away — must hold or re-anchor.',
+platforms:[
+  {n:'P1',fn:'Entry platform',pos:'0, 0, 3',scale:'5, 0.3, 6',rot:'0,0,0',color:'#4A90B8',note:'Safe start area. View all three drifting objects from here.'},
+  {n:'DR1',fn:'Drifting block A',pos:'-1.5, 1.2, 10',scale:'1.5, 0.25, 1.5',rot:'0,0,0',color:'#D4A017',note:'ConstantDrift: speed 0.4, random dir XZ. Tag: Anchorable. When anchored snaps to Y=0 (floor level).'},
+  {n:'DR2',fn:'Drifting block B',pos:'0, 1.8, 15',scale:'1.5, 0.25, 1.5',rot:'0,0,0',color:'#D4A017',note:'ConstantDrift: speed 0.5. Anchors to Y=0.'},
+  {n:'DR3',fn:'Drifting block C',pos:'1.5, 1.0, 20',scale:'1.5, 0.25, 1.5',rot:'0,0,0',color:'#D4A017',note:'ConstantDrift: speed 0.35. Anchors to Y=0.'},
+  {n:'P2',fn:'Exit platform',pos:'0, 0, 23',scale:'5, 0.3, 4',rot:'0,0,0',color:'#4A90B8',note:'Reachable only by stepping on all three anchored blocks.'},
+  {n:'W1',fn:'Left wall',pos:'-3.5, 2, 12',scale:'0.2, 4, 18',rot:'0,0,0',color:'#1A5276',note:'Keep objects from drifting out of play area.'},
+  {n:'W2',fn:'Right wall',pos:'3.5, 2, 12',scale:'0.2, 4, 18',rot:'0,0,0',color:'#1A5276',note:''},
+]},
+
+{id:'D6',title:'Script-trigger sandbox',cat:'D',footprint:'Z: 0 → 26',isNew:true,
+desc:'Three tagged objects are visible ahead, each with a distinct scripted animation waiting to play. Point and flick fires the animation. Object A translates (a bridge extends), Object B rotates (a door swings open), Object C scales (a platform grows). Player must fire all three in order to reach the exit. Teaches the Script-trigger gesture and that animated objects respond to it.',
+platforms:[
+  {n:'P1',fn:'Entry pad',pos:'0, 0, 3',scale:'5, 0.3, 6',rot:'0,0,0',color:'#4A90B8',note:'Observer position — all three objects visible from here.'},
+  {n:'TR1',fn:'Bridge trigger object',pos:'0, 1.2, 8',scale:'0.6, 0.6, 0.6',rot:'0,0,0',color:'#D4A017',note:'Tag: ScriptTriggerable. On trigger: BridgeExtend anim → BP1 moves +6Z over 1.5 s.'},
+  {n:'BP1',fn:'Bridge slab (extends)',pos:'0, 0, 8',scale:'3, 0.25, 0.5',rot:'0,0,0',color:'#8E44AD',note:'Start retracted. ScriptAnim: localPosition +6Z. Tag: ScriptAnimTarget_A.'},
+  {n:'TR2',fn:'Door trigger object',pos:'-2, 1.2, 14',scale:'0.6, 0.6, 0.6',rot:'0,0,0',color:'#D4A017',note:'Tag: ScriptTriggerable. On trigger: DoorSwing anim → DG1 rotates Y +90° over 1 s.'},
+  {n:'DG1',fn:'Swinging door gate',pos:'-1, 1.5, 16',scale:'0.2, 3, 2',rot:'0,0,0',color:'#8E44AD',note:'Pivot at left edge. Rotates open on Y. Blocks path until triggered.'},
+  {n:'TR3',fn:'Platform trigger object',pos:'2, 1.2, 18',scale:'0.6, 0.6, 0.6',rot:'0,0,0',color:'#D4A017',note:'Tag: ScriptTriggerable. On trigger: PlatGrow anim → GP1 scales X from 0.5 to 3 over 1 s.'},
+  {n:'GP1',fn:'Growing platform',pos:'2, 0, 22',scale:'0.5, 0.3, 3',rot:'0,0,0',color:'#8E44AD',note:'Starts too narrow to stand on. Grows to walkable width.'},
+  {n:'P2',fn:'Exit pad',pos:'0, 0, 25',scale:'4, 0.3, 4',rot:'0,0,0',color:'#4A90B8',note:'Reachable only after all three triggers fired in sequence.'},
+]},
+
+{id:'E3',title:'Moving path with one gap',cat:'E',footprint:'Z: 0 → 28',isNew:true,
+desc:'The entire floor moves slowly sideways on X (like a slow treadmill), making the gap position relative to the player shift over time. Player must judge timing and use Pull to place a bridge at the right moment. Combines A4 moving floor with B1 gap logic.',
+platforms:[
+  {n:'P1',fn:'Static entry pad',pos:'0, 0, 2',scale:'5, 0.3, 4',rot:'0,0,0',color:'#4A90B8',note:'Static — does not move. Player observes timing.'},
+  {n:'MF1',fn:'Moving floor A',pos:'0, 0, 11',scale:'4, 0.3, 10',rot:'0,0,0',color:'#8E44AD',note:'OscillatingPlatform: X ±2, period 4 s. Gap ahead at Z=16.5.'},
+  {n:'PB1',fn:'Pullable bridge',pos:'0, 1.5, 16.5',scale:'3, 0.25, 3',rot:'0,0,0',color:'#D4A017',note:'Floating. Pull + Anchor to bridge the gap. Must place while MF1 and MF2 are aligned.'},
+  {n:'MF2',fn:'Moving floor B',pos:'0, 0, 22',scale:'4, 0.3, 8',rot:'0,0,0',color:'#8E44AD',note:'OscillatingPlatform: X ±2, period 4 s, phase 0 s (same phase as MF1 — they align periodically).'},
+  {n:'P2',fn:'Static exit pad',pos:'0, 0, 27',scale:'5, 0.3, 4',rot:'0,0,0',color:'#4A90B8',note:''},
+  {n:'W1',fn:'Left boundary',pos:'-4, 1.5, 14',scale:'0.2, 3, 20',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'W2',fn:'Right boundary',pos:'4, 1.5, 14',scale:'0.2, 3, 20',rot:'0,0,0',color:'#1A5276',note:''},
+]},
+
+{id:'G3',title:'Timed multi-pull sequence',cat:'G',footprint:'Z: 0 → 28, X: -7 → 7',isNew:true,
+desc:'A puzzle room with three portal windows, each only open for a limited time window (8 s each, cycling). One object per window must be pulled through and placed on its colour-matched receiver before the window closes. If a window closes while holding an object partway through, the object snaps back. Tests speed and decisiveness under light time pressure.',
+platforms:[
+  {n:'P1',fn:'Room floor',pos:'0, 0, 14',scale:'14, 0.3, 28',rot:'0,0,0',color:'#4A90B8',note:'Full room floor'},
+  {n:'W1',fn:'Left wall',pos:'-7, 3, 14',scale:'0.2, 6, 28',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'W2',fn:'Right wall',pos:'7, 3, 14',scale:'0.2, 6, 28',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'W3',fn:'Back wall',pos:'0, 3, 27.9',scale:'14, 6, 0.2',rot:'0,0,0',color:'#1A5276',note:'Three portal windows cut in'},
+  {n:'PF1',fn:'Portal window A (left)',pos:'-4, 1.8, 27.8',scale:'2, 3, 0.2',rot:'0,0,0',color:'#1ABC9C',note:'TimedPortal: open 8 s, closed 16 s, phase 0. Teal emissive when open.'},
+  {n:'PF2',fn:'Portal window B (mid)',pos:'0, 1.8, 27.8',scale:'2, 3, 0.2',rot:'0,0,0',color:'#1ABC9C',note:'TimedPortal: open 8 s, closed 16 s, phase 8 s.'},
+  {n:'PF3',fn:'Portal window C (right)',pos:'4, 1.8, 27.8',scale:'2, 3, 0.2',rot:'0,0,0',color:'#1ABC9C',note:'TimedPortal: open 8 s, closed 16 s, phase 16 s.'},
+  {n:'OBJ1',fn:'Object A (amber)',pos:'-4, 1.8, 28.5',scale:'0.7, 0.7, 0.7',rot:'0,0,0',color:'#D4A017',note:'Behind portal A. Color-coded amber to match RP1.'},
+  {n:'OBJ2',fn:'Object B (teal)',pos:'0, 1.8, 28.5',scale:'0.7, 0.7, 0.7',rot:'0,0,0',color:'#1ABC9C',note:'Behind portal B. Teal.'},
+  {n:'OBJ3',fn:'Object C (purple)',pos:'4, 1.8, 28.5',scale:'0.7, 0.7, 0.7',rot:'0,0,0',color:'#8E44AD',note:'Behind portal C. Purple.'},
+  {n:'RP1',fn:'Receiver pad A (amber)',pos:'-4, 0.2, 5',scale:'1.2, 0.1, 1.2',rot:'0,0,0',color:'#D4A017',note:'Place OBJ1 here.'},
+  {n:'RP2',fn:'Receiver pad B (teal)',pos:'0, 0.2, 5',scale:'1.2, 0.1, 1.2',rot:'0,0,0',color:'#1ABC9C',note:'Place OBJ2 here.'},
+  {n:'RP3',fn:'Receiver pad C (purple)',pos:'4, 0.2, 5',scale:'1.2, 0.1, 1.2',rot:'0,0,0',color:'#8E44AD',note:'Place OBJ3 here.'},
+  {n:'TI1',fn:'Timer indicator bar A',pos:'-4, 4.5, 27',scale:'1.8, 0.15, 0.1',rot:'0,0,0',color:'#D4A017',note:'Scales on X 1→0 over open window duration. Visual countdown.'},
+  {n:'TI2',fn:'Timer indicator bar B',pos:'0, 4.5, 27',scale:'1.8, 0.15, 0.1',rot:'0,0,0',color:'#1ABC9C',note:''},
+  {n:'TI3',fn:'Timer indicator bar C',pos:'4, 4.5, 27',scale:'1.8, 0.15, 0.1',rot:'0,0,0',color:'#8E44AD',note:''},
+  {n:'ED1',fn:'Exit door',pos:'0, 1.8, 0.1',scale:'3, 3.5, 0.2',rot:'0,0,0',color:'#717D7E',note:'Opens when all three receivers filled.'},
+]},
+
+{id:'G4',title:'Scripted animation puzzle room',cat:'G',footprint:'Z: 0 → 26, X: -7 → 7',isNew:true,
+desc:'A room containing a large multi-part mechanism (three interlocking rotating rings). Each ring is a Script-trigger target. Firing them in the correct order (readable from environmental clues — chalk numbers on the Overgrown wall) rotates them into alignment and opens a central aperture the player can walk through to the exit. Wrong order resets all rings.',
+platforms:[
+  {n:'P1',fn:'Room floor',pos:'0, 0, 13',scale:'14, 0.3, 26',rot:'0,0,0',color:'#4A90B8',note:''},
+  {n:'W1',fn:'Left wall',pos:'-7, 3, 13',scale:'0.2, 6, 26',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'W2',fn:'Right wall',pos:'7, 3, 13',scale:'0.2, 6, 26',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'CL1',fn:'Clue wall (back)',pos:'0, 2, 25.9',scale:'14, 4, 0.2',rot:'0,0,0',color:'#2E6E3E',note:'Overgrown dressing. Chalk numbers 2-3-1 painted on it — tells correct trigger order.'},
+  {n:'RG1',fn:'Ring A (outer)',pos:'0, 2.5, 16',scale:'5, 5, 0.3',rot:'0,0,0',color:'#8E44AD',note:'Large ring frame. ScriptAnim: rotate Y +120° when triggered. Tag: ScriptTriggerable order=2.'},
+  {n:'RG2',fn:'Ring B (mid)',pos:'0, 2.5, 16',scale:'3.5, 3.5, 0.3',rot:'0,45,0',color:'#D4A017',note:'Mid ring, starts offset 45°. Rotates Z +120°. Tag: ScriptTriggerable order=3.'},
+  {n:'RG3',fn:'Ring C (inner)',pos:'0, 2.5, 16',scale:'2, 2, 0.3',rot:'0,0,30',color:'#1ABC9C',note:'Inner ring. Rotates X +120°. Tag: ScriptTriggerable order=1.'},
+  {n:'TR1',fn:'Ring A trigger handle',pos:'2.6, 2.5, 16',scale:'0.35, 0.35, 0.35',rot:'0,0,0',color:'#F39C12',note:'Point+flick to fire. Child of RG1.'},
+  {n:'TR2',fn:'Ring B trigger handle',pos:'-1.8, 3.5, 16',scale:'0.35, 0.35, 0.35',rot:'0,0,0',color:'#F39C12',note:'Child of RG2.'},
+  {n:'TR3',fn:'Ring C trigger handle',pos:'0, 1.5, 16',scale:'0.35, 0.35, 0.35',rot:'0,0,0',color:'#F39C12',note:'Child of RG3.'},
+  {n:'AP1',fn:'Aperture (locked)',pos:'0, 2.5, 16',scale:'1, 2.8, 0.05',rot:'0,0,0',color:'#C0392B',note:'Collision blocker in the ring centre. Deactivates when all rings correctly aligned.'},
+  {n:'P2',fn:'Exit corridor start',pos:'0, 0, 5',scale:'3, 0.3, 10',rot:'0,0,0',color:'#4A90B8',note:'Beyond the ring mechanism — reachable after aperture opens.'},
+  {n:'ED1',fn:'Exit door',pos:'0, 1.8, 0.1',scale:'3, 3.5, 0.2',rot:'0,0,0',color:'#717D7E',note:''},
+]},
+
+{id:'H3',title:'Vertical climb with falling hazards',cat:'H',footprint:'Y: 0 → 18, Z: 0 → 5',isNew:true,
+desc:'A tall vertical shaft. Debris cubes fall from the top on a randomised timer and must be avoided (step to the opposite ledge). Combines H1 geometry with C-type hazard logic. FallingDebris script: spawn at Y=17, random X offset ±0.8, fall with gravity, destroy at Y=-1.',
+platforms:[
+  {n:'P1',fn:'Ground pad',pos:'0, 0, 2.5',scale:'3.5, 0.3, 5',rot:'0,0,0',color:'#4A90B8',note:'Start — watch for first debris before climbing.'},
+  {n:'L1',fn:'Ledge 1 (left)',pos:'-0.9, 2.5, 2.5',scale:'2, 0.3, 2.5',rot:'0,0,0',color:'#4A90B8',note:''},
+  {n:'L2',fn:'Ledge 2 (right)',pos:'0.9, 5, 2.5',scale:'2, 0.3, 2.5',rot:'0,0,0',color:'#4A90B8',note:''},
+  {n:'L3',fn:'Ledge 3 (left)',pos:'-0.9, 7.5, 2.5',scale:'2, 0.3, 2.5',rot:'0,0,0',color:'#4A90B8',note:''},
+  {n:'L4',fn:'Ledge 4 (right)',pos:'0.9, 10, 2.5',scale:'2, 0.3, 2.5',rot:'0,0,0',color:'#4A90B8',note:''},
+  {n:'L5',fn:'Ledge 5 (left)',pos:'-0.9, 12.5, 2.5',scale:'2, 0.3, 2.5',rot:'0,0,0',color:'#4A90B8',note:''},
+  {n:'L6',fn:'Ledge 6 (right)',pos:'0.9, 15, 2.5',scale:'2, 0.3, 2.5',rot:'0,0,0',color:'#4A90B8',note:''},
+  {n:'P2',fn:'Top exit platform',pos:'0, 17.5, 2.5',scale:'3.5, 0.3, 5',rot:'0,0,0',color:'#4A90B8',note:''},
+  {n:'DS1',fn:'Debris spawner (top)',pos:'0, 17, 2.5',scale:'0.3, 0.3, 0.3',rot:'0,0,0',color:'#C0392B',note:'FallingDebris script. Spawn interval: 2–4 s random. Debris scale 0.5×0.5×0.5. Tag: Hazard.'},
+  {n:'SW1',fn:'Shaft wall left',pos:'-2.5, 9, 2.5',scale:'0.2, 18, 5',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'SW2',fn:'Shaft wall right',pos:'2.5, 9, 2.5',scale:'0.2, 18, 5',rot:'0,0,0',color:'#1A5276',note:''},
+]},
+
+{id:'H4',title:'Scripted gesture elevator',cat:'H',footprint:'Y: 0 → 16, Z: 0 → 5',isNew:true,
+desc:'A large platform lift is stationary at the bottom. A trigger handle floats above it. Player boards the lift, then uses Script-trigger gesture on the handle to start the ascent. Midway up the lift pauses at an intermediate level — player can optionally pull an object from a side alcove. Second trigger fires for the final ascent to the exit.',
+platforms:[
+  {n:'P1',fn:'Ground boarding pad',pos:'0, 0, 2.5',scale:'4, 0.3, 5',rot:'0,0,0',color:'#4A90B8',note:'Player boards lift from here.'},
+  {n:'EL1',fn:'Elevator platform',pos:'0, 0.3, 2.5',scale:'3.5, 0.3, 4',rot:'0,0,0',color:'#8E44AD',note:'ScriptAnim: Stage1 move Y 0→7 over 3 s, pause 4 s, Stage2 move Y 7→15 over 3 s. Tag: ScriptAnimTarget.'},
+  {n:'TH1',fn:'Trigger handle (launch)',pos:'0, 1.5, 2.5',scale:'0.5, 0.5, 0.5',rot:'0,0,0',color:'#F39C12',note:'Child of EL1 so it rises with lift. Point+flick to start Stage1.'},
+  {n:'AL1',fn:'Alcove floor (mid level)',pos:'3.5, 7.3, 2.5',scale:'3, 0.3, 4',rot:'0,0,0',color:'#2E6E3E',note:'Side alcove at Y=7. Optional pullable object here.'},
+  {n:'AW1',fn:'Alcove back wall',pos:'5.5, 8.5, 2.5',scale:'0.2, 2.5, 4',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'OBJ1',fn:'Optional collectible',pos:'4.5, 7.8, 2.5',scale:'0.6, 0.6, 0.6',rot:'0,0,0',color:'#D4A017',note:'Overgrown world item. Pull to keep on the lift. Narrative collectible.'},
+  {n:'TH2',fn:'Trigger handle (final ascent)',pos:'0, 1.5, 2.5',scale:'0.5, 0.5, 0.5',rot:'0,0,0',color:'#F39C12',note:'Second handle, appears (SetActive) after Stage1 complete. Also child of EL1.'},
+  {n:'P2',fn:'Top exit platform',pos:'0, 15.3, 2.5',scale:'4, 0.3, 5',rot:'0,0,0',color:'#4A90B8',note:'Lift arrives flush with this platform.'},
+  {n:'SW1',fn:'Shaft wall left',pos:'-2.5, 8, 2.5',scale:'0.2, 16, 5',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'SW2',fn:'Shaft wall right',pos:'2.5, 8, 2.5',scale:'0.2, 16, 5',rot:'0,0,0',color:'#1A5276',note:''},
+]},
+
+{id:'X1',title:'The Mirror Hall — chapter 1 climax',cat:'X',footprint:'Z: 0 → 40, X: -10 → 10, Y: 0 → 8',isNew:true,
+desc:'Massive set-piece. Player enters a long corridor. At the far end, a full-wall portal shows the other world. As they walk forward, both worlds collapse into one frame — the room folds in on itself visually (screen-space fold shader fires). The exit is revealed only by completing one final Pull through the merged portal. Non-repeatable by design — used once in level 1-3.',
+platforms:[
+  {n:'P1',fn:'Entry corridor floor',pos:'0, 0, 8',scale:'8, 0.3, 16',rot:'0,0,0',color:'#4A90B8',note:'Sterile world. Wide, clean, dramatic lead-up.'},
+  {n:'W1',fn:'Corridor left wall',pos:'-4, 3, 8',scale:'0.2, 6, 16',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'W2',fn:'Corridor right wall',pos:'4, 3, 8',scale:'0.2, 6, 16',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'MW1',fn:'Mirror wall (full portal)',pos:'0, 4, 15.9',scale:'8, 8, 0.2',rot:'0,0,0',color:'#1ABC9C',note:'Full-wall portal frame. Render texture of Overgrown mirror scene. Tag: FoldTriggerZone.'},
+  {n:'FZ1',fn:'Fold trigger zone',pos:'0, 3, 12',scale:'8, 6, 2',rot:'0,0,0',color:'#1ABC9C',note:'Trigger collider (no mesh render). When player enters: fire FoldShader sequence.'},
+  {n:'P2',fn:'Merged world floor A',pos:'0, 0, 22',scale:'8, 0.3, 8',rot:'0,0,0',color:'#2E6E3E',note:'Post-fold. Floor transitions to Overgrown material over 2 s after shader fires.'},
+  {n:'P3',fn:'Merged world floor B',pos:'0, 0, 30',scale:'8, 0.3, 8',rot:'0,0,0',color:'#4A90B8',note:'Blended — half Sterile, half Overgrown material (shader blend param).'},
+  {n:'OBJ1',fn:'Final pull object',pos:'0, 2, 38',scale:'1, 1, 1',rot:'0,0,0',color:'#D4A017',note:'Glowing. Both-world object — visible in merged state. Pull to activate exit.'},
+  {n:'RP1',fn:'Final receiver',pos:'0, 0.2, 20',scale:'2, 0.1, 2',rot:'0,0,0',color:'#1ABC9C',note:'Large receiver pad. Place OBJ1 here.'},
+  {n:'ED1',fn:'Chapter exit door',pos:'0, 2, 0.1',scale:'4, 4, 0.2',rot:'0,0,0',color:'#717D7E',note:'Grand exit — opens wide (double door: two halves slide apart on X ±2).'},
+  {n:'SL1',fn:'Spotlighting ceiling strip L',pos:'-2, 7.8, 22',scale:'0.3, 0.3, 18',rot:'0,0,0',color:'#F39C12',note:'Emissive amber strip — warm Overgrown light bleeding in after fold.'},
+  {n:'SL2',fn:'Spotlighting ceiling strip R',pos:'2, 7.8, 22',scale:'0.3, 0.3, 18',rot:'0,0,0',color:'#4A90B8',note:'Emissive cool blue — Sterile light fading. Visual blend of both worlds.'},
+]},
+
+{id:'X2',title:'Server Farm floor fold — chapter 2 climax',cat:'X',footprint:'Z: 0 → 36, X: -8 → 8, Y: 0 → 10',isNew:true,
+desc:'The player folds the server room floor entirely, flipping their perspective so they are walking on the ceiling of the Overgrown lab below. The ceiling becomes the new floor. A large-scale Fold gesture on the room itself (not just a platform section) triggers this. One extended puzzle must be solved upside-down before the world snaps back.',
+platforms:[
+  {n:'P1',fn:'Server room floor (pre-fold)',pos:'0, 0, 10',scale:'16, 0.3, 20',rot:'0,0,0',color:'#4A90B8',note:'Sterile. Full room floor. Becomes ceiling after fold.'},
+  {n:'SR1',fn:'Server rack A',pos:'-5, 1.5, 8',scale:'1.5, 3, 3',rot:'0,0,0',color:'#1A5276',note:'Environmental detail. Becomes hanging obstruction post-fold.'},
+  {n:'SR2',fn:'Server rack B',pos:'5, 1.5, 14',scale:'1.5, 3, 3',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'FZ1',fn:'Room fold trigger zone',pos:'0, 3, 18',scale:'16, 6, 4',rot:'0,0,0',color:'#1ABC9C',note:'Player enters + performs Fold gesture here. Fires RoomFold sequence: world rotates 180° on Z over 3 s.'},
+  {n:'CF1',fn:'Overgrown ceiling (new floor)',pos:'0, -0.3, 10',scale:'16, 0.3, 20',rot:'0,0,0',color:'#2E6E3E',note:'Hidden pre-fold (Y=-0.3 below main floor). Activated and becomes walkable surface after 180° flip.'},
+  {n:'IP1',fn:'Inverted puzzle platform A',pos:'-3, -1, 22',scale:'3, 0.3, 3',rot:'0,0,0',color:'#2E6E3E',note:'Overgrown platform hanging from old ceiling. After fold = elevated walkable.'},
+  {n:'IP2',fn:'Inverted puzzle platform B',pos:'3, -1, 28',scale:'3, 0.3, 3',rot:'0,0,0',color:'#2E6E3E',note:''},
+  {n:'OBJ1',fn:'Upside-down pull object',pos:'0, -1.5, 30',scale:'0.8, 0.8, 0.8',rot:'0,0,0',color:'#D4A017',note:'After fold appears at head height. Pull into receiver to restore world orientation.'},
+  {n:'RP1',fn:'Receiver (restores gravity)',pos:'0, -0.2, 20',scale:'1.5, 0.1, 1.5',rot:'0,0,0',color:'#1ABC9C',note:'Placing OBJ1 here fires reverse fold — world rotates back to normal over 2 s.'},
+  {n:'P2',fn:'Exit platform',pos:'0, 0, 34',scale:'6, 0.3, 4',rot:'0,0,0',color:'#4A90B8',note:'Post-fold world-snap exit. Sterile aesthetic returns.'},
+]},
+
+{id:'X3',title:'The Rift — chapter 3 climax',cat:'X',footprint:'Z: 0 → 32, X: -8 → 8, Y: 0 → 6',isNew:true,
+desc:'A wall has a tiny crack barely visible (0.1 wide). Player uses Scale gesture to expand it into a full portal (3×4) and steps through into a third hybrid world state — both worlds overlaid simultaneously with ghosted geometry of each. The exit on the other side requires solving a two-gesture combo: Rotate a hybrid object then Pull it to a receiver. Visually the most spectacular module.',
+platforms:[
+  {n:'P1',fn:'Entry floor (Sterile)',pos:'0, 0, 6',scale:'10, 0.3, 12',rot:'0,0,0',color:'#4A90B8',note:'Normal Sterile world side.'},
+  {n:'CW1',fn:'Cracked wall',pos:'0, 3, 11.9',scale:'10, 6, 0.3',rot:'0,0,0',color:'#1A5276',note:'Solid wall. Has CrackObject child.'},
+  {n:'CR1',fn:'Crack (scalable portal seed)',pos:'0, 1.5, 11.8',scale:'0.1, 1, 0.3',rot:'0,0,0',color:'#1ABC9C',note:'Scalable. Min 0.1w. Max scale 3×4 = full portal. Tag: Scalable. Emissive teal glow at max scale.'},
+  {n:'P2',fn:'Hybrid world floor',pos:'0, 0, 20',scale:'10, 0.3, 16',rot:'0,0,0',color:'#2E6E3E',note:'Other side of crack. Third world state: ghost-blended material (Sterile+Overgrown shader).'},
+  {n:'GH1',fn:'Ghost platform A (hybrid)',pos:'-2.5, 0.8, 18',scale:'3, 0.25, 3',rot:'0,0,0',color:'#8E44AD',note:'Semi-transparent. Exists in hybrid state only. Walkable.'},
+  {n:'GH2',fn:'Ghost platform B (hybrid)',pos:'2.5, 1.6, 24',scale:'3, 0.25, 3',rot:'0,0,0',color:'#8E44AD',note:''},
+  {n:'HO1',fn:'Hybrid object (rotate+pull)',pos:'0, 2.5, 28',scale:'1, 1.5, 0.3',rot:'0,30,0',color:'#D4A017',note:'Misaligned 30° on Y. Rotate to 0° then Pull to receiver. Requires both gestures.'},
+  {n:'RP1',fn:'Hybrid receiver',pos:'0, 0.2, 16',scale:'1.5, 0.1, 1.5',rot:'0,0,0',color:'#1ABC9C',note:'Accepts HO1 only when correctly aligned. Placing it seals the rift — fold closes, both worlds stabilise.'},
+  {n:'W1',fn:'Hybrid left wall',pos:'-5, 3, 22',scale:'0.2, 6, 16',rot:'0,0,0',color:'#1A5276',note:'Ghost-blended material'},
+  {n:'W2',fn:'Hybrid right wall',pos:'5, 3, 22',scale:'0.2, 6, 16',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'ED1',fn:'Chapter 3 exit',pos:'0, 1.5, 31.9',scale:'3.5, 3.5, 0.2',rot:'0,0,0',color:'#717D7E',note:'Grand exit — sealing the rift opens this. Far back wall.'},
+]},
+
+{id:'X4',title:'Time-reversed fold — chapter 4 climax',cat:'X',footprint:'Z: 0 → 38, X: -8 → 8, Y: 0 → 6',isNew:true,
+desc:'The player stands in a destroyed room — rubble everywhere, no ceiling, walls collapsed. A timeline scrub gesture (two hands spread on Y axis, up = forward in time, down = reverse) lets them wind time back for sections of the room, reassembling the destruction in reverse. They must reverse specific sections to rebuild walkable platforms and an intact door frame to exit. Tests mastery of Scale + Pull + Script-trigger together.',
+platforms:[
+  {n:'P1',fn:'Start rubble floor',pos:'0, 0, 5',scale:'10, 0.3, 10',rot:'0,0,0',color:'#C0392B',note:'Cracked, broken material. Player can stand on it.'},
+  {n:'RB1',fn:'Rubble pile A',pos:'-3, 0.6, 8',scale:'2, 1, 2',rot:'5,20,0',color:'#C0392B',note:'Collision mesh. Part of destroyed section A.'},
+  {n:'RB2',fn:'Rubble pile B',pos:'2, 0.4, 12',scale:'1.5, 0.7, 1.5',rot:'-5,10,0',color:'#C0392B',note:''},
+  {n:'TZ1',fn:'Time zone A (floor section)',pos:'-2, 0, 16',scale:'5, 0.3, 6',rot:'0,0,0',color:'#8E44AD',note:'TimeZone tag. Reverse time here: rubble re-assembles into intact floor over 2 s. Requires Scale gesture aimed at zone.'},
+  {n:'TZ2',fn:'Time zone B (wall section)',pos:'4, 2, 22',scale:'0.2, 4, 6',rot:'0,0,0',color:'#8E44AD',note:'TimeZone tag. Reverse: collapsed wall stands back up, creating a climbable surface.'},
+  {n:'TZ3',fn:'Time zone C (door frame)',pos:'0, 2, 30',scale:'4, 4, 0.2',rot:'0,0,0',color:'#8E44AD',note:'TimeZone tag. Reverse: destroyed door frame reassembles. Exit only accessible through frame.'},
+  {n:'P2',fn:'Mid intact floor',pos:'2, 0, 22',scale:'4, 0.3, 8',rot:'0,0,0',color:'#4A90B8',note:'Small section that was never destroyed — gives player footing between reversals.'},
+  {n:'KY1',fn:'Key object (time-locked)',pos:'0, 1.5, 28',scale:'0.8, 0.8, 0.8',rot:'0,0,0',color:'#D4A017',note:'Only accessible after TZ2 wall is reversed (stands up). Pull to door frame receiver.'},
+  {n:'RP1',fn:'Door frame receiver',pos:'0, 1.5, 30.1',scale:'0.6, 0.6, 0.2',rot:'0,0,0',color:'#1ABC9C',note:'Place KY1 here after TZ3 reassembled. Opens the chapter exit.'},
+  {n:'P3',fn:'Exit floor',pos:'0, 0, 35',scale:'8, 0.3, 8',rot:'0,0,0',color:'#4A90B8',note:'Post-door exit area — both worlds partially visible simultaneously.'},
+  {n:'ED1',fn:'Chapter 4 exit door',pos:'0, 2, 38.9',scale:'4, 4, 0.2',rot:'0,0,0',color:'#717D7E',note:''},
+]},
+
+{id:'X5',title:'Signal resolution — final chapter climax',cat:'X',footprint:'Z: 0 → 50, X: -10 → 10, Y: 0 → 8',isNew:true,
+desc:'The final set-piece. The station\'s central chamber, visible in both worlds simultaneously — geometry from each is overlaid, ghost-blended. Two large receivers on opposite sides of the room. One object from the Overgrown world, one from Sterile. Player must Pull both to their respective receivers at the same time (or in quick succession — within 5 s). When both are placed, the fold collapses completely: a white flash, then a single unified world remains. The end. Player chooses which Asha continues based on which world object they place last.',
+platforms:[
+  {n:'P1',fn:'Entry — hybrid chamber floor',pos:'0, 0, 8',scale:'20, 0.3, 16',rot:'0,0,0',color:'#2E6E3E',note:'Full blend — ghost material 50% Sterile 50% Overgrown.'},
+  {n:'W1',fn:'Chamber left wall',pos:'-10, 4, 25',scale:'0.2, 8, 50',rot:'0,0,0',color:'#1A5276',note:'Ghost blended'},
+  {n:'W2',fn:'Chamber right wall',pos:'10, 4, 25',scale:'0.2, 8, 50',rot:'0,0,0',color:'#1A5276',note:''},
+  {n:'C1',fn:'Ceiling A (Sterile remnant)',pos:'0, 7.8, 20',scale:'20, 0.2, 20',rot:'0,0,0',color:'#4A90B8',note:'Ghost material — 30% opacity Sterile ceiling.'},
+  {n:'C2',fn:'Ceiling B (Overgrown remnant)',pos:'0, 7.6, 32',scale:'20, 0.2, 20',rot:'0,0,0',color:'#2E6E3E',note:'Vines hanging down — dressing only, no collider.'},
+  {n:'CP1',fn:'Central platform (elevated)',pos:'0, 1.5, 25',scale:'6, 0.3, 8',rot:'0,0,0',color:'#8E44AD',note:'Hybrid elevated platform. Player stands here to access both receivers.'},
+  {n:'ST1',fn:'Steps up to central platform',pos:'-2, 0.75, 19',scale:'2, 1.5, 3',rot:'0,0,0',color:'#717D7E',note:'Ramp-step up to CP1.'},
+  {n:'ST2',fn:'Steps up (other side)',pos:'2, 0.75, 31',scale:'2, 1.5, 3',rot:'0,0,0',color:'#717D7E',note:''},
+  {n:'OBJ1',fn:'Overgrown world object',pos:'-6, 2, 25',scale:'1, 1.5, 0.3',rot:'0,45,0',color:'#2E6E3E',note:'Final Overgrown pull object. Glowing warm amber aura. Placing last = Overgrown Asha survives.'},
+  {n:'OBJ2',fn:'Sterile world object',pos:'6, 2, 25',scale:'1, 1.5, 0.3',rot:'0,-45,0',color:'#4A90B8',note:'Final Sterile pull object. Cool blue aura. Placing last = Sterile Asha survives.'},
+  {n:'RP1',fn:'Receiver — Overgrown side',pos:'-4, 1.65, 25',scale:'1.5, 0.1, 1.5',rot:'0,0,0',color:'#2E6E3E',note:'Place OBJ1 here.'},
+  {n:'RP2',fn:'Receiver — Sterile side',pos:'4, 1.65, 25',scale:'1.5, 0.1, 1.5',rot:'0,0,0',color:'#4A90B8',note:'Place OBJ2 here. Both filled within 5 s → signal resolved.'},
+  {n:'FL1',fn:'Resolution flash plane',pos:'0, 4, 25',scale:'30, 12, 0.1',rot:'0,0,0',color:'#F39C12',note:'Full-screen quad. Emissive white. Activates on resolution: alpha 0→1 over 1.5 s (fade to white) then scene transition.'},
+  {n:'PF1',fn:'Portal ring (decorative)',pos:'0, 4, 25',scale:'8, 8, 0.3',rot:'0,0,0',color:'#1ABC9C',note:'Large decorative ring around resolution point. Spins slowly. Purely visual — no collider.'},
+  {n:'AM1',fn:'Ambient light anchor L',pos:'-8, 5, 25',scale:'0.3, 0.3, 0.3',rot:'0,0,0',color:'#D4A017',note:'Point light source position marker — warm amber. Represents Overgrown frequency.'},
+  {n:'AM2',fn:'Ambient light anchor R',pos:'8, 5, 25',scale:'0.3, 0.3, 0.3',rot:'0,0,0',color:'#4A90B8',note:'Point light — cool blue. Sterile frequency. Both dim simultaneously on resolution.'},
+]},
+
+];
+
+function colorSwatch(hex){return`<span class="col-swatch" style="background:${hex}"></span><code style="font-size:11px;">${hex}</code>`;}
+
+function renderMods(filter){
+  const list=document.getElementById('mod-list');
+  list.innerHTML='';
+  const filtered=MODS.filter(m=>filter==='all'||m.cat===filter);
+  if(!filtered.length){list.innerHTML='<p style="font-size:13px;color:var(--color-text-tertiary);padding:1rem 0;">No modules in this category.</p>';return;}
+  filtered.forEach(m=>{
+    const div=document.createElement('div');
+    div.className='mod-block';
+    div.dataset.cat=m.cat;
+    const rows=m.platforms.map(p=>`<tr>
+      <td>${p.n}</td>
+      <td>${p.fn}</td>
+      <td class="vec">${p.pos}</td>
+      <td class="vec">${p.scale}</td>
+      <td class="vec">${p.rot}</td>
+      <td>${colorSwatch(p.color)}</td>
+      <td class="note">${p.note}</td>
+    </tr>`).join('');
+    div.innerHTML=`
+      <div class="mod-hd" onclick="toggleMod(this)">
+        <span class="mod-id">${m.id}</span>
+        <span class="mod-title">${m.title}${m.isNew?'<span class="new-badge">new</span>':''}</span>
+        <span class="mod-meta">Footprint: ${m.footprint} &nbsp;·&nbsp; ${m.platforms.length} platforms</span>
+        <i class="ti ti-chevron-down mod-chevron" aria-hidden="true"></i>
+      </div>
+      <div class="mod-body">
+        <p class="mod-desc">${m.desc}</p>
+        <div style="overflow-x:auto;">
+        <table class="plat-table">
+          <thead><tr>
+            <th>#</th><th style="min-width:160px;">Function</th>
+            <th style="min-width:120px;">Position (x,y,z)</th>
+            <th style="min-width:110px;">Scale (x,y,z)</th>
+            <th style="min-width:80px;">Rotation (x,y,z)</th>
+            <th style="min-width:120px;">Color</th>
+            <th style="min-width:160px;">Notes / script tags</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        </div>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+function toggleMod(hd){
+  const body=hd.nextElementSibling;
+  const chev=hd.querySelector('.mod-chevron');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+function filterMod(cat,btn){
+  document.querySelectorAll('.flt').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderMods(cat);
+}
+
+renderMods('all');
+</script>
