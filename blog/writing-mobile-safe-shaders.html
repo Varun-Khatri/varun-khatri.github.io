@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Writing Mobile-Safe Shaders: What Profiling 50+ Devices Actually Taught Me",
+        "author": {
+            "@type": "Person",
+            "name": "Varun Khatri"
+        },
+        "datePublished": "2026-05-14",
+        "description": "Hard lessons from profiling shaders across 50+ mobile devices — GPU variance, ALU cost, shader variants, and how to write shaders that survive real hardware.",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://varun-khatri.github.io/blog/writing-mobile-safe-shaders"
+        }
+    }
+    </script>
+
+    <title>Writing Mobile-Safe Shaders: What Profiling 50+ Devices Actually Taught Me | Varun Khatri</title>
+
+    <link rel="canonical" href="https://varun-khatri.github.io/blog/writing-mobile-safe-shaders.html">
+
+    <meta property="og:title"
+        content="Writing Mobile-Safe Shaders: What Profiling 50+ Devices Actually Taught Me | Varun Khatri">
+    <meta property="og:description"
+        content="Hard lessons from profiling shaders across 50+ mobile devices — GPU variance, ALU cost, shader variants, and how to write shaders that survive real hardware.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://varun-khatri.github.io/blog/writing-mobile-safe-shaders.html">
+    <meta property="og:image" content="https://varun-khatri.github.io/img/blog/mobile-shader-og.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Writing Mobile-Safe Shaders | Varun Khatri">
+    <meta name="twitter:description"
+        content="What profiling shaders across 50+ Android devices actually taught me about GPU variance, ALU cost, and production shader design.">
+    <meta name="twitter:image" content="https://varun-khatri.github.io/img/blog/mobile-shader-og.jpg">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">VK<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../portfolio.html">Work</a></li>
+                <li><a href="../about.html">Experience</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+                <li><a href="index.html" class="active">Blog</a></li>
+            </ul>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Blog Hero -->
+    <section class="hero blog-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Writing Mobile-Safe Shaders: What Profiling 50+ Devices Actually Taught Me
+                </h1>
+                <div class="post-meta">
+                    <span class="post-category">Technical Art</span>
+                    <span class="post-date">May 14 2026</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="blog-content">
+        <div class="container" style="max-width: 820px;">
+
+            <article class="blog-article">
+
+                <p>
+                    When I was working on World Cricket Championship 3, we had a problem.
+                </p>
+
+                <p>
+                    The game looked great on a mid-range test device. Then we ran it on a low-end Snapdragon, and
+                    the frame time for a single material nearly doubled. Same shader. Same scene. Completely
+                    different GPU.
+                </p>
+
+                <p>
+                    That was the moment I stopped thinking about shaders as visual tools and started thinking
+                    about them as <strong>performance contracts</strong>.
+                </p>
+
+                <p>
+                    This post is about what I learned from profiling shaders across 50+ devices—the failures,
+                    the fixes, and the principles I now apply before writing a single node in Shader Graph.
+                </p>
+
+                <h2>The Problem With Mobile GPU Variance</h2>
+
+                <p>
+                    Mobile is not a platform. It is a spectrum.
+                </p>
+
+                <p>
+                    You are shipping to Adreno 505s and Adreno 750s in the same build. Mali G52s and G715s.
+                    Apple A14s and A17s. Each of these GPUs has a different shader compiler, different
+                    precision handling, different memory bandwidth, and a different ALU-to-bandwidth ratio.
+                </p>
+
+                <!-- IMAGE: gpu-variance-devices.jpg -->
+                <!-- A photo or screenshot of multiple Android test devices, or Unity's device simulator
+                     showing several different GPU profiles side by side. -->
+                <img src="../img/blog/gpu-variance-devices.jpg"
+                    alt="Range of mobile test devices showing GPU variance across Android hardware" loading="lazy">
+
+                <p>
+                    A shader that runs at 0.4ms on a flagship will run at 2.1ms on a low-end device—and
+                    that low-end device is often where most of your players are.
+                </p>
+
+                <p>
+                    This is the core challenge. You cannot design shaders for your test device.
+                    You have to design them for the worst device your game will realistically run on.
+                </p>
+
+                <h2>ALU Cost Is Not What You Think It Is</h2>
+
+                <p>
+                    Most developers understand that complex math is expensive. What is less obvious is
+                    <strong>how non-linearly that cost scales</strong> across different GPUs.
+                </p>
+
+                <p>
+                    On desktop, a few extra instructions in a fragment shader is usually noise.
+                    On a mobile GPU with limited execution units and tight thermal constraints,
+                    those same instructions can stall the pipeline.
+                </p>
+
+                <p>
+                    The specific operations that hurt most on mobile:
+                </p>
+
+                <ul>
+                    <li><code>pow()</code> — expensive on almost every mobile GPU, avoid it in fragment shaders</li>
+                    <li><code>sin()</code> and <code>cos()</code> in tight loops — use lookup textures instead</li>
+                    <li>Long chains of <code>smoothstep()</code> — each one is more ALU than it looks</li>
+                    <li>Dynamic branching — GPUs hate divergent execution paths, even simple ones</li>
+                    <li>Dependent texture reads — sampling a texture based on a value computed from another texture</li>
+                </ul>
+
+                <!-- IMAGE: alu-complexity-comparison.jpg -->
+                <!-- Side-by-side of Unity Frame Debugger or RenderDoc showing ALU instruction counts
+                     for a heavy shader vs an optimised version of the same visual output. -->
+                <img src="../img/blog/alu-complexity-comparison.jpg"
+                    alt="Frame Debugger comparison showing ALU instruction count before and after shader optimisation"
+                    loading="lazy">
+
+                <p>
+                    During WCC3 profiling, I found that replacing a single <code>pow()</code>-based
+                    specular calculation with a ramp texture lookup cut fragment shader time by roughly
+                    30% on low-end Adreno hardware. The visual difference was nearly imperceptible
+                    at mobile resolution.
+                </p>
+
+                <h2>Use Textures as Lookup Tables</h2>
+
+                <p>
+                    This is one of the oldest tricks in mobile graphics—and still one of the most effective.
+                </p>
+
+                <p>
+                    If you are computing something complex in a shader—a specular response, a gradient,
+                    a falloff curve—ask yourself: can this be baked into a texture?
+                </p>
+
+                <p>
+                    Texture samples on mobile are cheap relative to ALU. A 256×1 gradient texture
+                    sampled with a single UV can replace a <code>pow()</code>, a <code>smoothstep()</code>,
+                    and a multiply chain. It is also easier for artists to iterate on—they edit a texture,
+                    not a shader.
+                </p>
+
+                <!-- IMAGE: texture-lookup-ramp.jpg -->
+                <!-- A screenshot of a 1D ramp/gradient texture in Unity's inspector, or a Shader Graph
+                     showing a Sample Texture 2D node replacing a chain of smoothstep calculations. -->
+                <img src="../img/blog/texture-lookup-ramp.jpg"
+                    alt="Shader Graph showing a ramp texture lookup replacing a pow-based calculation" loading="lazy">
+
+                <p>
+                    I used this heavily for the toon shading system at Highstreet. The lighting ramp,
+                    the rim falloff, and the specular response were all driven by artist-authored
+                    textures rather than shader math. It made the visual language flexible,
+                    performant, and something the art team could actually control.
+                </p>
+
+                <h2>Precision Matters More Than You Think</h2>
+
+                <p>
+                    On desktop, <code>float</code> is everywhere. On mobile, the distinction between
+                    <code>float</code>, <code>half</code>, and <code>fixed</code> is a real performance lever.
+                </p>
+
+                <p>
+                    Most mobile GPUs have native <code>half</code> precision support, and using it where
+                    appropriate can cut register pressure significantly. The rule I follow:
+                </p>
+
+                <ul>
+                    <li>World-space positions and transforms — <code>float</code></li>
+                    <li>UVs, colours, most per-pixel calculations — <code>half</code></li>
+                    <li>Simple 0–1 values like opacity — <code>fixed</code> where supported</li>
+                </ul>
+
+                <p>
+                    The catch: Unity's Shader Graph handles this automatically to a degree,
+                    but if you are writing hand-coded HLSL, being explicit about precision pays off
+                    on older Adreno and Mali hardware.
+                </p>
+
+                <h2>Shader Variants Are a Hidden Cost</h2>
+
+                <p>
+                    Every keyword you add to a shader doubles (at minimum) the number of compiled variants.
+                    On mobile, this matters in two ways: build size and runtime memory.
+                </p>
+
+                <!-- IMAGE: mobile-shader-variants.jpg -->
+                <!-- Unity's shader variant collection window, or a simple diagram showing keyword branches
+                     (e.g. _FEATURE_ON / _FEATURE_OFF) and how they multiply variant count. -->
+                <img src="../img/blog/mobile-shader-variants.jpg"
+                    alt="Unity shader variant collection window showing variant count across keyword combinations"
+                    loading="lazy">
+
+                <p>
+                    On WCC3, the character shader had grown organically over time. By the point we
+                    profiled it seriously, it had accumulated enough keywords to produce hundreds of
+                    variants—most of which were never actually used in a live build.
+                </p>
+
+                <p>
+                    The fix was a shader variant collection pass: stripping unused variants at build time
+                    and consolidating features that were always used together into a single path.
+                    Build size dropped, and cold-start shader compilation stalls on low-end devices
+                    became noticeably shorter.
+                </p>
+
+                <p>
+                    The lesson: treat your shader keyword list like an API. Every keyword you add has a cost.
+                    Add them deliberately.
+                </p>
+
+                <h2>Write for the Worst Device, Not the Best One</h2>
+
+                <p>
+                    This sounds obvious. It is not how most shader development actually happens.
+                </p>
+
+                <p>
+                    The development machine is always fast. The test device on the desk is usually
+                    mid-range. By the time a shader reaches a low-end device, it has often been
+                    reviewed, approved, and shipped.
+                </p>
+
+                <p>
+                    The process I settled on after enough painful profiling sessions:
+                </p>
+
+                <ul>
+                    <li>Define a frame budget before writing a shader — not after</li>
+                    <li>Profile on the lowest-spec target device before review, not before launch</li>
+                    <li>Use Unity's GPU profiler and platform-specific tools (Snapdragon Profiler, Mali Graphics
+                        Debugger) — not just the Unity Profiler</li>
+                    <li>Set a per-material fragment time ceiling and treat exceeding it as a bug</li>
+                </ul>
+
+                <p>
+                    That last one changed how conversations happened with the art team.
+                    When there is a defined budget, performance becomes a design constraint—not a
+                    last-minute negotiation.
+                </p>
+
+                <h2>The Material Pipeline Is Part of the Shader</h2>
+
+                <p>
+                    A well-written shader can still perform badly if the material pipeline around it is messy.
+                </p>
+
+                <p>
+                    On WCC3, one of the bigger wins came from consolidating character materials.
+                    We went from 72 materials across a character to 4—achieved through texture atlasing,
+                    a carefully structured shader that handled multiple surface zones, and a material
+                    instancing approach that kept draw calls low even with 15 characters on screen simultaneously.
+                </p>
+
+                <p>
+                    The shader itself was not dramatically simpler. But by reducing unique material count,
+                    we eliminated a huge amount of state switching on the GPU—which on mobile is often
+                    more expensive than the shader math itself.
+                </p>
+
+                <h2>Closing Thoughts</h2>
+
+                <p>
+                    Shaders feel like a creative tool. On mobile, they are also an engineering constraint.
+                </p>
+
+                <p>
+                    The GPU variance across Android hardware alone means that what works on your
+                    test device is not a guarantee of anything. The only way to know is to measure—
+                    early, often, and on real hardware.
+                </p>
+
+                <p>
+                    The developers I have seen get this right are the ones who treat shader performance
+                    the same way they treat code performance: as something you design for,
+                    not something you fix later.
+                </p>
+
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Back to Blog -->
+    <section class="contact blog-contact-section">
+        <div class="container">
+            <div class="blog-contact-prompt">
+                <h3>Enjoyed this post?</h3>
+                <p>
+                    More articles on Unity optimization, VR systems, and technical art are coming soon.
+                </p>
+                <a href="index.html" class="btn btn-secondary">
+                    ← Back to Blog
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    Varun Khatri<span>.</span>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Home</a>
+                    <a href="../portfolio.html">Work</a>
+                    <a href="../about.html">Experience</a>
+                    <a href="../contact.html">Contact</a>
+                    <a href="index.html">Blog</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/Varun-Khatri"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/varun-khatri-79b9a674/"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:varun.khatri18@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Varun Khatri. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
+        });
+
+        document.addEventListener('click', function (event) {
+            const nav = document.querySelector('.nav-links');
+            const toggle = document.querySelector('.menu-toggle');
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+                toggle.querySelector('i').classList.add('fa-bars');
+                toggle.querySelector('i').classList.remove('fa-times');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
