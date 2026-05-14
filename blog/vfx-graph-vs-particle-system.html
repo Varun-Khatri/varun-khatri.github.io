@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "VFX Graph vs Particle System: When to Use Each (and Why It's Not Simple)",
+  "author": {
+    "@type": "Person",
+    "name": "Varun Khatri"
+  },
+  "datePublished": "2026-05-14",
+  "description": "A practical decision framework for choosing between Unity VFX Graph and Particle System, grounded in real production tradeoffs on mobile and Meta Quest.",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://varun-khatri.github.io/blog/vfx-graph-vs-particle-system.html"
+  }
+}
+    </script>
+
+    <title>VFX Graph vs Particle System: When to Use Each | Varun Khatri</title>
+
+    <link rel="canonical" href="https://varun-khatri.github.io/blog/vfx-graph-vs-particle-system.html">
+
+    <meta property="og:title" content="VFX Graph vs Particle System: When to Use Each | Varun Khatri">
+    <meta property="og:description"
+        content="A practical decision framework for choosing between Unity VFX Graph and Particle System, based on real production tradeoffs on mobile and Meta Quest.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://varun-khatri.github.io/blog/vfx-graph-vs-particle-system.html">
+    <meta property="og:image" content="https://varun-khatri.github.io/img/blog/vfx-graph-vs-particle-system-og.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VFX Graph vs Particle System: When to Use Each | Varun Khatri">
+    <meta name="twitter:description"
+        content="Real production decisions, performance tradeoffs on mobile vs Meta Quest. Less tutorial, more decision framework.">
+    <meta name="twitter:image" content="https://varun-khatri.github.io/img/blog/vfx-graph-vs-particle-system-og.jpg">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">VK<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../portfolio.html">Work</a></li>
+                <li><a href="../about.html">Experience</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+                <li><a href="index.html" class="active">Blog</a></li>
+            </ul>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero blog-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">VFX Graph vs Particle System: When to Use Each (and Why It's Not Simple)</h1>
+                <p class="hero-description">
+                    A practical decision framework grounded in real production tradeoffs, not a feature comparison
+                    chart.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOG CONTENT -->
+    <section class="blog-content">
+        <div class="container" style="max-width: 820px;">
+
+            <article class="blog-article">
+
+                <div class="post-meta">
+                    <span class="post-category">Technical Art</span>
+                    <span class="post-date">May 14 2026</span>
+                </div>
+
+                <p>
+                    Every time this question comes up on a project, someone opens a browser and searches for a feature
+                    comparison table. GPU vs CPU. Particle count limits. Compute shader support.
+                </p>
+
+                <p>
+                    That information is not wrong. It's just not the question you actually need to answer.
+                </p>
+
+                <p>
+                    The real question is: <strong>given your platform, your budget, your pipeline, and your team,
+                        which tool keeps you shipping without setting your frame time on fire?</strong>
+                </p>
+
+                <p>
+                    I've used both systems heavily across mobile live-service titles and VR projects on Meta Quest.
+                    This post is the decision framework I wish I had earlier.
+                </p>
+
+                <h2>First: What Actually Separates Them</h2>
+
+                <p>
+                    The architectural difference matters because it determines everything downstream.
+                </p>
+
+                <p>
+                    <strong>Particle System (Shuriken)</strong> runs on the CPU. Every particle's position, lifetime,
+                    velocity, and emission is calculated on the main thread (or a job thread in newer Unity versions),
+                    then the results are handed to the GPU for rendering. The CPU is in control.
+                </p>
+
+                <p>
+                    <strong>VFX Graph</strong> inverts this entirely. Particle simulation runs on the GPU via compute
+                    shaders. The CPU sets up the system and fires it off, but the GPU owns the update loop. For
+                    massive particle counts, this is transformative. For everything else, it comes with conditions.
+                </p>
+
+                <p>
+                    That one architectural difference — CPU-driven vs GPU-driven — is the root of almost every
+                    tradeoff that follows.
+                </p>
+
+                <h2>The Mobile Reality</h2>
+
+                <p>
+                    If you are shipping to Android or iOS, VFX Graph is technically supported on some devices. In
+                    practice, you should treat it as unavailable unless you have a very constrained device target
+                    and have profiled extensively.
+                </p>
+
+                <p>
+                    Here is why.
+                </p>
+
+                <p>
+                    Compute shader support on mobile GPUs is inconsistent. Even on devices that support it on paper,
+                    the performance profile varies wildly across GPU architectures — Adreno, Mali, Apple GPU all behave
+                    differently. Tile-based deferred rendering, the dominant architecture on mobile, does not play well
+                    with the kind of GPU memory access patterns VFX Graph depends on.
+                </p>
+
+                <p>
+                    My entire time on the World Cricket Championship franchise — five years, across WCC2 and WCC3 —
+                    was Particle System only. Targeting 60fps across 50+ device types, including genuinely low-end
+                    hardware, meant every crowd effect, weather particle, and stadium atmosphere system had to be
+                    built with aggressive budgeting: pooling, emission rate caps, LOD culling tied to camera
+                    distance, batching via GPU instancing where possible. VFX Graph was not a conversation.
+                    It simply was not the right tool for that constraint set, and on mobile broadly, it still isn't
+                    for most teams.
+                </p>
+
+                <p>
+                    The mental model for mobile VFX is not "how many particles can I have" — it's
+                    "how little GPU time can I spend while keeping this effect readable."
+                </p>
+
+                <h2>How I Actually Figured This Out: Highstreet</h2>
+
+                <p>
+                    When I joined Highstreet (Retinad VR) in 2022, it was my first serious time working with
+                    VFX Graph in production. Across three projects, Campus, Highstreet World and Calamity.
+                    I had to figure out where VFX Graph actually earned its place and where it was just overhead.
+                </p>
+
+                <p>
+                    The platform made the answer obvious pretty quickly. Quest is a mobile SoC, Snapdragon XR
+                    ,running at 90fps with stereo rendering. You get a fraction of the GPU budget you would have
+                    on PC VR, and every dropped frame is felt physically by the player. VFX Graph's selling point
+                    is offloading simulation to the GPU, but on Quest that GPU is already under serious pressure.
+                    Moving simulation there does not free up budget, it competes for the same constrained resource.
+                </p>
+
+                <p>
+                    So we went hybrid. Not as a philosophical choice, but as the only answer that profiled well.
+                </p>
+
+                <p>
+                    VFX Graph earned its place for high-density ambient effects such as atmospheric dust, energy fields
+                    and in large-scale environmental particles across the world spaces, where
+                    particle counts were high enough that CPU simulation would have been genuinely expensive,
+                    and where the effects were visually prominent enough to justify the GPU cost. These were
+                    scene-dressing systems that ran continuously, not gameplay effects that fired on demand.
+                </p>
+
+                <p>
+                    Particle System stayed for everything else:
+                </p>
+
+                <ul>
+                    <li>Weather: rain, snow, fog, etc, where emission parameters were
+                        driven by game state and needed to respond immediately to condition changes</li>
+                    <li>Combat hit reactions and projectile trail, where frame-accurate
+                        response to gameplay events mattered more than visual complexity</li>
+                    <li>Any effect that needed to stay consistent across Quest 2 and Quest 3 without
+                        managing separate asset variants</li>
+                </ul>
+
+                <p>
+                    The pattern that emerged: VFX Graph for ambient density where count is high and the effect
+                    is passive, Particle System for anything gameplay-responsive or GPU-budget-sensitive.
+                    On a constrained platform like Quest, that line is not subtle, you feel it in the frame
+                    profiler pretty fast.
+                </p>
+
+                <h2>The Question Nobody Asks: Who Owns the VFX?</h2>
+
+                <p>
+                    This is the production variable that gets ignored in every technical comparison article.
+                </p>
+
+                <p>
+                    VFX Graph requires compute shader support in the rendering pipeline, a URP or HDRP setup with
+                    the right configuration, and a team member who understands node graphs well enough to debug
+                    them when something breaks in a build. It is more powerful and more brittle.
+                </p>
+
+                <p>
+                    Particle System is more predictable. An artist with no shader background can author and iterate
+                    on effects. A programmer can tweak emission parameters through the Inspector without touching
+                    a graph. It degrades gracefully on hardware that cannot handle it.
+                </p>
+
+                <p>
+                    On a small team under production pressure, that predictability has real value. The best VFX
+                    tool is the one your team can actually maintain under deadline. A spectacular VFX Graph hero
+                    effect that only one person can debug is a liability.
+                </p>
+
+                <h2>Performance Tradeoffs: The Honest Version</h2>
+
+                <p>
+                    The tables in documentation show VFX Graph winning on particle count. That is true at scale.
+                    But there is a setup cost that does not appear in those tables.
+                </p>
+
+                <p>
+                    <strong>VFX Graph overhead is front-loaded.</strong> The compute dispatch, buffer management,
+                    and GPU synchronization have a baseline cost regardless of particle count. At low to medium
+                    counts, which is most effects in a real production, Particle System is often cheaper because
+                    it does not carry that overhead.
+                </p>
+
+                <p>
+                    The crossover point (where VFX Graph becomes the more efficient choice) is somewhere around
+                    10,000–50,000 particles depending on the platform and effect complexity. Below that range,
+                    you are paying VFX Graph's overhead without getting its scaling benefits.
+                </p>
+
+                <p>
+                    <strong>Particle System overhead is spread across frames.</strong> CPU simulation means you
+                    are spending main thread time every frame. With Unity's Job System integration this is
+                    partially mitigated, but under heavy load or on single-core-bottlenecked mobile hardware,
+                    it still competes with gameplay systems for thread time.
+                </p>
+
+                <p>
+                    Neither system is free. The question is where you can afford the cost given your existing budget.
+                </p>
+
+                <h2>A Decision Framework</h2>
+
+                <p>
+                    Here is how I actually approach this decision on a project.
+                </p>
+
+                <p>
+                    <strong>Start with platform constraints.</strong> Mobile with wide device support? Particle System
+                    only, full stop. PC or console? Both tools are viable. Quest? Both are viable with intentional
+                    scoping.
+                </p>
+
+                <p>
+                    <strong>Check particle count at the effect level, not the system level.</strong> If a single effect
+                    needs more than 10,000 simultaneous particles, VFX Graph deserves serious evaluation. If it
+                    needs fewer, profile Particle System first before assuming you need the upgrade.
+                </p>
+
+                <p>
+                    <strong>Ask whether the effect needs to respond to game state.</strong> If an effect needs to know
+                    about player position, health, enemy count, or any runtime variable and respond to it
+                    frame-accurately, Particle System is far easier to work with. VFX Graph's GPU residency
+                    means getting game data in and out requires explicit bridges.
+                </p>
+
+                <p>
+                    <strong>Evaluate team ownership.</strong> Who authors the effects, who debugs them, and who
+                    touches them six months after ship? That person's toolchain fluency matters more than
+                    theoretical capability.
+                </p>
+
+                <p>
+                    <strong>Profile before deciding, not after.</strong> The number of times I have seen VFX Graph
+                    added to solve a performance problem that turned out to be a draw call issue, not a particle
+                    simulation issue, is not small. Identify the actual bottleneck first.
+                </p>
+
+                <h2>The Part That Is Actually Simple</h2>
+
+                <p>
+                    There is one rule that holds up across every project I have worked on:
+                </p>
+
+                <p>
+                    <strong>Default to Particle System. Upgrade to VFX Graph when you have a specific, profiled
+                        reason.</strong>
+                </p>
+
+                <p>
+                    Not because Particle System is better. It is not, at scale, on supported platforms. But because
+                    it is more predictable, more portable, more accessible to more people on your team, and it
+                    degrades gracefully when hardware cannot handle it.
+                </p>
+
+                <p>
+                    VFX Graph is a powerful, deliberate upgrade, not a default. Treat it like one and you will
+                    make better decisions about when it earns its place in a project.
+                </p>
+
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Back to Blog -->
+    <section class="contact blog-contact-section">
+        <div class="container">
+            <div class="blog-contact-prompt">
+                <h3>Enjoyed this post?</h3>
+                <p>
+                    More articles on Unity optimization, VR systems, and technical art are coming soon.
+                </p>
+                <a href="index.html" class="btn btn-secondary">
+                    &#8592; Back to Blog
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    Varun Khatri<span>.</span>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Home</a>
+                    <a href="../portfolio.html">Work</a>
+                    <a href="../about.html">Experience</a>
+                    <a href="../contact.html">Contact</a>
+                    <a href="index.html">Blog</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/Varun-Khatri"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/varun-khatri-79b9a674/"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:varun.khatri18@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Varun Khatri. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
+        });
+
+        document.addEventListener('click', function (event) {
+            const nav = document.querySelector('.nav-links');
+            const toggle = document.querySelector('.menu-toggle');
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+                toggle.querySelector('i').classList.add('fa-bars');
+                toggle.querySelector('i').classList.remove('fa-times');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
