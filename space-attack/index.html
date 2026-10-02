@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b19">
+  <title>Space Attack — Defend the Galaxy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Space Attack home"><span class="brand-mark">✦</span> STARFORGE <span class="brand-divider">/</span> ARCADE</a>
+      <div class="top-status"><span class="live-dot"></span> SECTOR 07 · DEEP SPACE</div>
+      <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound" title="Toggle sound">♫ <span>SOUND ON</span></button>
+    </header>
+
+    <section class="game-frame" aria-label="Space Attack game">
+      <div class="game-topline"><span>MISSION CONTROL <b>///</b> GALACTIC DEFENSE</span><span class="signal">SIGNAL <i></i><i></i><i></i></span><button class="pause-toggle" id="pauseToggle" type="button" hidden>Ⅱ PAUSE</button></div>
+      <div class="canvas-wrap">
+        <canvas id="game" aria-label="Space shooter game"></canvas>
+        <div class="overlay" id="overlay">
+          <div class="overlay-grid"></div>
+          <div class="screen-content" id="screenContent"></div>
+        </div>
+        <div class="hud" id="hud" aria-live="polite">
+          <div class="hud-block"><span class="hud-label">SCORE</span><strong id="score">000000</strong></div>
+          <div class="hud-center"><span class="hud-label">WAVE</span><strong id="wave">01</strong></div>
+          <div class="weapon-hud" id="weaponHud"><span class="hud-label">WEAPON</span><strong id="weaponName">PULSE</strong><div class="weapon-meter"><i id="weaponMeter"></i></div></div>
+          <div class="hud-block hud-lives"><span class="hud-label">HULL INTEGRITY</span><div class="life-pips" id="lives"></div></div>
+        </div>
+        <div class="wave-callout" id="waveCallout"></div>
+      </div>
+      <footer class="game-footer"><span><kbd>A</kbd><kbd>D</kbd> / <kbd>←</kbd><kbd>→</kbd> MOVE</span><span class="footer-center"><kbd>SPACE</kbd> FIRE</span><span class="footer-right">PILOT: <b>ROOKIE</b></span></footer>
+    </section>
+    <div class="below-note"><span>✦</span> EVERY SHOT COUNTS <span class="note-line"></span> PROTECT THE HOMEFRONT</div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
